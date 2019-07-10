@@ -39,7 +39,7 @@ ex) didalgus.github.io
 
 ## Local PC 에 jekyll 설치
 
-**ENV**
+### ENV
 
 ruby 버전
 {% highlight bash %}
@@ -47,9 +47,9 @@ $ ruby -v
 ruby 2.3.7 p456 (2018-03-28 revision 63024) [universal.x86_64-darwin18]
 {% endhighlight %}
 
-**install jekyll**
+### Install jekyll
 
-[jekyll 한국 매뉴얼] (http://jekyllrb-ko.github.io/docs/home/)
+[jekyll 한국 매뉴얼](http://jekyllrb-ko.github.io/docs/home/)
 
 {% highlight bash %}
 $ gem install bundler jekyll
@@ -58,15 +58,15 @@ $ cd my-awesome-site
 $ bundle exec jekyll serve
 {% endhighlight %}
 
-**apply theme**
+### Apply theme
 
 [jekyll 테마 사이트](http://jekyllthemes.org/themes/mediator/)에 가셔서 마음에 드는 테마를 골라서 다운받으시거나
 깃헙에서 해당 [테마 저장소](https://github.com/dirkfabisch/mediator)를 Fork 하셔도 됩니다.  
 저같은 경우 new 명령어로 생성한 기본 테마(minima)에 원하는 테마(mediator)를 덧입혔습니다.
 
 {% highlight bash %}
-$ cd theme-mediator
-$ cp _includes _layouts _sass assets css favicon.ico index.html my-awesome-site
+$ cd ./theme-mediator
+$ cp _includes _layouts _sass assets css favicon.ico index.html ../my-awesome-site
 $ rm index.md
 {% endhighlight %}
 
@@ -74,9 +74,10 @@ $ rm index.md
 최초 생성시 사용된 테마 _config.yml 와 mediator 테마의 _config.yml 를 비교하여 필요한 설정을 추가하였습니다.
 
 
+
 ## github remote push
 
-git 계정이 하나이고 global 설정을 하신 경우 생략하세요.  
+! git 계정이 하나이고 global 설정을 하신 경우 생략하세요.  
 저는 계정이 여러개라 아래 과정을 추가하였습니다.
 {% highlight bash %}
 $ cd my-awesome-site
@@ -98,9 +99,22 @@ $ git push origin master
 ## plugins  
 기본 mediator 테마를 적용 후 한개씩 플러그인을 추가하였습니다.  
 
+```
+$ bundle install
+```
+플러그인 추가시 install 명령을 실행해줍니다.
+
 ### jekyll-toc
+
 목차 기능을 추가하였습니다. 서비큐라님의 css 와 js 를 적용하였습니다. (공유정신 쵝오!)  
 github [jekyll-toc](https://github.com/toshimaru/jekyll-toc) 매뉴얼을 참고하세요.  
+
+
+
+![jekyll-toc]({{ site.url }}/assets/article_images/2019-06-17-Welcome-to-Jekyll/2019-07-10.png)
+
+
+
 >Add jekyll-toc plugin in your site's `Gemfile`, and run `bundle install`.
 >
 > ```ruby
@@ -126,7 +140,7 @@ github [jekyll-toc](https://github.com/toshimaru/jekyll-toc) 매뉴얼을 참고
 >
 
 locally 동작은 잘되나 github pages 에서 동작되지 않아 갓구글에서 검색해보니   
-[jekyll-toc 개발자의 답변](https://github.com/toshimaru/jekyll-toc/issues/29) 에 따르면 github pages 에서 제공되는 플러그인외는 제한하므로 정적웹페이지를 올리라고 합니다. (귀찮아!)  
+[jekyll-toc 개발자의 답변](https://github.com/toshimaru/jekyll-toc/issues/29) 에 따르면 github pages 에서 제공되는 플러그인외는 제한하므로 정적웹페이지를 저장소에 upload 해서 사용하라고 하네요. (귀찮아!)  
 이기능이 매우 매력적이나 유지보수 용이를 위해서 과감히 포기! (눙물을 머금고~)  
 
 github pages 에서 기본 제공하는 [플러그인 목록](https://help.github.com/en/articles/configuring-jekyll-plugins)을 확인 하세요.
