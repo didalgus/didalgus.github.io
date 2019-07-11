@@ -28,6 +28,7 @@ plugins:
   - jekyll-sitemap
   - jekyll-feed
   - jekyll-toc
+  - jekyll-paginate
 
 markdown: kramdown
 
@@ -59,7 +60,8 @@ name: 'Weeping Willow'
 author: 'Weeping Willow'
 author_image: "/assets/images/author.jpg"
 
-paginate:	5
+paginate: 5
+
 permalink: /:year/:month/:day/:title.html
 
 #used to display twitter cards

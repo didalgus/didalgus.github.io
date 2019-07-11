@@ -3,11 +3,13 @@ layout: post
 title:  "About Git"
 date:   2019-06-20 16:50:00 +0900
 abstract: "About Git "
-tags: featured
+tags: [git, commit]
 image:
 toc: true
-categories: mediator feature
+categories: git
+comments: yes
 last_modified_at: 2019-06-20T16:50:00+09:00
+published: true
 ---
 
 
