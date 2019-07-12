@@ -3,11 +3,11 @@ layout: post
 title:  "Nice to meet IntelliJ IDEA [SERIES 1/2]"
 date:   2019-07-10 17:30:00 +0900
 abstract: ""
-tags: featured
+tags: [IntelliJ, Tools]
 image:
 toc: true
-categories: mediator feature
-last_modified_at: 2019-07-10T17:30:00+09:00
+categories: Tools IntelliJ
+last_modified_at: 2019-07-12T17:30:00+09:00
 ---
 
 
@@ -36,9 +36,9 @@ intelliJ 사용시 `보여지는것`에 관한 것들에 대한 포스팅입니�
 
 ![Material Theme UI]({{ site.url }}/assets/article_images/2019-07-10-Nice-to-meet-IntelliJ/material-theme.png)
 
-intellj 에 테마를 적용해 보아요.  
-기본 테마 중에 `Darcula`테마를 사용하였습니다.  
-디렉토리 윈도우 부분에 2% 부족함을 느끼는 중에 다른분 테마를 보고 따라해보았습니다.
+기본 테마인 `Darcula`테마를 사용하는 중에  
+2% 부족함을 느끼는 중에 다른분 테마를 보고 설치해보았습니다.  
+[인텔리제이 아이콘](https://www.jetbrains.com/help/idea/symbols.html) 보다 훨씬 가독성이 좋네요.  
 
 적용하고자 하는 테마는 [Material Theme UI](https://plugins.jetbrains.com/plugin/8006-material-theme-ui/versions) 중 `Material Oceanic` 입니다.
 
@@ -61,7 +61,6 @@ Q: 지우기는 아깝다~
 A: 그런경우   
 Preferences.. (⌘,) > Appearance & Behavior > Appearance 이동 후 Theme 변경  
 Preferences.. (⌘,) > Editor > Color Scheme  에서 Scheme 변경
-
 
 ## 2. Plugins
 

@@ -10,13 +10,13 @@ date:   2019-06-17 16:30:01 +0900
 # 블로그 메인페이지에 썸네일과 함께 노출될 텍스트를 입력합니다. 일정 길이를 초과하면 잘려서 표시됩니다.
 abstract: "Welcome to Jekyll!"
 # 태그를 입력합니다.
-tags: featured
+tags: [jekyll, install]
 # 대표 이미지를 입력합니다. 이미지 업로드 위치는 아래에 기술합니다.
 image:
 # 포스트의 초안 여부를 입력합니다. "no" 로 입력할 경우 공개됩니다.
 #draft: "yes"
 toc: true
-categories: mediator feature
+categories: Tech
 last_modified_at: 2019-06-19T14:23:00+09:00
 ---
 
@@ -102,7 +102,24 @@ $ git push origin master
 ```
 $ bundle install
 ```
-플러그인 추가시 install 명령을 실행해줍니다.
+플러그인 추가시 install 명령을 실행해줍니다.  
+
+적용한 플러그인 전체 목록입니다.  
+didalgus.github.io/_config.yml  
+```bash
+plugins:
+  - jemoji
+  - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-tocÂ
+  - jekyll-paginate
+```
+
+### jekyll-paginate
+```bash
+$ sudo gem install jekyll-pagination
+$ bundle install
+```
 
 ### jekyll-toc
 
@@ -170,3 +187,20 @@ post 작성시 `+0900` 를 추가해주면 해결! (언제나 알고 나면 허�
 ```
 date:   2019-06-17 16:30:01 +0900
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

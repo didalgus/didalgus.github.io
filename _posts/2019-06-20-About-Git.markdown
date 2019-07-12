@@ -6,7 +6,7 @@ abstract: "About Git "
 tags: [git, commit]
 image:
 toc: true
-categories: git
+categories: Tech git
 comments: yes
 last_modified_at: 2019-06-20T16:50:00+09:00
 published: true
