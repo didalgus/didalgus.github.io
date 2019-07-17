@@ -17,7 +17,8 @@ last_modified_at: 2019-07-12T16:30:00+09:00
 * How to use intelliJ IDEA  ✓<span class="series">SERIES 2/2</span>
 
 이번에는 유용하게 사용하는 팁 모음~! 되겠습니다.  
-(제목을 영어로 쓴 이유는 영어로 써야 있어보인다는 남푠님의 의견을 수용하였습니다. ㅋ)
+차차 분류를 정돈하고 내용을 더하겠습니다.  
+(제목을 영어로 쓴 이유는 영어로 써야 있어보인다는 남푠님의 의견을 수용하였습니다. ㅋ)  
 
 
 # USE
@@ -25,11 +26,11 @@ last_modified_at: 2019-07-12T16:30:00+09:00
 ## Expand All
 
 어디까지나 개인의 취향이 반영된 포스팅입니다.  
-(개발규칙중 사용하지 않는 import 정리 필수 인경우)  
-![Source Code]({{ site.url }}/assets/article_images/2019-07-11-How-to-use-intelliJ/expand-all-1.png)
+개발 룰에 사용하지 않는 import 정리 필수 인경우 파일을 열었을때 사용하지 않는 import 를 눈으로 확인하고 정리하는 패턴이 반복되는거예요.  
+이런경우 매번 import 부분을 펼쳐는 저를 보며..
 
-소스 코드 내 접혀있는 소스블럭 모두 펼치기!  
-차라리 스크롤링을 하겠어! 클릭 귀찮아!!
+차라리 스크롤링을 하겠어! 클릭 귀찮아!!  
+![Source Code]({{ site.url }}/assets/article_images/2019-07-11-How-to-use-intelliJ/expand-all-1.png)
 
 Preferences.. (⌘,) > Editor > General > Code Folding : [v] Imports 해제  
 ![Preferences > Code Folding]({{ site.url }}/assets/article_images/2019-07-11-How-to-use-intelliJ/expand-all-2.png)
