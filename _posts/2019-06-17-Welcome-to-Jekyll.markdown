@@ -188,6 +188,11 @@ post 작성시 `+0900` 를 추가해주면 해결! (언제나 알고 나면 허�
 date:   2019-06-17 16:30:01 +0900
 ```
 
+### html, css 변경시 적용안되는 경우
+
+./my-awesome-site/didalgus.github.io/_site/ 하위 디렉토리를 삭제해 주세요.  
+jekyll 이 실행시 자동 생성하는 파일입니다.
+
 
 
 ## Markdown

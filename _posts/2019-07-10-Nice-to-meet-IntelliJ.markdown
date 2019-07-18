@@ -1,6 +1,7 @@
 ---
 layout: post
-title:  "Nice to meet IntelliJ IDEA [SERIES 1/2]"
+title:  "Nice to meet IntelliJ IDEA"
+series: 1/2
 date:   2019-07-10 17:30:00 +0900
 abstract: ""
 tags: [IntelliJ, Tools]

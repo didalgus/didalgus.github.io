@@ -1,6 +1,7 @@
 ---
 layout: post
-title:  "How to use intelliJ IDEA [SERIES 2/2]"
+title:  "How to use intelliJ IDEA"
+series: 2/2
 date:   2019-07-11 16:30:00 +0900
 abstract: ""
 tags: [IntelliJ, Tools]
