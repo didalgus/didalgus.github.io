@@ -93,7 +93,7 @@ $ git remote add origin https://github.com/didalgus/didalgus.github.io.git
 $ git remote -v
 $ git add -A
 $ git commit -m 'init'
-$ git push origin master
+$ git push -u origin master
 {% endhighlight %}
 
 ## plugins  
@@ -190,17 +190,11 @@ date:   2019-06-17 16:30:01 +0900
 
 
 
+## Markdown
 
+[github markdown spec](https://github.github.com/gfm/)에 다양한 사용한 법이 있습니다. (스크롤링이 좀 됩니다.)  
+위에 메뉴얼이 너무 길다~ 싶으면 간단한 사용법 [Basic writing and formatting syntax](https://help.github.com/en/articles/basic-writing-and-formatting-syntax) 을 참고하세요.  
+[code block](https://help.github.com/en/articles/creating-and-highlighting-code-blocks) 사용시 문 [구문](https://github.com/github/linguist/blob/master/vendor/README.md) 강조를 할 수 있습니다.   
 
-
-
-
-
-
-
-
-
-
-
-
-
+<br>
+이모티콘 사용할 때 [EMOJI CHEAT SHEET](https://www.webfx.com/tools/emoji-cheat-sheet/) 참고하세요.  
