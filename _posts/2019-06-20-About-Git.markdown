@@ -51,9 +51,9 @@ $ git show HEAD~3
 >이것은 HEAD^^^ 와 같은 표현이다. 부모의 부모의 부모 즉 증조 부모쯤 되겠다. p.221
 
 
+## Git Use 
 
-
-### commit
+### Commit
 
 {% highlight bash %}
 $ git commit -am 'remove invalid default value'
@@ -73,7 +73,8 @@ $ git commit -m  'remove invalid default value'
 
 
 - fast-forward
-
+>C4 커밋이 C2 커밋에 기반한 브랜치이기 때문에 브랜치 포인터는 Merge 과정 없이 그저 최신 커밋으로 이동한다.  
+이런 Merge 방식을 'Fast forward’라고 부른다.  p.65
 
 Merge 취소하기
 
@@ -84,8 +85,6 @@ Merge 취소하기
 p.261
 
 
-
-
 ```
 $ git merge -Xignore-space-change whitespace
 ```
@@ -94,19 +93,64 @@ $ git merge -Xignore-space-change whitespace
 팀원 중 누군가 스페이스를 탭으로 바꾸거나 탭을 스페이스로 바꾸는 짓을 했을 때 이 옵션이 그대를 구원해 준다. p.262
 
 
-Merge 후의 결과를 Merge 하기 전의 브랜치와 비교하려면, 다시 말해 무엇이 합쳐졌는지 알려면 git diff --ours
-명령을 실행한다.
+> Merge 후의 결과를 Merge 하기 전의 브랜치와 비교하려면, 다시 말해 무엇이 합쳐졌는지 알려면 git diff --ours 명령을 실행한다.
 
+```
 $ git diff --theirs -b
+```
 
-Merge 할 파일을 가져온 쪽과 비교해서 무엇이 바뀌었는지 보려면 git diff --theirs 를 실행한다. 아래
-예제에서는 공백을 빼고 비교하기 위해 -b 옵션을 같이 써주었다.   p.264
+> Merge 할 파일을 가져온 쪽과 비교해서 무엇이 바뀌었는지 보려면 git diff --theirs 를 실행한다. 아래 예제에서는 공백을 빼고 비교하기 위해 -b 옵션을 같이 써주었다.   p.264
 
-
+```
 $ git clean -f
-수동 Merge를 위해서 만들었던 각종 파일은 이제 필요 없으니 git clean 명령을 실행해서 지워준다.
+```
 
-p. 274
+> 수동 Merge를 위해서 만들었던 각종 파일은 이제 필요 없으니 git clean 명령을 실행해서 지워준다. p. 274
+
+
+### Delete
+
+커밋한 파일을 제거할려면 로컬 환경에 있는 파일을 삭제한 후 커밋하면 됩니다.  
+이런 경우 로컬 환경에 있는 파일도 지워는 경우예요.
+
+```bash
+$ git rm A.files
+```
+<br>  
+
+커밋한 파일만 제거하고 로컬 환경에 있는 파일은 유지할려면 `--cached` 옵션을 이용하면 됩니다.    
+*Untracked files* 로 이동하는것을 확인할 수 있어요.  
+<br>  
+
+실제 사례 : Remote server 에 commit&push 한 파일을 지워야 하는 상황 발생!  
+
+```bash
+$ git rm --cached box/tools.markdown
+
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	deleted:    box/tools.markdown
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	box/tools.markdown
+
+$ git commit -m"delete file form remote"
+[master 5813a15] delete file form remote
+ 1 file changed, 36 deletions(-)
+ delete mode 100644 box/tools.markdown
+
+$ git push -u origin master
+
+```
+
+
 
 
 ## Git Checkout
