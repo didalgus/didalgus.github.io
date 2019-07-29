@@ -223,3 +223,9 @@ $ man java
 $ java -classpath ./bin/ lesson.Hello
 Hello World!
 ```
+
+
+## IDE classpath
+
+인텔리제이 기본 output 경로 : /project-root/out/  
+이클립스 기본 output 경로 : /project-root/bin/

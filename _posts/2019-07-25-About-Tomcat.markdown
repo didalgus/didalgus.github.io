@@ -11,9 +11,26 @@ categories: Utility
 
 ## 소개  
 
-짬짬히 업데이트 중입니다. (진행중)
+먼저 WAS(Web Application Serve) 에 대해 알아볼까요?  
+<br>
+
+> 자바 플랫폼, 엔터프라이즈 에디션(Java Platform, Enterprise Edition; Java EE)은 자바를 이용한 서버측 개발을 위한 플랫폼이다.   
+Java EE 플랫폼은 PC에서 동작하는 표준 플랫폼인 Java SE에 부가하여, 웹 애플리케이션 서버에서 동작하는 장애복구 및 분산 멀티티어를 제공하는 자바 소프트웨어의 기능을 추가한 서버를 위한 플랫폼이다.   
+이전에는 J2EE라 불리었으나 버전 5.0 이후로 Java EE로 개칭되었다.  
+이러한 Java EE 스펙에 따라 제품으로 구현한 것을 웹 애플리케이션 서버 또는 WAS라 불린다.  
+출처 : [https://ko.wikipedia.org/wiki/자바_플랫폼,_엔터프라이즈_에디션](https://ko.wikipedia.org/wiki/자바_플랫폼,_엔터프라이즈_에디션)
+
 
 ![apache tomcat]({{ site.url }}/assets/article_images/2019-07-25-About-Tomcat/tomcat.png)
+
+
+톰캣은 WAS(Web Application Serve) 에서도 서블릿 컨테이너만 있는 웹 어플리케이션 서버이지요.  
+<br>
+
+> This is the top-level entry point of the documentation bundle for the Apache Tomcat Servlet/JSP container.  
+ Apache Tomcat version 8.5 implements the Servlet 3.1 and JavaServer Pages 2.3 specifications from the Java Community Process, and includes many additional features that make it a useful platform for developing and deploying web applications and web services.  
+출처 : [https://tomcat.apache.org/tomcat-8.5-doc/index.html](https://tomcat.apache.org/tomcat-8.5-doc/index.html)
+
 
 
 ### 톰캣 디렉토리 구조
@@ -36,7 +53,7 @@ categories: Utility
 물리 서버 1대에 톰캣서버 2개 이상 띄워야 하는경우  
 엔진 디렉토리 1개, 인스턴스 디렉토리 2개 로 나누어 띄우는 방법과  
 톰캣 전체 디렉토리 한개 더 copy 해서 server.xml 설정 (포트 변경) 변경해서 띄우는 방법과  
-[데몬으로 띄우는 방법](## PROD)이 있답니다.  
+[데몬으로 띄우는 방법](#jsvc)이 있답니다.  
 
 
 
@@ -50,6 +67,8 @@ binary 파일 다운로드 후 압출을 풀면 끝이랍니다. (참 쉽죵~?)
 ### homebrew 설치
 
 homebrew 설치 방법도 볼까요?    
+<br>
+
 homebrew야~ tomcat을 검색해다오.  
 
 ```bash
