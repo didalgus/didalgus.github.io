@@ -61,7 +61,7 @@ Java EE 플랫폼은 PC에서 동작하는 표준 플랫폼인 Java SE에 부가
 
 개발자 로컬환경에 톰캣을 설치 해볼까요?  
 binary 파일 다운로드 후 압출을 풀면 끝이랍니다. (참 쉽죵~?)   
-저의 개발환경(macOS)에서는 binary 파일 실행과 homebrew 설치가 있는데요.  
+저의 개발환경(macOS)에서는 binary 파일 실행 방법과 homebrew 설치 후 실행 방법이 있습니다.  
 <br>
 
 ### homebrew 설치
@@ -116,7 +116,7 @@ $  ./catalina start
 Using CATALINA_BASE:   /usr/local/homebrew/Cellar/tomcat@8/8.5.38/libexec
 Using CATALINA_HOME:   /usr/local/homebrew/Cellar/tomcat@8/8.5.38/libexec
 Using CATALINA_TMPDIR: /usr/local/homebrew/Cellar/tomcat@8/8.5.38/libexec/temp
-Using JRE_HOME:        /Users/we/java
+Using JRE_HOME:        /Users/didalgus/java
 Using CLASSPATH:       /usr/local/homebrew/Cellar/tomcat@8/8.5.38/libexec/bin/bootstrap.jar:/usr/local/homebrew/Cellar/tomcat@8/8.5.38/libexec/bin/tomcat-juli.jar
 Tomcat started.
 ```
@@ -130,13 +130,13 @@ java    14725   we   55u  IPv6 0x18c983bb654b707f    0t0  TCP *:8009 (LISTEN)
 ```
 
 <br>
-브라우저에서도 확인해 보세요.  
-http://localhost:8080/    
+브라우저에서도 확인해 볼께요.
+[http://localhost:8080/](http://localhost:8080/)    
 
 
 ### Configuration
 
-자~ 그럼 설정 파일 `/conf/server.xml`을 들여다 보겠습니다.  
+그럼 설정 파일 `/conf/server.xml`을 들여다 보겠습니다.  
 톰캣서버 port, 웹 소스 디렉토리, 로그파일 디렉토리 설정 등을 할수있지요.  
 아무것도 수정하지 않는 경우는 기본값이랍니다.  
 
@@ -169,6 +169,41 @@ Using CLASSPATH:       /usr/local/tomcat/bin/bootstrap.jar:/usr/local/tomcat/bin
 Server version: Apache Tomcat/8.5.23
 ...
 ```
+
+### Manager
+
+톰캣 서버에 서버 상태, 관리 콘솔, 호스트 관리 메뉴를 이용할 수 있어요.  
+이 메뉴는 `webapps` 하위에서 확인 할 수 있어요.  
+
+```bash
+$ ls ~/apache-tomcat-8.5.41/webapps
+ROOT/    docs/    examples/     host-manager/     manager/
+```
+
+브라우저에서 확인 해볼까요?  
+
+![apache tomcat]({{ site.url }}/assets/article_images/2019-07-25-About-Tomcat/2019-08-01-tomcat-1.png)
+
+`Server Status`, `Manager App` , `Host Manager` 버튼을 눌러볼까요?  
+권한 설정 필요 안내와 권한에 대한 설명이 있군요.    
+
+![apache tomcat]({{ site.url }}/assets/article_images/2019-07-25-About-Tomcat/2019-08-01-tomcat-2.png)
+
+
+안내에 따라 `conf/tomcat-users.xml`에 권한을 추가합니다.
+
+```xml
+<role rolename="manager-gui"/>
+<user username="manager" password="<must-be-changed>" roles="manager-gui"/>
+```
+
+톰캣 재시작 후 브라우저에서 `Server Status` 메뉴 로그인 해볼까요?  
+
+![Server Status]({{ site.url }}/assets/article_images/2019-07-25-About-Tomcat/2019-08-01-tomcat-3.png)
+
+`Manager App` 에서는 웹에서 어플리케이션 Start, Stop, Reload 등 할 수있네요. (편리!)  
+![Manager App]({{ site.url }}/assets/article_images/2019-07-25-About-Tomcat/2019-08-01-tomcat-4.png)
+
 
 
 ## PROD
