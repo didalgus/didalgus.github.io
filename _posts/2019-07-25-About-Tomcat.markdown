@@ -6,12 +6,12 @@ abstract: ""
 tags: [tomcat]
 image:
 toc: true
-categories: Utility
+categories: WAS
 ---
 
 ## 소개  
 
-먼저 WAS(Web Application Serve) 에 대해 알아볼까요?  
+먼저 WAS(Web Application Server) 에 대해 알아볼까요?  
 <br>
 
 > 자바 플랫폼, 엔터프라이즈 에디션(Java Platform, Enterprise Edition; Java EE)은 자바를 이용한 서버측 개발을 위한 플랫폼이다.   

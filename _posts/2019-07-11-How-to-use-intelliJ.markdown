@@ -7,7 +7,7 @@ abstract: ""
 tags: [IntelliJ, Tools]
 image:
 toc: true
-categories: Tools IntelliJ
+categories: IntelliJ
 last_modified_at: 2019-07-12T16:30:00+09:00
 ---
 

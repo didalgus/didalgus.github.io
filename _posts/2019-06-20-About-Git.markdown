@@ -6,7 +6,7 @@ abstract: "Git 개념과 기본적인 사용법을 정리하였습니다. <br> R
 tags: [git, commit, featured]
 image:
 toc: true
-categories: Tech git
+categories: Tech
 comments: yes
 last_modified_at: 2019-06-20T16:50:00+09:00
 published: true
@@ -51,7 +51,7 @@ $ git show HEAD~3
 >이것은 HEAD^^^ 와 같은 표현이다. 부모의 부모의 부모 즉 증조 부모쯤 되겠다. p.221
 
 
-## Git Use 
+## Git Use
 
 ### Commit
 
