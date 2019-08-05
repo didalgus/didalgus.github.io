@@ -3,7 +3,7 @@ layout: post
 title:  "About Jboss"
 date:   2019-08-02 12:00:00 +0900
 abstract: ""
-tags: [jboss]
+tags: [jboss, WAS, web application server]
 image:
 toc: true
 categories: WAS
@@ -160,14 +160,15 @@ $ ./standalone.sh &
     23:07:38,118 INFO  [org.jboss.as.server] (HttpManagementService-threads - 4) JBAS018559: Deployed "srping-training.war"
 ```
 
-브라우저에서 확인~
+브라우저에서 확인~  
 http://localhost:8080/srping-training/
 
 
 ## 변수
 
-어플리케이션 변수를 지정하는 방법에는 2가지가 있지요.
-jboss 설정파일에 적용하는 방법과 구동시 인자로 넘기는 방법이 있어요.
+어플리케이션 변수를 지정하는 방법에는 2가지가 있지요.  
+jboss 설정파일에 적용하는 방법과 구동시 인자로 넘기는 방법이 있어요.  
+<br>
 
 `bin/standalone.conf` 파일에 -Dprofiles.active=local 라인과 같이 추가해 주세요.
 
