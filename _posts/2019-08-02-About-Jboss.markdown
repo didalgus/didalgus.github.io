@@ -13,45 +13,32 @@ categories: WAS
 
 ## 소개  
 
-Jboss 관련 포스팅 업데이트 중입니다.  
-<br>
-
 지난 포스팅에서 [톰캣](/2019/07/25/About-Tomcat.html)은 웹관련 부분(Servlet/JSP)만 구현한 웹 컨테이너라고 했지요.  
 
 Jboss(Java Beans Open Source Software) 는 오픈소스로 Java EE 스펙에 따라 구현한 웹 어플리케이션 서버입니다.  
 2006년에 RedHat 에서 인수하면서  
 상용 `RedHat Jboss Enterprise (EAP)`, 무료 `JBoss AS (JBoss Application Server)` 로 나뉘게 되었습니다.  
-
 <br>
-
 레드헷에서는 제이보스 오픈소스 개발을 유지하면서 상용 제품을 출시하였습니다.   
 이름의 혼동을 줄이고자 JBoss AS8(무료 버전) 이름을 **Wildfly8** 로 변경하였습니다.  
 무료와 상용은 소스코드상 동일한 수준이며 차이는 벤더의 유료 기술지원여부 라고 하네요.
-
-<br>
 
 ![JBoss AS 7]({{ site.url }}/assets/article_images/2019-08-02-About-Jboss/2019-08-05-jboss-download.png)
 
 [Download Page](https://jbossas.jboss.org/downloads)에 더이상 유지보수 되지않으며 지원하지 않는다는 안내가 있네요.  
 저 역시 <u>WildFly 사용</u>을 권해드립니다.  
 
-<br>
 이 포스팅은 `jboss-as-7.1.1.Final` 버전을 운영하면서 정리한 것들을 모은 내용입니다.  
 
-
-
-
 ## Version
-오래된 서비스인지라 java 버전이 7이군요.  
 
-<br>
+오래된 서비스인지라 java 버전이 7이군요.  
 
 >JBoss AS 7 requires JDK 1.6 or later.  
 AS7 won't work on JDK8. for that use WildFly 8.x or newer.  
 You can use JDK7 with AS7.
 
 로컬 개발환경 java8에서 동작하지 않기에 찾아보니 1.6 ~ 1.7 버전에서 동작하네요.  
-
 
 {% highlight bash linenos %}
 $ cd /jboss-as-7.1.1.Final/bin
@@ -98,7 +85,6 @@ $ $JBOSS_HOME/bin/standalone.sh > /dev/null 2>&1 &
 
 운영중인 서버중에 재기동은 안되고 기본 정보를 확인 하고 싶을때 있잔아요.  
 그럴땐 `./standalone/log/boot.log` 파일을 살펴보세요.
-
 ```log
 54     jboss.server.base.dir = /Users/we/Documents/jboss/jboss_evaluation/standalone
 55     jboss.server.config.dir = /Users/we/Documents/jboss/jboss_evaluation/standalone/configuration
@@ -108,7 +94,6 @@ $ $JBOSS_HOME/bin/standalone.sh > /dev/null 2>&1 &
 59     jboss.server.name = wmp-2017060003
 60     jboss.server.temp.dir = /Users/we/Documents/jboss/jboss_evaluation/standalone/tmp
 ```
-
 
 ### Stop
 
@@ -245,7 +230,6 @@ $ ./standalone.sh -Dprofiles.active=local &
 물리서버 1대에 여러개 WAS 를 띄울려면 port를 변경해야겠지요.  
 
 2가지 방법이 있습니다.  
-<br>
 
 첫번째는 `standalone.xml` 설정파일에 `port-offset` 수치를 입력해서 일괄 반영합니다.  
 기본 포트에 port-offset 이 더해지는 거지요.  
@@ -274,7 +258,6 @@ ex) 8080 + 10000 = 18080
 두번째는 `standalone.xml` 설정파일에 `socket-binding` 포트를 개별 지정하는것이지요.  
 운영상황에 따라 필요하신 방법을 적용하시면 된답니다.  
 <br>
-
 port-offset 값은 0 입니다.
 http, https 기본값을 변경하였군요.  
 
@@ -335,7 +318,6 @@ rm -rf /jboss-as-7.1.1.Final/standalone/tmp/vfs/*
 ## Log
 
 콘솔로그를 줄여봤어요.  
-<br>
 
 변경전
 {% highlight bash linenos %}
