@@ -77,8 +77,9 @@ $ rm index.md
 
 ## github remote push
 
-! git 계정이 하나이고 global 설정을 하신 경우 생략하세요.  
+:grey_exclamation: git 계정이 하나이고 global 설정을 하신 경우 생략하세요.  
 저는 계정이 여러개라 아래 과정을 추가하였습니다.
+
 {% highlight bash %}
 $ cd my-awesome-site
 $ git init
