@@ -17,9 +17,9 @@ categories: WAS
 
 Jboss(Java Beans Open Source Software) 는 오픈소스로 Java EE 스펙에 따라 구현한 웹 어플리케이션 서버입니다.  
 2006년에 RedHat 에서 인수하면서  
-상용 `RedHat Jboss Enterprise (EAP)`, 무료 `JBoss AS (JBoss Application Server)` 로 나뉘게 되었습니다.  
+상용 `RedHat Jboss Enterprise(EAP)`, 무료 `JBoss AS(JBoss Application Server)` 로 나뉘게 되었습니다.  
 <br>
-레드헷에서는 제이보스 오픈소스 개발을 유지하면서 상용 제품을 출시하였습니다.   
+RedHat에서는 제이보스 오픈소스 개발을 유지하면서 상용 제품을 출시하였습니다.   
 이름의 혼동을 줄이고자 JBoss AS8(무료 버전) 이름을 **Wildfly8** 로 변경하였습니다.  
 무료와 상용은 소스코드상 동일한 수준이며 차이는 벤더의 유료 기술지원여부 라고 하네요.
 
@@ -29,6 +29,7 @@ Jboss(Java Beans Open Source Software) 는 오픈소스로 Java EE 스펙에 따
 저 역시 <u>WildFly 사용</u>을 권해드립니다.  
 
 이 포스팅은 `jboss-as-7.1.1.Final` 버전을 운영하면서 정리한 것들을 모은 내용입니다.  
+참고로, 저의 로컬 개발환경 OS는 MacOS(Mojave 10.14) 입니다.  
 
 ## Version
 
@@ -38,7 +39,7 @@ Jboss(Java Beans Open Source Software) 는 오픈소스로 Java EE 스펙에 따
 AS7 won't work on JDK8. for that use WildFly 8.x or newer.  
 You can use JDK7 with AS7.
 
-로컬 개발환경 java8에서 동작하지 않기에 찾아보니 1.6 ~ 1.7 버전에서 동작하네요.  
+로컬 개발환경 java 8에서 동작하지 않기에 찾아보니 1.6 ~ 1.7 버전에서 동작하네요.  
 
 {% highlight bash linenos %}
 $ cd /jboss-as-7.1.1.Final/bin
@@ -80,7 +81,14 @@ $ ./standalone.sh &
 $ $JBOSS_HOME/bin/standalone.sh > /dev/null 2>&1 &
 {% endhighlight %}
 
-운영중인 서버에 8080port 잘 떠있는지 확인해봅니다.
+운영중인 서버에 8080 port 잘 떠있는지 확인해봅니다.  
+둘중 편한 명령어로 확인 하세요.  
+(tip. 자주 쓰는 명령어는 alias 선언해두면 편하답니다.)  
+
+{% highlight bash linenos %}
+$ lsof -nP -i | grep LISTEN
+$ lsof -i tcp:8080
+{% endhighlight %}
 
 
 운영중인 서버중에 재기동은 안되고 기본 정보를 확인 하고 싶을때 있잔아요.  
@@ -301,8 +309,7 @@ rm -rf /jboss-as-7.1.1.Final/standalone/tmp/vfs/*
 
 톰캣에도 [rewrite](https://docs.jboss.org/jbossweb/7.0.x/config/host.html) 기능이 있군요.  
 웹서버가 따로 있는 경우 웹서버에서 rewrite 처리하지만 없는 경우(ex.개발서버)에 필요하지요.   
-테스트 해보니 enable-welcome-root=true 인 경우에 rewrite 기능이 동작하는군요.  
-
+테스트 해보니 `enable-welcome-root=true` 인 경우에 rewrite 기능이 동작하는군요.  
 
 {% highlight bash linenos %}
 <subsystem xmlns="urn:jboss:domain:web:1.1" default-virtual-server="default-host" native="false">
@@ -398,7 +405,7 @@ CI툴에서 빌드,배포,WAS 재기동 까지 하는 경우 아래와 같이 �
 {% endhighlight %}
 
 ### 수동 배포
-구성상 자동배포(CI)가 적용될수 없어 수동으로 배포하는 경우도 있답니다.  
+인프라 구성에 따라 자동배포(CI)가 적용될수 없어 수동으로 배포하는 경우도 있답니다.  
 이런경우 압축된 파일이 아닌 jsp, class 파일들을 일일히 변경하는경우 총 10개 변경파일중 3개 적용하는중에 WAS 가 재기동되는 불상사가 발생하기도 하지요.  
 <br>
 

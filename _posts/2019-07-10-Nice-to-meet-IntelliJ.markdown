@@ -15,7 +15,12 @@ last_modified_at: 2019-07-12T17:30:00+09:00
 ![intellij logo]({{ site.url }}/assets/article_images/2019-07-10-Nice-to-meet-IntelliJ/intellij_logo.png)
 
 멍때리느니 뭔가 생산적인 일을 하자!
-짬짬히 업데이트 하겠습니다.
+짬짬히 업데이트 하겠습니다.  
+<br>
+
+* Nice to meet IntelliJ IDEA ✓ <span class="series">SERIES 1/2</span>
+* [How to use intelliJ IDEA]({% post_url 2019-07-11-How-to-use-intelliJ %}) <span class="series">SERIES 2/2</span>
+
 
 # 운영 환경
 - macOS Mojave 10.14.5  
