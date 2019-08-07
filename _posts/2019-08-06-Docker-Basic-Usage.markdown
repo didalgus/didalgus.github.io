@@ -28,17 +28,15 @@ categories: docker
 * Docker Hub <span class="series">SERIES 3/3</span>
 
 
-## 기본 사용법
-
 개인적으로 Apache + PHP 환경을 구축 해볼려고 합니다.  
 그에 앞서 가벼운 마음으로 기본 사용법 숙지해볼까요?  
 
 
-### Images
+## Images
 
-[서비큐라님](https://subicura.com/2017/01/19/docker-guide-for-beginners-1.html)이 워낙 설명을 잘해놓으신 터라 저는 간단하게만 정리했습니다.  
+[서비큐라님](https://subicura.com/2017/01/19/docker-guide-for-beginners-1.html) 포스팅에 워낙 설명을 잘해놓으신 터라 저는 간단하게만 정리했습니다.  
 
-#### List
+### List
 
 로컬 환경에 있는 이미지 목록을 확인해볼까요?  
 
@@ -50,7 +48,7 @@ mysql            5.7           e47e309f72c8      3 weeks ago     372MB
 {% endhighlight %}
 
 
-#### Search
+### Search
 
 Docker 저장소에 있는 centos가 뭐가 있는지 검색해봅니다.  
 
@@ -62,7 +60,7 @@ ansible/centos7-ansible   Ansible on Centos7             120                 [OK
 {% endhighlight %}
 
 
-#### Pull
+### Pull
 
 Docker 저장소에 있는 가장 최신 httpd 이미지를 로컬에 가져옵니다.  
 
@@ -83,7 +81,7 @@ $docker pull centos
 Status: Downloaded newer image for centos:latest
 {% endhighlight %}
 
-#### Remove
+### Remove
 
 이것저것 다운받았네요.   
 필요없는것은 지워보겠습니다.  
@@ -110,7 +108,7 @@ Deleted: sha256:f09fe80eb0e75e97b04b9dfb065ac3fda37a8fac0161f42fca1e6fe4d0977c80
 {% endhighlight %}
 
 
-#### Commit
+### Commit
 
 필요한 라이브러리가 설치된 컨테이너를 이미지로 만들어 보아요.  
 
@@ -119,9 +117,9 @@ $ docker commit ubuntu-container willow/ubuntu-apache-php-mcrypt
 sha256:d84f180ac83da523cde7f354339e778bfb68f64ac29c48da332777d1be81707f
 {% endhighlight %}
 
-### Container
+## Container
 
-#### 컨테이너 실행
+### 컨테이너 실행
 
 
 다운받은 로컬 이미지를 컨테이너로 띄워보겠습니다.  
@@ -150,7 +148,7 @@ docker exec `컨테이너 이름` `명령` `매개변수`
 
 
 
-#### 컨테이너 중지 & 시작
+### 컨테이너 중지 & 시작
 
 가장 많이 쓰게 될 명령이죠.  
 컨테이너 전체 리스트의 상세 정보입니다.  
@@ -166,25 +164,25 @@ f0c86d1423ba   nginx         "nginx -g 'dae…"  2 weeks ago   Exited (0)  2 hou
 
 컨테이너를 중지해보겠습니다.  
 {% highlight bash linenos %}
-$ docker container stop webserver   // 컨테이너 중지
+$ docker container stop webserver
 webserver
 {% endhighlight %}
 
 
 컨테이너를 시작해보겠습니다.
 {% highlight bash linenos %}
-$ docker container start webserver   // 컨테이너 시작
+$ docker container start webserver
 webserver
 {% endhighlight %}
 
 재시작 명령도 지원합니다.
 {% highlight bash linenos %}
-$ docker container restart webserver   // 컨테이너 재시작
+$ docker container restart webserver
 webserver
 {% endhighlight %}
 
 
-#### 컨테이너 삭제
+### 컨테이너 삭제
 
 컨테이너를 삭제 합니다.
 {% highlight bash linenos %}
