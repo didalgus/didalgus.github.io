@@ -16,7 +16,7 @@ categories: docker
 * **Docker Apache+PHP ✓** <span class="series">SERIES 2/3</span>
 * Docker Hub <span class="series">SERIES 3/3</span>
 
-로컬 개발환경(MacOS)에 설치된 Apache, PHP버전(최신)에서 동작하지 않는 이슈가 발생하였습니다.  
+유지보수중인 서비스가 로컬 개발환경(MacOS)에 설치된 Apache, PHP버전(최신)에서 동작하지 않는 이슈가 발생하였습니다.  
 <br>
 부연하자면, MacOS 에 내장된 Apache 는 MacOS 버전이 업그레이드 될때 같이 업그레이드 되면서 기존 설정을 backup 후 초기화 해버립니다.  
 이럴때마다 기존 설정을 복원해야하는 번거로움이 있더군요.  
