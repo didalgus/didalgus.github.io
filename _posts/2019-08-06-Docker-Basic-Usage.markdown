@@ -23,8 +23,8 @@ categories: docker
 그래서 저의 기술블로그도 시작되었답니다.   
 <br>
 
-* Docker Basic Usage ✓ <span class="series">SERIES 1/3</span>
-* Docker Apache+PHP <span class="series">SERIES 2/3</span>
+* **Docker Basic Usage ✓** <span class="series">SERIES 1/3</span>
+* [Docker Apache+PHP]({% post_url 2019-08-07-Docker-Apache-PHP %}) <span class="series">SERIES 2/3</span>
 * Docker Hub <span class="series">SERIES 3/3</span>
 
 
