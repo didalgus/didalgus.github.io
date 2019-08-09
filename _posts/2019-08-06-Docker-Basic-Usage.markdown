@@ -25,7 +25,7 @@ categories: docker
 
 * **Docker Basic Usage ✓** <span class="series">SERIES 1/3</span>
 * [Docker Apache+PHP]({% post_url 2019-08-07-Docker-Apache-PHP %}) <span class="series">SERIES 2/3</span>
-* Docker Hub <span class="series">SERIES 3/3</span>
+* [Docker Hub]({% post_url 2019-08-08-Docker-Hub %}) <span class="series">SERIES 3/3</span>
 
 
 개인적으로 Apache + PHP 환경을 구축 해볼려고 합니다.  

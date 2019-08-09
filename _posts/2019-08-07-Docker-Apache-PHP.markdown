@@ -14,14 +14,14 @@ categories: docker
 
 * [Docker Basic Usage]({% post_url 2019-08-06-Docker-Basic-Usage %}) <span class="series">SERIES 1/3</span>
 * **Docker Apache+PHP ✓** <span class="series">SERIES 2/3</span>
-* Docker Hub <span class="series">SERIES 3/3</span>
+* [Docker Hub]({% post_url 2019-08-08-Docker-Hub %}) <span class="series">SERIES 3/3</span>
 
 유지보수중인 서비스가 로컬 개발환경(MacOS)에 설치된 Apache, PHP버전(최신)에서 동작하지 않는 이슈가 발생하였습니다.  
 <br>
 부연하자면,  
 MacOS에 내장된 Apache 는 OS 업그레이드 될때 기존 설정을 backup 후 초기화 해버립니다.  
 이럴때마다 기존 설정을 복원해야하는 번거로움이 있더군요.  
-PHP 는 homebrew로 5버전과 7버전을 설치 가능한데, 7버전는 mcrypt 모듈을 사용할 수 없고, 5버전에는 mcrypt 모듈 추가가 안되었습니다. (제가 방법을 몰라서 그런걸 수도 있어요.)  
+PHP 는 homebrew로 버전별 설치 가능한데, 7버전(최신)는 mcrypt 모듈을 사용할 수 없고, 5버전에는 mcrypt 모듈 추가가 안되었습니다. (제가 방법을 몰라서 그런걸 수도 있어요.)  
 
 
 ## 목표
@@ -42,12 +42,12 @@ OS 이미지(Ubuntu)를 기반삼아 WebServer(Apache)와 PHP를 설치하였습
 
 | 항목 | version |
 |---|---|
-| Operating System  | Ubuntu 18.04.1 LTS |
-| Web Server        | Apache 2.4.29      |   
-| + module          | rewrite            |
-| Language          | PHP 5.6.40         |
-| + module          | mcrypt, mysql      |
-| Framework         | CodeIgniter 2.2    |
+| Operating System          | Ubuntu 18.04.1 LTS |
+| Web Server                | Apache 2.4.29      |   
+| + Apache extension module | rewrite            |
+| Language                  | PHP 5.6.40         |
+| + PHP extension module    | mcrypt, mysql      |
+| Framework                 | CodeIgniter 2.2    |
 
 
 ## 컨테이너 만들기
@@ -264,7 +264,7 @@ $ php -r "mcrypt_create_iv();"
 
 <br>
 
-참고로, mcrypt는 PHP 7.1 버전부터 Deprecated 되었어요.
+:cactus: 참고로, mcrypt는 PHP 7.1 버전부터 Deprecated 되었어요.
 
 >**Warning**
 This feature was DEPRECATED in PHP 7.1.0, and REMOVED in PHP 7.2.0.  
