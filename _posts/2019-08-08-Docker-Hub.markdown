@@ -66,4 +66,4 @@ didalgus/ubuntu18_apache24_php56   apache webservice with php   0
 
 잘 올라갔군요.  
 이제 함께 유지보수 할 개발자분들께 공유해요~  
-개발환경 구성에 들이는 시간을 다같이 줄여보자구요! :dolphin:
+개발환경 구성에 들이는 시간을 다같이 줄여보자구요! :whale:
