@@ -30,36 +30,37 @@ IDE에 익숙한 그대여, 아는가?
 
 프로젝트 생성후 `src` 디렉토리에 `Hello.java` 파일을 생성합니다.  
 
-```java
+{% highlight java linenos %}
 public class Hello {
 
 	public static void main(String[] args) {
 		System.out.println("Hello World!");
 	}
 }
-```
+{% endhighlight %}
 
 ### javac
 
 동일 `src` 디렉토리에서 `javac` 명령을 수행해서 `src` 디렉토리에 binary 파일 생성~
 
-```bash
+{% highlight bash linenos %}
 $ javac Hello.java
 
 $ ls
 Hello.java
 Hello.class
-```
+{% endhighlight %}
 
 ### java
 
 동일 `src` 디렉토리에서 `java` 명령으로 실행해볼까요?
 
-```bash
+{% highlight bash linenos %}
 $ java Hello
 
 Hello World!
-```
+{% endhighlight %}
+
 잘되네요.  
 
 ### javap
@@ -67,22 +68,23 @@ Hello World!
 그럼 `javap` 명령으로 역컴파일(Decompile) 해볼까요?
 
 
-```bash
+{% highlight bash linenos %}
 $ javap Hello > Hello.javap
-```
+{% endhighlight %}
+
 디컴파일한 파일 내용을 보니 디컴파일 했다는 `Compiled from` 정보가 추가되어 있네요.
 
-```java
+{% highlight java linenos %}
 Compiled from "Hello.java"
 public class Hello {
   public Hello();
   public static void main(java.lang.String[]);
 }
-```
+{% endhighlight %}
 
 IDE 에서 바이너리 파일을 열면 CLI 명령어 보다 깔끔하게 자동으로 역컴파일 해주지요. (ex. IntelliJ)
 
-```java
+{% highlight java linenos %}
 //
 // Source code recreated from a .class file by IntelliJ IDEA
 // (powered by Fernflower decompiler)
@@ -96,7 +98,7 @@ public class Hello {
         System.out.println("Hello World!");
     }
 }
-```
+{% endhighlight %}
 
 
 ## Package Compile
@@ -107,7 +109,7 @@ public class Hello {
 
 프로젝트 생성후 `./src/lesson/`디렉토리에 `Hello.java` 파일을 생성합니다.  
 
-```java
+{% highlight java linenos %}
 package lesson;
 
 public class Hello {
@@ -116,24 +118,23 @@ public class Hello {
 		System.out.println("Hello World!");
 	}
 }
-```
+{% endhighlight %}
 
-### javac
+### Package javac
 
 그럼 패키지 구성된 파일은 어떻게 컴파일 하면 될까요?  
 사실 위에 기본적인 명령과 동일합니다. 옵션은 취향껏(?) 넣으시면 되지요.  
 
 <br>
 
-javac -d `클래스파일 빌드경로` `원본소스1 경로` `원본소스2 경로` ...  
-javac -d `클래스파일 빌드경로` `소스경로/*.java`
+javac `-classpath` [라이브러리 경로] `-d` [클래스파일빌드] [원본소스1경로] [원본소스2 경로] ...  
+javac `-classpath` [라이브러리 경로] `-d` [클래스파일빌드] [소스경로/*.java]
 
 <br>
 
-매뉴얼을 살펴보았습니다.  
- -d 옵션없이 빌드 하는 경우 명령을 실행하는 위치에 바이너리 파일이 생성됩니다.  
+매뉴얼을 볼까요?
 
-```bash
+{% highlight bash linenos %}
 $ man javac
 
 Standard Options
@@ -153,38 +154,69 @@ Standard Options
           If -d is not specified, javac puts the class file in the same directory as the source file.
 
           Note: The directory specified by -d is not automatically added to your user class path.
-```
+{% endhighlight %}
 
+- 노옵션 컴파일
 
+ -d 옵션없이 빌드 하는 경우 명령을 실행하는 위치에 바이너리 파일이 생성됩니다.  
+위에 [예시](#javac)를 참고하세요.  
 
-경로는 프로젝트 `/my-project/` root 디렉토리로 이동합니다.
+<br>
 
-```bash
-$ javac -d ./bin ./src/lesson/Hello.java
+- directory
+
+컴파일된 바이너리 파일들의 위치를 지정해볼까요?  
+경로는 프로젝트 `/my-project/` root 디렉토리로 이동합니다.  
+`-d bin` 옵션으로 바이너리 파일 위치를 지정해주세요.  
+
+{% highlight bash linenos %}
+$ javac -d bin ./src/lesson/Hello.java
   =
 $ javac -d ./bin ./src/lesson/*.java
-```
+{% endhighlight %}
 
 bin 디렉토리에 가서 볼까요?  
-비어있던 `bin` 디렉토리 하위에 `lesson` 디렉토리와 `Hello.class` 파일이 생성되었네요.
+`bin` 디렉토리 하위에 `lesson` 디렉토리와 `Hello.class` 파일이 생성되었네요.
 
-```bash
+{% highlight bash linenos %}
 $ ll ./bin/lesson/
 
 -rw-r--r--  1 we  staff   425B  7 23 11:34 Hello.class
-```
+{% endhighlight %}
+
+<br>
+
+- classpath
+
+servlet 라이브러리가 필요한 경우예요.  
+
+{% highlight bash linenos %}
+$ javac -d build/classes/ -classpath /tomcat/lib/servlet-api.jar src/lesson/*.java
+{% endhighlight %}
+
+필요한 라이브러리가 여러개 인경우 각 jar 파일을 개별로 지정해줄수 있지요.  
+
+{% highlight bash linenos %}
+$ javac -d build/ -classpath "./WebContent/WEB-INF/lib/mysql-connector-java-5.1.26-bin.jar:/tomcat/lib/servlet-api.jar" ./src/servlets/*.java
+{% endhighlight %}
+
+다 귀찮아~!  
+{% highlight bash linenos %}
+$ javac -d build/ -classpath "./WebContent/WEB-INF/lib/*:/tomcat/lib/*" ./src/servlets/*.java
+{% endhighlight %}
 
 
-### java
+
+### Package java
 
 
 "에러를~ 피하고~ 싶었어~ 아무리 애를써도~"
 
-```bash
+{% highlight bash linenos %}
 $ java Hello
 
 오류: 기본 클래스 Hello을(를) 찾거나 로드할 수 없습니다.
-```
+{% endhighlight %}
 
 명령어 기본 사용법입니다.  
 java -classpath `클래스파일경로` `패키지명.클래스이름`  
@@ -194,17 +226,17 @@ java -classpath `클래스파일경로` `패키지명.클래스이름`
 `클래스파일 빌드경로`로 지정한 `bin` 디렉토리로 이동합니다.  
 패키지 파일을 실행해 볼까요?  
 
-```bash
+{% highlight bash linenos %}
 $ java lesson/Hello
 Hello World!
 
 $ java lesson.Hello
 Hello World!
-```
+{% endhighlight %}
 
 패키지명으로 호출해도 되고 디렉토리경로로 호출해도 되는군요.  
 
-```bash
+{% highlight bash linenos %}
 $ man java
 
     -classpath classpath
@@ -214,18 +246,25 @@ $ man java
 
           If -classpath and -cp are not used and CLASSPATH is not set, the user class path consists of the current directory (.).
 
-```
+{% endhighlight %}
+
 `bin` 디렉토리로 이동하지 않고 `classpath` 를 지정해서 실행하는 방법도 있습니다.
 
 실행해볼까요?  
 
-```bash
+{% highlight bash linenos %}
 $ java -classpath ./bin/ lesson.Hello
 Hello World!
-```
+{% endhighlight %}
 
 
 ## IDE classpath
 
-인텔리제이 기본 output 경로 : /project-root/out/  
-이클립스 기본 output 경로 : /project-root/bin/
+IDE별 Output 기본경로는 아래와 같지요.
+
+{:.table.table-key-value-60}
+
+| IDE | pwd |
+|---|---|
+|인텔리제이 | /project-root/out/ |  
+|이클립스 | /project-root/bin/ |
