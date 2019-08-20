@@ -55,12 +55,12 @@ $ git show HEAD~3
 
 ### Commit
 
-{% highlight bash %}
+```bash
 $ git commit -am 'remove invalid default value'
 =
 $ git add
 $ git commit -m  'remove invalid default value'
-{% endhighlight %}
+```
 
 
 ### Merge
@@ -324,11 +324,11 @@ branch-test 에 master 내용을 덮어 쓴 후 충돌된 것들을 처리합니
 master head 를 상속 받은 경우 (branch-test head 부모값과 일치) 입니다.
 사실, sub 브랜치가 master 브랜치 상속받아 작업 후 commit 한 경우는 굳이 rebase 할 필요없이 merge(fast-forward) 하면 됩니다.
 
-{% highlight bash %}
+```bash
 (branch-test) $ git rebase master
 First, rewinding head to replay your work on top of it...
 Applying: rebase test2
-{% endhighlight %}
+```
 
 
 
@@ -336,21 +336,21 @@ Applying: rebase test2
 
 master head 부모값과 branch-test 브랜치 head 부모값이 다른 경우입니다.
 
-{% highlight bash %}
+```bash
     (develop) $ git checkout branch-test
 (branch-test) $ git rebase master
 Applying: topic branch conflict
 Using index info to reconstruct a base tree...
 M	practice_git/1.txt
-{% endhighlight %}
+```
 
 출동된 코드를 정리합니다.
 
-{% highlight bash %}
+```bash
 ((no branch, rebasing branch-test)) $ git add practice_git/1.txt
 ((no branch, rebasing branch-test)) $ git rebase --continue
 Applying: topic branch conflict
-{% endhighlight %}
+```
 
 
 rebase 명령을 실행하면 새로운 commit 을 만들어 냅니다.
@@ -409,7 +409,7 @@ git reset --soft HEAD~
 ```
 HEAD 브랜치 이동
 
-```
+```bash
 git reset --mixed  HEAD~
 ```
 HEAD 브랜치 이동 + Index를 HEAD 스냅샷 업데이트
@@ -428,11 +428,65 @@ HEAD 브랜치 이동 + Index를 HEAD 스냅샷 업데이트 + 워킹 디렉토�
 
 ### remote repository
 
-$ git remote -v
-$ git remote show
-$ git remote show origin
+```bash
+$ git remote -v                 # 원격 저장소 정보
+$ git remote show               # 로컬브랜치의 원격 저장소 명
+$ git remote show origin        # origin(원격 저장소) 정보 (브랜치별 정보 확인)  
 
-$ git remote add myfork (url)
+$ git remote add myfork (url)   # 원격 저장소 fork
+```
+
+
+
+### CONFIG
+
+#### Global Config
+
+`.gitignore` global 설정에 해놓으면 모든 프로젝트에 적용됩니다. (편리한 기능이죠)
+
+```bash
+$ git config --global -l
+core.excludesfile=/Users/willow/.gitignore_global
+```
+
+#### Local Config
+
+프로젝트에 투입되었는데 config 의 이름, 이메일을 달리 설정해야 하는 경우가 있지요.  
+이런경우, 설정파일을 수정하거나 cli 명령으로 변경 가능합니다.  
+
+<br>
+
+먼저, 기본 정보가 어떻게 되어 있는지 확인해 보아요.  
+
+```bash
+$ git config --local --list  # 현재 프로젝트의 로컬 설정
+$ git config --global --list # git global 설정
+$ git config --list          # global, local 설정을 순차적으로 보여줍니다. 동일 항목인 경우 마지막 라인이 설정값이 됩니다.
+```
+
+
+**명령어**
+
+```bash
+$ git config --local --list
+$ git config user.name willow  # 사용자이름
+$ git config user.email willow@hahaha.com # 이메일
+```
+
+
+**설정파일**
+
+프로젝트 최상위 디렉토리로 이동 후
+
+```bash
+$ vi /project/myproject1/.git/config   # local 설정
+
+[user]
+    name = willow              # 추가
+    email = willow@hahaha.com  # 추가
+```
+
+
 
 
 
@@ -446,13 +500,13 @@ git fetch 명령을 실행하면 서버에는 존재하지만, 로컬에는 아�
 서버로부터 데이터를 가져와서 저장해두고 사용자가 Merge 하도록 준비만 해둔다.  
 
 
-```
+```bash
 $ git fetch origin
 ```
 원격 master 브랜치를 fetch 합니다.
 
 
-```
+```bash
 $ git fetch --all; git branch -vv
 ```
 모든 브랜치를 fetch 한 후 브랜치 정보를 보여줍니다.
@@ -467,45 +521,50 @@ $ git fetch --all; git branch -vv
 로컬에만 있는 브랜치인 경우 원격에 동일한 이름으로 생성하고 push 합니다.  
 기존에 존재하는 브랜인 경우 원격에 push 합니다.
 
-사용법  
-```
+**사용법**  
+
+```bash
 git push `remote` `branch`   
 git push `remote` `locally-branch:remote-branch`
 ```
 
-{% highlight bash %}
+```bash
 $ git push origin branch-test
 =
 $ git push origin branch-test:branch-test
-{% endhighlight %}
+```
 
 
-{% highlight bash %}
+```bash
 $ git push -u origin featureB:featureBee
-{% endhighlight %}
-명령에서 사용한 -u 옵션은 --set-upstream 옵션의 짧은 표현인데 브랜치를 추적하도록 설정해서 이후 Push 나 Pull 할 때 좀 더 편하게 사용할 수 있다. (p.131)
+```
+
+>명령에서 사용한 -u 옵션은 --set-upstream 옵션의 짧은 표현인데 브랜치를 추적하도록 설정해서 이후 Push 나 Pull 할 때 좀 더 편하게 사용할 수 있다. p.131
 
 
 
 ## Git Diff
 
-```
+```bash
 $ git diff master...contrib
 ```
+
 >앞서 살펴본 master..contrib 형식을 사용하여 확인할 수도 있다.
 diff 명령을 사용할 때 두 브랜치 사이에 `…`를 쓰면, 두 브랜치의 공통 조상과 브랜치의 마지막 커밋을 비교한다.
 Git은 Triple-Dot 구문으로 간단하게 위와 같이 비교하는 방법을 지원한다. diff 명령을 사용할 때 두 브랜치 사이에 `…`를 쓰면, 두 브랜치의 공통 조상과 브랜치의 마지막 커밋을 비교한다.
 git log 명령에 -p 옵션을 주면 각 커밋에서 실제로 무슨 내용이 변경됐는지 살펴볼 수 있다. 이 옵션은 각 commit의 뒤에 diff의 내용을 출력해 준다. p.147
 
 
-```
+```bash
 $ git log contrib --not master
 ```
+
 >먼저 지금 작업하는 브랜치에서 master 브랜치에 속하지 않는 커밋만 살펴보는 것이 좋다. --not 옵션으로 히스토리에서 master 브랜치에 속한 커밋은 제외하고 살펴본다.
 
-```
+```bash
 git diff --chec
 ```
+
 > 무엇보다도 먼저 공백문자를 깨끗하게 정리하고 커밋해야 한다. Git은 공백문자를 검사해볼 수 있는 간단한 명령을 제공한다.   
 커밋을 하기 전에 git diff --check 명령으로 공백문자에 대한 오류를 확인할 수 있다. p.120
 
@@ -513,7 +572,7 @@ git diff --chec
 ## Git Log
 
 
-워킹 디렉토리 청소하기
+**워킹 디렉토리 청소하기**
 > 작업하고 있던 파일을 Stash 하지 않고 단순히 그 파일들을 치워버리고 싶을 때가 있다. git clean 명령이 그 일을 한다.
 이 명령을 사용할 때는 신중해야 한다. 이 명령을 사용하면 워킹 디렉토리 안의 추적하고 있지 않은 모든 파일이 지워지기
 때문이다. 명령을 실행하고 나서 후회해도 소용없다. 지워진 파일은 돌아오지 않는다. git stash –all 명령을
@@ -521,17 +580,18 @@ git diff --chec
 -f
 옵션은 강제(force)의 의미이며 "진짜로 그냥 해라"라는 뜻이다.p.223
 
-옵션
+**옵션**
 
 >git log 명령에 --abbrev-commit 이라는 옵션을 추가하면 짧고 중복되지 않는 해시 값을 보여준다. 기본으로
 7자를 보여주고 해시 값이 중복되는 경우 더 긴 해시 값을 보여준다.
 
-```
+```bash
 $ git log --abbrev-commit --pretty=oneline
 ca82a6d changed the version number
 085bb3b removed unnecessary test code
 a11bef0 first commit
 ```
+
 > 보통은 8자에서 10자 내외로도 충분히 유일하게 커밋을 나타낼 수 있다. p.208
 
 
@@ -539,7 +599,7 @@ a11bef0 first commit
 git reflog 를 실행하면 Reflog를 볼 수 있다.  
 Reflog의 일은 모두 로컬의 일이기 때문에 내 Reflog가 동료의 저장소에는 있을 수 없다. 이제 막 Clone 한 저장소는 아무것도 한 것이 없어서 Reflog가 하나도 없다.p.209
 
-```
+```bash
 $ git reflog
 734713b HEAD@{0}: commit: fixed refs handling, added gc auto, updated
 d921970 HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
@@ -550,14 +610,15 @@ d921970 HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
 ```
 
 
-gc 명령
+**gc 명령**  
 최적화하고 나서 저장소 크기가 얼마나 되는지 확인한다.
-```
+
+```bash
 $ git gc
 ```
 
 count-objects 명령은 사용하는 용량이 얼마나 되는지 알려준다.
-```
+```bash
 $ git count-objects -v
 count: 7
 size: 32
@@ -568,7 +629,9 @@ prune-packable: 0
 garbage: 0
 size-garbage: 0
 ```
->size-pack 항목의 숫자가 Packfile의 크기다. 단위가 킬로바이트라서 이 Packfile의 크기는 약 5MB이다. p.430
+
+>size-pack 항목의 숫자가 Packfile의 크기다.  
+단위가 킬로바이트라서 이 Packfile의 크기는 약 5MB이다. p.430
 
 
 
@@ -576,15 +639,18 @@ size-garbage: 0
 
 ### 디자인팀 협업시
 디자인팀 브랜치 이어서 개발팀 브랜치 생성합니다.  
-개발작업 완료 후 develop 브랜치 병합을 하는 시나리오 입니다.
-(Jira 에서 브랜치 생성안하고 cli 에서 생성해도 Jira가 자동으로 잡아주네요! 야홋!)
+개발작업 완료 후 develop 브랜치 병합을 하는 시나리오 입니다.  
+(Jira 에서 브랜치 생성안하고 cli 에서 생성해도 Jira가 자동으로 잡아주네요! 야홋!)  
 
-{% highlight bash %}
+```bash
+(feature/DESIGN-99) $ git config --list| grep email # 저장소별 계정이 다른경우
+(feature/DESIGN-99) $ git remote -v                 # 저장소별 원격 서버가 다른경우
 (feature/DESIGN-99) $ git checkout -b feature/DEV-199 origin/feature/DESIGN-99
    (feature/DEV-99) $ git add .
    (feature/DEV-99) $ git commit -m"DEV-99: add option"
+   (feature/DEV-99) $ git commit -am"DEV-99: change v2" # 기존파일을 수정후 commit 하는경우 -am 옵션 사용가능
    (feature/DEV-99) $ git push origin feature/DEV-99
    (feature/DEV-99) $ git checkout develop
           (develop) $ git merge feature/DEV-99
           (develop) $ git push origin
-{% endhighlight %}
+```

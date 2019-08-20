@@ -34,29 +34,29 @@ Jekyll + github 를 이용하여 정적 웹 사이트를 만들어 보았습니�
 본인 계정에 저장소를 생성합니다.  
 저장소 이름 형식은 `계정명.github.io` 입니다.
 ```
-ex) didalgus.github.io
+ ex) didalgus.github.io
 ```
 
 ## Local PC 에 jekyll 설치
 
 ### ENV
 
-ruby 버전
-{% highlight bash %}
+ruby 버전  
+```bash
 $ ruby -v
 ruby 2.3.7 p456 (2018-03-28 revision 63024) [universal.x86_64-darwin18]
-{% endhighlight %}
+```
 
 ### Install jekyll
 
 [jekyll 한국 매뉴얼](http://jekyllrb-ko.github.io/docs/home/)
 
-{% highlight bash %}
+```bash
 $ gem install bundler jekyll
 $ jekyll new my-awesome-site
 $ cd my-awesome-site
 $ bundle exec jekyll serve
-{% endhighlight %}
+```
 
 ### Apply theme
 
@@ -64,49 +64,53 @@ $ bundle exec jekyll serve
 깃헙에서 해당 [테마 저장소](https://github.com/dirkfabisch/mediator)를 Fork 하셔도 됩니다.  
 저같은 경우 new 명령어로 생성한 기본 테마(minima)에 원하는 테마(mediator)를 덧입혔습니다.
 
-{% highlight bash %}
+```bash
 $ cd ./theme-mediator
 $ cp _includes _layouts _sass assets css favicon.ico index.html ../my-awesome-site
 $ rm index.md
-{% endhighlight %}
+```
 
 
-최초 생성시 사용된 테마 _config.yml 와 mediator 테마의 _config.yml 를 비교하여 필요한 설정을 추가하였습니다.
+최초 생성시 사용된 테마 `_config.yml` 와 mediator 테마의 `_config.yml` 를 비교하여 필요한 설정을 추가하였습니다.
 
 
 
 ## github remote push
 
-:grey_exclamation: git 계정이 하나이고 global 설정을 하신 경우 생략하세요.  
+:cactus: git 계정이 하나이고 global 설정을 하신 경우 생략하세요.  
 저는 계정이 여러개라 아래 과정을 추가하였습니다.
 
-{% highlight bash %}
+```bash
 $ cd my-awesome-site
 $ git init
 $ git config user.name willow
 $ git config user.email didalgus@gmail.com
 $ git config --local --list
-{% endhighlight %}
+```
 
-git 저장소 설정 및 push
-{% highlight bash %}
+git 저장소 설정 및 push  
+
+```bash
 $ git remote add origin https://github.com/didalgus/didalgus.github.io.git
 $ git remote -v
 $ git add -A
 $ git commit -m 'init'
 $ git push -u origin master
-{% endhighlight %}
+```
 
 ## plugins  
 기본 mediator 테마를 적용 후 한개씩 플러그인을 추가하였습니다.  
 
-```
+```bash
 $ bundle install
 ```
+
 플러그인 추가시 install 명령을 실행해줍니다.  
 
-적용한 플러그인 전체 목록입니다.  
-didalgus.github.io/_config.yml  
+적용한 플러그인 전체 목록입니다.   
+`didalgus.github.io/_config.yml`  
+
+
 ```bash
 plugins:
   - jemoji
@@ -117,6 +121,7 @@ plugins:
 ```
 
 ### jekyll-paginate
+
 ```bash
 $ sudo gem install jekyll-pagination
 $ bundle install
@@ -134,28 +139,31 @@ github [jekyll-toc](https://github.com/toshimaru/jekyll-toc) 매뉴얼을 참고
 
 
 >Add jekyll-toc plugin in your site's `Gemfile`, and run `bundle install`.
->
-> ```ruby
-> gem 'jekyll-toc'
-> ```
->
+
+{% highlight ruby linenos %}
+gem 'jekyll-toc'
+{% endhighlight %}
+
 >Add jekyll-toc to the `gems:` section in your site's `_config.yml`.
->
->```yml
->plugins:
->  - jekyll-toc
->```
->
+
+{% highlight yml linenos %}
+plugins:
+  - jekyll-toc
+{% endhighlight %}
+
 >Set `toc: true` in posts for which you want the TOC to appear.
->
->```yml
->---
->layout: post
->title: "Welcome to Jekyll!"
->toc: true
->---
->```
->
+
+
+{% highlight yml linenos %}
+---
+layout: post
+title: "Welcome to Jekyll!"
+toc: true
+---
+{% endhighlight %}
+
+<br>  
+
 
 locally 동작은 잘되나 github pages 에서 동작되지 않아 갓구글에서 검색해보니   
 [jekyll-toc 개발자의 답변](https://github.com/toshimaru/jekyll-toc/issues/29) 에 따르면 github pages 에서 제공되는 플러그인외는 제한하므로 정적웹페이지를 저장소에 upload 해서 사용하라고 하네요. (귀찮아!)  
@@ -177,21 +185,21 @@ github pages 에서 기본 제공하는 [플러그인 목록](https://help.githu
 ### post 작성 후 게시되지 경우
 
 post 작성 후 글이 보이지 않아서 삽질을 좀 했습니다.ㅠ  
-_config.yml 에 timezone 설정만 하면 post 가 게시 되는줄 알았는데 게시되지 않았습니다.
+`_config.yml` 에 timezone 설정만 하면 post 가 게시 되는줄 알았는데 게시되지 않았습니다.
 
-```
+{% highlight yml linenos %}
 timezone: Asia/Seoul
-```
+{% endhighlight %}
 
 post 작성시 `+0900` 를 추가해주면 해결! (언제나 알고 나면 허탈~)
 
-```
+{% highlight yml linenos %}
 date:   2019-06-17 16:30:01 +0900
-```
+{% endhighlight %}
 
 ### html, css 변경시 적용안되는 경우
 
-./my-awesome-site/didalgus.github.io/_site/ 하위 디렉토리를 삭제해 주세요.  
+`./my-awesome-site/didalgus.github.io/_site/` 하위 디렉토리를 삭제해 주세요.  
 jekyll 이 실행시 자동 생성하는 파일입니다.
 
 

@@ -71,4 +71,38 @@
         }
     });
 
+// 2019.08.20
+
+$('.language-bash pre').css('padding', '0');
+
+$('.language-bash pre > code').each(function() {
+    var lines = this.innerHTML.split("\n");
+
+    if (lines.length > 1) {
+        var i;
+        var no = 1;
+        var ol = '<table class=rouge-table><tbody><tr><td class=gutter gl><pre class=lineno>';
+
+        var line_count = lines.length-1;
+
+        for(var i=0; i < line_count; i++) {
+            var num = Number(i)+Number(no);
+            ol += num+'<br>';
+        }
+
+        ol += '</pre></td><td class=code><pre>';
+
+        for(var i=0; i < line_count; i++) {
+
+            ol += '' + lines[i] + '<br>';
+        }
+            ol += '</pre></td></tr></tbody></table>';
+
+        this.innerHTML = ol;
+        $(this).addClass('linenums');
+    }
+});
+
+
+
 }(jQuery));

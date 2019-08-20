@@ -106,6 +106,12 @@
     word-wrap: normal;
   }
 
+  > div {
+    padding: 10px 0 10px 10px;
+    word-wrap: normal;
+  }
+
+
   pre.lineno {
     border: none;
     @include opacity(0.5);
