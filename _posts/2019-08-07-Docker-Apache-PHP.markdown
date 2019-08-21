@@ -24,7 +24,7 @@ MacOS에 내장된 Apache 는 OS 업그레이드 될때 기존 설정을 backup 
 PHP 는 homebrew로 버전별 설치 가능한데, 7버전(최신)는 mcrypt 모듈을 사용할 수 없고, 5버전에는 mcrypt 모듈 추가가 안되었습니다. (제가 방법을 몰라서 그런걸 수도 있어요.)  
 
 
-## 목표
+## Goal
 
 docker 컨테이너에 apache+php 환경 구성 후 로컬환경에 있는 소스파일을 볼륨연결 설정하여 개발 환경을 구축해보겠습니다.
 
@@ -50,7 +50,7 @@ OS 이미지(Ubuntu)를 기반삼아 WebServer(Apache)와 PHP를 설치하였습
 | Framework                 | CodeIgniter 2.2    |
 
 
-## 컨테이너 만들기
+## Run
 
 OS(Ubuntu)를 검색합니다.  
 OFFICIAL 항목이 OK인 이미지가 있군요. 아무래도 공식 이미지가 안정적이겠지요.  
@@ -88,7 +88,7 @@ $ docker run -i -t --name ubuntu-container ubuntu
 두근두근~ 너의 이름을 알려다오~  
 
 ```bash
-root@259f01bb0482:/# cat /etc/issue
+root@259f01bb0482:$ cat /etc/issue
 Ubuntu 18.04.1 LTS \n \l
 ```
 
@@ -103,24 +103,24 @@ apt, compile, binary 파일 복사 방법중에 본인에게 가장 편한 방�
 저는 아재인지라 apt-get를 이용해서 설치했어요.
 
 ```bash
-root@b9f05a4fe868:/# apt-get update -y
+root@b9f05a4fe868:$ apt-get update -y
 
-root@b9f05a4fe868:/# apt-cache search apache2
+root@b9f05a4fe868:$ apt-cache search apache2
 apache2 - Apache HTTP Server
 ~
 
-root@b9f05a4fe868:/# apt-get install apache2
+root@b9f05a4fe868:$ apt-get install apache2
 ```
 
 설치된 Apache 버전정보나 실행파일 위치등을 확인~
 
 ```bash
-root@b9f05a4fe868:/# apachectl -V
+root@b9f05a4fe868:$ apachectl -V
 Server version: Apache/2.4.29 (Ubuntu)
 Server built:   2018-10-10T18:59:25
 ~
 
-root@b9f05a4fe868:/# which apache2
+root@b9f05a4fe868:$ which apache2
 /usr/sbin/apache2
 ```
 
@@ -137,7 +137,7 @@ $ tail -f /var/log/apache2/access.log
 CodeIgnier Framework이 rewrite rule 를 사용해서 rewrite 를 활성했어요.
 
 ```bash
-root@99c8baee6af4:/# a2enmod rewrite
+root@99c8baee6af4:$ a2enmod rewrite
 Enabling module rewrite.
 ```
 
@@ -273,11 +273,11 @@ This feature was DEPRECATED in PHP 7.1.0, and REMOVED in PHP 7.2.0.
 
 ## Apache + PHP
 
-### 설정
+### Configuration
 
 이제 Apache에 php 설정을 추가 하겠습니다.
 
-Apache 설정에 php 모듈라인에 주석(#)이 있으면 해제해주세요.
+Apache 설정에 php 모듈라인에 주석`#`이 있으면 해제해주세요.
 
 ```bash
 $ cat /etc/apache2/mods-available/php5.6.load
@@ -295,7 +295,7 @@ SetHandler application/x-httpd-php
 </FilesMatch>
 ```
 
-### Vhost 설정
+### Vhost
 
 `sites-available` 디렉토리 하위에 `001-codeigniter.conf` 가상 호스트 설정 파일을 생성합니다.
 
@@ -331,7 +331,7 @@ $ ls -al /etc/apache2/sites-enabled/
 
 ```
 
-### 구동
+### Service start
 
 아파치를 구동해볼까요?
 

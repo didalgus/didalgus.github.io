@@ -25,7 +25,7 @@ cherry-pick과 rebase가 궁금하여 읽기 시작했다가 cherry-pick이 나�
 
 ![git logo]({{ site.url }}/assets/article_images/2019-06-20-About-Git/logo@2x.png)
 
-### 개념
+### Overview
 
 >Jessica의 Push는 성공했지만, John의 커밋은 서버에서 거절된다.   
 Subversion을 사용했던 사람은 이 부분을 이해하는 것이 중요하다.   
@@ -67,7 +67,7 @@ $ git commit -m  'remove invalid default value'
 
 - 3-way Merge
 >현재 브랜치가 가리키는 커밋이 Merge 할 브랜치의 조상이 아니 Git은 'Fast-forward’로 Merge 하지 않는다.   
-이 경우에는 Git은 각 브랜치가 가리키는 커밋 두 개와 공통 조상 하나 사용하여 3-way Merge를 한다. P.67  
+이 경우에는 Git은 각 브랜치가 가리키는 커밋 두 개와 공통 조상 하나 사용하여 3-way Merge를 한다.  
 단순히 브랜치 포인터를 최신 커밋으로 옮기는 게 아니라 3-way Merge 의 결과를 별도의 커밋으로 만들고 나서 해당 브랜치가 그 커밋을 가리키도록 이동시킨다.   
 그래서 이런 커밋은 부모가 여러 개고 Merge 커밋이라고 부른다. p.68
 
@@ -150,6 +150,68 @@ $ git push -u origin master
 
 ```
 
+
+## CONFIG
+
+### Global Config
+
+global 설정에 `.gitignore` 파일을 작성해놓으면 모든 프로젝트에 적용됩니다.  
+(편리한 기능이죠)
+
+```bash
+$ git config --global -l
+core.excludesfile=/Users/willow/.gitignore_global
+
+ $ git help config           # config 명령 도움말
+```
+
+원격 저장소에 접근할때마다 사용자이름 암호를 입력하지 않도록 `osxkeychain` 기능을 이용할 수도 있지요.
+
+```bash
+$ git config -l
+
+credential.helper=osxkeychain  
+```
+
+
+
+
+### Local Config
+
+프로젝트에 투입되었는데 config 의 이름, 이메일을 달리 설정해야 하는 경우가 있지요.  
+이런경우, 설정파일을 수정하거나 cli 명령으로 변경 가능합니다.  
+
+<br>
+
+먼저, 기본 정보가 어떻게 되어 있는지 확인해 보아요.  
+
+```bash
+$ git config --local --list  # 현재 프로젝트의 로컬 설정
+$ git config --global --list # git global 설정
+$ git config --list          # global, local 설정을 순차적으로 보여줍니다. 동일 항목인 경우 마지막 라인이 설정값이 됩니다.
+```
+
+
+**명령어**
+
+```bash
+$ git config --local --list
+$ git config user.name willow  # 사용자이름
+$ git config user.email willow@hahaha.com # 이메일
+```
+
+
+**설정파일**
+
+프로젝트 최상위 디렉토리로 이동 후
+
+```bash
+$ vi /project/myproject1/.git/config   # local 설정
+
+[user]
+    name = willow              # 추가
+    email = willow@hahaha.com  # 추가
+```
 
 
 
@@ -392,10 +454,38 @@ git rebase teamone/master
 이 두 명령을 직접 순서대로 실행해도 된다.
 
 
-## Git Cherry pick
+## Cherry pick
+
+[체리픽](https://git-scm.com/docs/git-cherry-pick)을 처음 경험한것은  
+이슈 처리 후 feature 브랜치에 커밋 해야하는데   
+develop(권한없는)브랜치에 커밋를 실행해버린 상황이 발생했을 때 였어요.  
+그 저장소 develop 브랜치는 PR(Pull Request)후 권한자만 커밋 가능했어요.  
+당연히 에러가 났지요. ㅎㅎ  
+
+<br>
+
+:astonished: 이런 상태로 있던 절보고  
+옆자리 차장님이 feature 브랜치에 체리픽하고 커밋 후 SoCool~ 사라지시는거예요.  
+(멋쪙! :heart_eyes:)  
+
+
+
+```bash
+$ git checkout develop          # 권한없는 브랜치
+$ git commit -m "DEV-114 Ooops" # 에러남..
+$ git checkout feature/DEV-114  # 권한있는 브랜치
+$ git cherry-pick HEAD값
+```
+
+SourceTree 툴에서도 가능하답니다.
+
+![체리 픽]({{ site.url }}/assets/article_images/2019-06-20-About-Git/cherry-pick.png)
+
+
 
 > 한 브랜치에서 다른 브랜치로 작업한 내용을 옮기는 또 다른 방식으로 Cherry-pick이란 것도 있다.  
-Git의 Cherry-pick은 커밋 하나만 Rebase 하는 것이다. 커밋 하나로 Patch 내용을 만들어 현재 브랜치에 적용을 하는 것이다.  
+Git의 Cherry-pick은 커밋 하나만 Rebase 하는 것이다.  
+커밋 하나로 Patch 내용을 만들어 현재 브랜치에 적용을 하는 것이다.  
 토픽 브랜치에 있는 커밋 중에서 하나만 고르거나 토픽 브랜치에 커밋이 하나밖에 없을 때 Rebase 보다 유용하다. p.151
 
 ```bash
@@ -404,38 +494,102 @@ Finished one cherry-pick.
 [master]: created a0a41a9: "More friendly message when locking the index fails."
 3 files changed, 17 insertions(+), 3 deletions(-)
 ```
->위 명령을 실행하면 e43a6 커밋에서 변경된 내용을 현재 브랜치에 똑같이 적용을 한다.   
+> 위 명령을 실행하면 e43a6 커밋에서 변경된 내용을 현재 브랜치에 똑같이 적용을 한다.   
 하지만, 변경을 적용한 시점이 다르므로 새 커밋의 SHA-1 해시값은 달라진다. p.152
 
 
-## Git Reset
+## Reset
 
->reset 명령을 실행할 때 아무 옵션도 주지 않으면 기본적으로 --mixed 옵션으로 동작한다(예제와 같이 git reset HEAD~ 처럼 명령을 실행하는 경우).
+커밋 히스토리를 보는 웹페이지가 깨진 문자열로 인해 페이지 오류가 발생하였습니다.  
+(허허~)  
+개발자마다 환경 셋팅이 달라 벌어진 일이였지요.  
+(윈도우OS에서 Visual Studio를 이용하여 커밋한 경우)  
+
+![SourctTree 화면]({{ site.url }}/assets/article_images/2019-06-20-About-Git/reset_1.png)
+
+위 경우는 원격 저장소에 커밋된 상황이지요.   
+reset 명령은 **로컬 저장소에서 실행** 하라고 권고하지만 강제 실행합니다요;;
+
+이런경우 저장소(프로젝트)에 참여중인 개발자 모두에게 알려서 동기화 해야 합니다. :scream:
+
+```bash
+$ git reset --hard ec89d82
+HEAD is now at ec89d82
+```
+
+SourctTree 에서도 할 수 있지요. (친절한 소트씨)
+
+
+![SourctTree 화면]({{ site.url }}/assets/article_images/2019-06-20-About-Git/reset_2.png)
+
+
+원격 저장소의 HEAD 도 변경해야겠지요. (이런경우는 최대한 피하세요.)  
+
+```bash
+$ git push -f                        
+Total 0 (delta 0), reused 0 (delta 0)
+To https://git.willow.pe.kr/dev/website.git
+ + 0e67005...849641d develop -> develop (forced update)
+```
+
+
+
+
+
+
+<br>
+
+>reset 명령을 실행할 때 아무 옵션도 주지 않으면 기본적으로 --mixed 옵션으로 동작한다.
 p.250
+
+
+
+`--soft`옵션은 HEAD브랜치만 이동
 
 ```bash
 git reset --soft HEAD~
 ```
-HEAD 브랜치 이동
+
+
+`--mixed`옵션은 HEAD브랜치 이동 + Index HEAD스냅샷 업데이트
 
 ```bash
 git reset --mixed  HEAD~
 ```
-HEAD 브랜치 이동 + Index를 HEAD 스냅샷 업데이트
+
+`--hard`옵션은 HEAD브랜치 이동 + Index HEAD스냅샷 업데이트 + 워킹디렉토리 업데이트
 
 
 ```bash
 git reset --hard HEAD~
 ```
-HEAD 브랜치 이동 + Index를 HEAD 스냅샷 업데이트 + 워킹 디렉토리 업데이트
-하지만 --hard 옵션은 되돌리는 것이 불가능하다. 이 옵션을 사용하면 워킹 디렉토리의 파일까지 강제로 덮어쓴다.
+
+<br>
+:cactus: `--hard` 옵션은 되돌리는 것이 불가능합니다.  
+워킹 디렉토리의 파일까지 강제로 덮어쓰기 때문이지요.  
+꼭 필요할때만 사용하세요.  
+
 
 
 
 ## Git on the Server
 
 
-### remote repository
+### Clone
+
+로컬에 저장소를 생성하는 방법중에는  
+`init` 명령어로 로컬 저장소를 생성하고 원격 저장소를 설정하는 방법과  
+`clone` 으로 생성하는 방법이 있지요.  
+
+진행중인 오픈소스나 프로젝트 저장소를 clone 해서 로컬 저장소로 가져옵니다.  
+
+```bash
+$ cd /myForest/myTree
+$ git clone https://sample-project.sample.com/mytree.git
+```
+
+
+### Remote repository
 
 ```bash
 $ git remote -v                 # 원격 저장소 정보
@@ -444,58 +598,6 @@ $ git remote show origin        # origin(원격 저장소) 정보 (브랜치별 
 
 $ git remote add myfork (url)   # 원격 저장소 fork
 ```
-
-
-
-### CONFIG
-
-#### Global Config
-
-`.gitignore` global 설정에 해놓으면 모든 프로젝트에 적용됩니다. (편리한 기능이죠)
-
-```bash
-$ git config --global -l
-core.excludesfile=/Users/willow/.gitignore_global
-```
-
-#### Local Config
-
-프로젝트에 투입되었는데 config 의 이름, 이메일을 달리 설정해야 하는 경우가 있지요.  
-이런경우, 설정파일을 수정하거나 cli 명령으로 변경 가능합니다.  
-
-<br>
-
-먼저, 기본 정보가 어떻게 되어 있는지 확인해 보아요.  
-
-```bash
-$ git config --local --list  # 현재 프로젝트의 로컬 설정
-$ git config --global --list # git global 설정
-$ git config --list          # global, local 설정을 순차적으로 보여줍니다. 동일 항목인 경우 마지막 라인이 설정값이 됩니다.
-```
-
-
-**명령어**
-
-```bash
-$ git config --local --list
-$ git config user.name willow  # 사용자이름
-$ git config user.email willow@hahaha.com # 이메일
-```
-
-
-**설정파일**
-
-프로젝트 최상위 디렉토리로 이동 후
-
-```bash
-$ vi /project/myproject1/.git/config   # local 설정
-
-[user]
-    name = willow              # 추가
-    email = willow@hahaha.com  # 추가
-```
-
-
 
 
 
@@ -532,9 +634,7 @@ $ git fetch --all; git branch -vv
 로컬에만 있는 브랜치인 경우 원격에 동일한 이름으로 생성하고 push 합니다.  
 기존에 존재하는 브랜인 경우 원격에 push 합니다.
 
-**사용법**  
-
-```bash
+```
 git push `remote` `branch`   
 git push `remote` `locally-branch:remote-branch`
 ```
@@ -580,20 +680,74 @@ git diff --chec
 커밋을 하기 전에 git diff --check 명령으로 공백문자에 대한 오류를 확인할 수 있다. p.120
 
 
+## Git Clean
+
+워킹 디렉토리 청소하고 싶나요?  
+`-x -i` 옵션을 사용하면 정리될 파일 목록을 확인 후 선택할수 있게 나옵니다.
+
+```bash
+$ git clean -x -i
+
+Would remove the following item:
+  framework.iml
+
+*** Commands ***
+    1: clean 2: filter by pattern  3: select by numbers  4: ask each  5: quit 6: help
+What now> 5
+Bye.
+```
+
+
+> 작업하고 있던 파일을 Stash 하지 않고 단순히 그 파일들을 치워버리고 싶을 때가 있다.  
+git clean 명령이 그 일을 한다.  
+이 명령을 사용할 때는 신중해야 한다.  
+이 명령을 사용하면 워킹 디렉토리 안의 추적하고 있지 않은 모든 파일이 지워지기 때문이다.  
+명령을 실행하고 나서 후회해도 소용없다.  
+지워진 파일은 돌아오지 않는다.  
+git stash –all 명령을이용하면 지우는 건 똑같지만, 먼저 모든 파일을 Stash 하므로 좀 더 안전하다.  
+-f 옵션은 강제(force)의 의미이며 "진짜로 그냥 해라"라는 뜻이다.  p.223   
+
+
 ## Git Log
 
+SourceTree같은 UI툴을 사용 안하시는 경우  
+아래 명령으로 간단하게 log 를 확인하실 수 있어요.
 
-**워킹 디렉토리 청소하기**
+```bash
+$ git log --pretty=oneline -10
+$ git log --pretty=format:"%h - %an, %ar : %s"
+```
 
-> 작업하고 있던 파일을 Stash 하지 않고 단순히 그 파일들을 치워버리고 싶을 때가 있다. git clean 명령이 그 일을 한다.  
-이 명령을 사용할 때는 신중해야 한다. 이 명령을 사용하면 워킹 디렉토리 안의 추적하고 있지 않은 모든 파일이 지워지기 때문이다.  
-명령을 실행하고 나서 후회해도 소용없다. 지워진 파일은 돌아오지 않는다.
-git stash –all 명령을이용하면 지우는 건 똑같지만, 먼저 모든 파일을 Stash 하므로 좀 더 안전하다.  
--f 옵션은 강제(force)의 의미이며 "진짜로 그냥 해라"라는 뜻이다.  p.223  
+예쁘게 :sparkles: 보고싶다면 `format` 옵션을 추가할 수 있지요.   
+너무 기니까 `alias` 에 넣어서 간단하게 볼까요?
+
+```bash
+$ vi ~/.gitconfig
+
+ [alias]
+     tree = log --graph --full-history --all --color --date=short --pretty=format:\"%Cred%x09%h %Creset%ad%Cblue%d %Creset %s %C(bold)(%an)%Creset\"
+```
+
+짜잔~~~ :star2:
+
+```bash
+~/willow/toybox (master) $ git tree
+*       6728219 2019-04-09 (HEAD -> master, origin/master)Merge remote-tracking branch 'origin/master' (willow)
+|\  
+| *     94c2d3e 2019-04-09  Create README.md (willow)
+* |     9af384f 2019-04-09  VO 2 (willow)
+|/  
+*       d4c0fc2 2019-04-09  VO 1(willow)
+*       8114700 2019-04-09  START (willow)
+*       8735c10 2019-04-04  Initial commit (willow)
+```
+
 
 **옵션**
 
->git log 명령에 --abbrev-commit 이라는 옵션을 추가하면 짧고 중복되지 않는 해시 값을 보여준다. 기본으로 7자를 보여주고 해시 값이 중복되는 경우 더 긴 해시 값을 보여준다.
+>git log 명령에 --abbrev-commit 이라는 옵션을 추가하면 짧고 중복되지 않는 해시 값을 보여준다.  
+기본으로 7자를 보여주고 해시 값이 중복되는 경우 더 긴 해시 값을 보여준다.  
+보통은 8자에서 10자 내외로도 충분히 유일하게 커밋을 나타낼 수 있다. p.208  
 
 ```bash
 $ git log --abbrev-commit --pretty=oneline
@@ -602,7 +756,7 @@ ca82a6d changed the version number
 a11bef0 first commit
 ```
 
-> 보통은 8자에서 10자 내외로도 충분히 유일하게 커밋을 나타낼 수 있다. p.208
+
 
 
 >Git은 자동으로 브랜치와 HEAD가 지난 몇 달 동안에 가리켰었던 커밋을 모두 기록하는데 이 로그를 `Reflog`라고 부른다.  
@@ -619,6 +773,7 @@ d921970 HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
 1c36188 HEAD@{5}: rebase -i (squash): updating HEAD
 ```
 
+## ETC
 
 **gc 명령**  
 최적화하고 나서 저장소 크기가 얼마나 되는지 확인한다.
