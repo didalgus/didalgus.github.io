@@ -25,13 +25,13 @@ categories: docker
 [Docker Hub](https://hub.docker.com/) 계정을 생성하세요.  
 커맨드라인(CLI) 명령을 사용해서 로그인 해주세요.  
 
-{% highlight bash linenos %}
+```bash
 $ docker login
 Login with your Docker ID to push and pull images from Docker Hub. If you dont have a Docker ID, head over to https://hub.docker.com to create one.
 Username: 계정
 Password: 비밀번호
 Login Succeeded
-{% endhighlight %}
+```
 
 
 ## Push Image
@@ -40,12 +40,12 @@ Image 를 DockerHub(저장소)에 올릴때 아래 규칙에 맞춰 작성해주
 
 `Docker Hub 사용자 계정`/`이미지 이름`:`태그`
 
-{% highlight bash linenos %}
+```bash
 $ docker push didalgus/ubuntu18_apache24_php56:0.1
 The push refers to repository [docker.io/didalgus/ubuntu18_apache24_php56]
 ~
 0.1: digest: sha256:271adb3e3f87dd4604cf9633208db2b890c68e55f7ee4567f8615a281dc08630 size: 1778
-{% endhighlight %}
+```
 
 
 ## Repositories
@@ -57,11 +57,11 @@ The push refers to repository [docker.io/didalgus/ubuntu18_apache24_php56]
 
 CLI에서도 검색해보세요.
 
-{% highlight bash linenos %}
+```bash
 $ docker search didalgus
 NAME                               DESCRIPTION                  STARS               OFFICIAL            AUTOMATED
 didalgus/ubuntu18_apache24_php56   apache webservice with php   0                
-{% endhighlight %}
+```
 
 
 잘 올라갔군요.  

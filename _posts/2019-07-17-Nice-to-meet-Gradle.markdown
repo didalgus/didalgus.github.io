@@ -474,6 +474,7 @@ Gradle 5.1
 
 <br>
 로컬 환경 gradle 버전을 확인해 볼까요?  
+
 ```bash
 ~/Documents/source/willow/gralde_practice $ gradle --version
 

@@ -32,7 +32,8 @@ Jekyll + github 를 이용하여 정적 웹 사이트를 만들어 보았습니�
 
 ## github 저장소 생성
 본인 계정에 저장소를 생성합니다.  
-저장소 이름 형식은 `계정명.github.io` 입니다.
+저장소 이름 형식은 `계정명.github.io` 입니다.  
+
 ```
  ex) didalgus.github.io
 ```
@@ -42,6 +43,7 @@ Jekyll + github 를 이용하여 정적 웹 사이트를 만들어 보았습니�
 ### ENV
 
 ruby 버전  
+
 ```bash
 $ ruby -v
 ruby 2.3.7 p456 (2018-03-28 revision 63024) [universal.x86_64-darwin18]

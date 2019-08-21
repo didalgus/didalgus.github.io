@@ -252,14 +252,14 @@ The file $CATALINA_HOME/bin/daemon.sh can be used as a template for starting Tom
 
 환경 변수에 `JAVA_HOME` 설정정보가 있는지 확인해볼까요?  
 
-```
-# env | grep JAVA_HOME
+```bash
+$ env | grep JAVA_HOME
 JAVA_HOME=/usr/lib/jvm/java-8-oracle
 ```
 
 
 톰캣 시작, 종료시 /bin/daemon.sh 를 사용한다고 하는군요.
-```
+```bash
 $ ll /usr/local/tomcat/bin
 ...
 -rwxr-x--- 1 tomcat tomcat   8004 Sep 28  2017 daemon.sh*

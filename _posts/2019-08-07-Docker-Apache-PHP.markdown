@@ -55,42 +55,42 @@ OS 이미지(Ubuntu)를 기반삼아 WebServer(Apache)와 PHP를 설치하였습
 OS(Ubuntu)를 검색합니다.  
 OFFICIAL 항목이 OK인 이미지가 있군요. 아무래도 공식 이미지가 안정적이겠지요.  
 
-{% highlight bash linenos %}
+```bash
  $ docker search ubuntu
  NAME         DESCRIPTION                                      STARS      OFFICIAL      AUTOMATED
  ubuntu       Ubuntu is a Debian-based Linux operating sys…    9265        [OK]
-{% endhighlight %}
+```
 
 최신버전으로 다운 받아요.
 
-{% highlight bash linenos %}
+```bash
  $ docker pull ubuntu:latest
  ~
  Status: Downloaded newer image for ubuntu:latest
-{% endhighlight %}
+```
 
 로컬 환경 도커 이미지 리스트로 다운받은 OS를 확인합니다.
 
-{% highlight bash linenos %}
+```bash
 $ docker images
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 ubuntu              latest              47b19964fb50        3 weeks ago         88.1MB
-{% endhighlight %}
+```
 
 컨테이너로 띄워 볼까요?  
 참고로  -i -t 옵션 사용시 run 후 컨테이너 진입한답니다.
 
-{% highlight bash linenos %}
+```bash
 $ docker run -i -t --name ubuntu-container ubuntu
-{% endhighlight %}
+```
 
 컨테이너에 접속되었네요.  
 두근두근~ 너의 이름을 알려다오~  
 
-{% highlight bash linenos %}
+```bash
 root@259f01bb0482:/# cat /etc/issue
 Ubuntu 18.04.1 LTS \n \l
-{% endhighlight %}
+```
 
 ## Apache
 
@@ -102,7 +102,7 @@ Ubuntu 18.04.1 LTS \n \l
 apt, compile, binary 파일 복사 방법중에 본인에게 가장 편한 방법으로 설치하시면 되겠습니다.
 저는 아재인지라 apt-get를 이용해서 설치했어요.
 
-{% highlight bash linenos %}
+```bash
 root@b9f05a4fe868:/# apt-get update -y
 
 root@b9f05a4fe868:/# apt-cache search apache2
@@ -110,11 +110,11 @@ apache2 - Apache HTTP Server
 ~
 
 root@b9f05a4fe868:/# apt-get install apache2
-{% endhighlight %}
+```
 
 설치된 Apache 버전정보나 실행파일 위치등을 확인~
 
-{% highlight bash linenos %}
+```bash
 root@b9f05a4fe868:/# apachectl -V
 Server version: Apache/2.4.29 (Ubuntu)
 Server built:   2018-10-10T18:59:25
@@ -122,44 +122,44 @@ Server built:   2018-10-10T18:59:25
 
 root@b9f05a4fe868:/# which apache2
 /usr/sbin/apache2
-{% endhighlight %}
+```
 
 구동중인 Apache 의 로그도 살펴보았어요.  
 구동방법등 기초적인 사항은 구글신께~
 
-{% highlight bash linenos %}
+```bash
 $ tail -f /var/log/apache2/access.log
-{% endhighlight %}
+```
 
 
 ###  Apache Module
 
 CodeIgnier Framework이 rewrite rule 를 사용해서 rewrite 를 활성했어요.
 
-{% highlight bash linenos %}
+```bash
 root@99c8baee6af4:/# a2enmod rewrite
 Enabling module rewrite.
-{% endhighlight %}
+```
 
 Apache 설정에 rewrite 모듈라인이 주석처리 되어 있으면 해제해주세요.
 
-{% highlight bash linenos %}
+```bash
 $ cat /etc/apache2/mods-available/rewrite.load
 LoadModule rewrite_module /usr/lib/apache2/modules/mod_rewrite.so
-{% endhighlight %}
+```
 
 rewrite 모듈이 활성이 안된경우 Apache 구동중 나는 에러예요.
 
-{% highlight bash linenos %}
+```bash
 Invalid command 'RewriteEngine', perhaps misspelled or defined by a module not included in the server configuration
-{% endhighlight %}
+```
 
 드뎌 rewrite 모듈이 잘 적용되었네요.
 
-{% highlight bash linenos %}
+```bash
 $ apachectl -D DUMP_MODULES | grep rewrite
 rewrite_module (shared)
-{% endhighlight %}
+```
 
 
 ## PHP
@@ -169,17 +169,17 @@ rewrite_module (shared)
 php를 설치해 보겠습니다.
 apt-get 기본 저장소에는 php7 버전만 있어서 old 버전 설치를 위해 저장소를 추가했어요.
 
-{% highlight bash linenos %}
+```bash
 $ apt-get install software-properties-common  # add-apt-repository 사용을 위해 설치
 $ add-apt-repository ppa:ondrej/php           # old version php 저장소
 $ apt-cache search php5                       # php5 검색
 $ apt-get update
-{% endhighlight %}
+```
 
 
 php 설치 해보겠습니다.
 
-{% highlight bash linenos %}
+```bash
 $ apt-get install php5.6
 ~
 After this operation, 19.7 MB of additional disk space will be used.
@@ -188,24 +188,24 @@ Creating config file /etc/php/5.6/apache2/php.ini with new version
 ~
 apache2_invoke: Enable module php5.6
 Setting up php5.6 (5.6.40-5+ubuntu18.04.1+deb.sury.org+1) ...
-{% endhighlight %}
+```
 
 잘 설치되었는지 확인해볼께요.
 
-{% highlight bash linenos %}
+```bash
 $ php -v
 PHP 5.6.40-5+ubuntu18.04.1+deb.sury.org+1 (cli)
-{% endhighlight %}
+```
 
 브라우저로 서비스를 접근해도 빈화면만 나오네요. 에러를 확인해야 겠군요.  
 `display_errors = On` 설정을 추가하거나 주석처리된경우 주석 해지해주세요.
 
-{% highlight bash linenos %}
+```bash
 $ vi /etc/php/5.6/apache2/php.ini
 $ vi /etc/php/5.6/cli/php.ini
 
 display_errors = On
-{% endhighlight %}
+```
 
 ### PHP Module
 
@@ -213,37 +213,37 @@ display_errors = On
 
 해당 모듈이 있는지 검색해볼까요?
 
-{% highlight bash linenos %}
+```bash
 $ apt-cache search php5.6
 ~
 php5.6-mcrypt - libmcrypt module for PHP
-{% endhighlight %}
+```
 
 설치합니다.
 
-{% highlight bash linenos %}
+```bash
 $ apt-get install php5.6-mcrypt
 After this operation, 303 kB of additional disk space will be used.
 Do you want to continue? [Y/n] Y
 ~
 Creating config file /etc/php/5.6/mods-available/mcrypt.ini with new version
-{% endhighlight %}
+```
 
 
 DB 는 mysql를 사용하고 있어 `mysql` 모듈도 설치~   
 
-{% highlight bash linenos %}
+```bash
 $ apt-get install php5.6-mysql
 ~
 After this operation, 540 kB of additional disk space will be used.
 Creating config file /etc/php/5.6/mods-available/mysql.ini with new version
 Processing triggers for libapache2-mod-php5.6 (5.6.40-5+ubuntu18.04.1+deb.sury.org+1) ...
-{% endhighlight %}
+```
 
 
 모듈이 잘 붙었는지 확인해보아요.  
 
-{% highlight bash linenos %}
+```bash
 $ php -m | grep mcrypt
 mcrypt
 
@@ -253,14 +253,14 @@ mysqli
 mysqlnd
 pdo_mysql
 
-{% endhighlight %}
+```
 
 
 php 를 실행해서 확인해볼까요?
 
-{% highlight bash linenos %}
+```bash
 $ php -r "mcrypt_create_iv();"
-{% endhighlight %}
+```
 
 <br>
 
@@ -279,21 +279,21 @@ This feature was DEPRECATED in PHP 7.1.0, and REMOVED in PHP 7.2.0.
 
 Apache 설정에 php 모듈라인에 주석(#)이 있으면 해제해주세요.
 
-{% highlight bash linenos %}
+```bash
 $ cat /etc/apache2/mods-available/php5.6.load
 LoadModule php5_module /usr/lib/apache2/modules/libphp5.6.so
-{% endhighlight %}
+```
 
 
 Apache 내 php 설정에 아래 설정이 없으면 추가해주세요.
 
-{% highlight bash linenos %}
+```bash
 $ cat /etc/apache2/mods-available/php5.6.conf
 
 <FilesMatch ".+\.ph(p[3457]?|t|tml)$">
 SetHandler application/x-httpd-php
 </FilesMatch>
-{% endhighlight %}
+```
 
 ### Vhost 설정
 
@@ -320,7 +320,7 @@ SetHandler application/x-httpd-php
 
 `sites-available`에 있는 설정파일을 `sites-enable`에 심볼릭 링크를 걸어주세요.
 
-{% highlight bash linenos %}
+```bash
 $ ls -al /etc/apache2/sites-available/
 001-codeigniter.conf
 
@@ -329,33 +329,33 @@ $ ln -s ../sites-available/001-codeigniter.conf /etc/apache2/sites-enabled/     
 $ ls -al /etc/apache2/sites-enabled/
 001-codeigniter.conf -> ../sites-available/001-codeigniter.conf
 
-{% endhighlight %}
+```
 
 ### 구동
 
 아파치를 구동해볼까요?
 
-{% highlight bash linenos %}
+```bash
 $ service apache2 start
-{% endhighlight %}
+```
 
 
 아파치 로그를 보아요.  
 
-{% highlight bash linenos %}
+```bash
 $ tail -f /var/log/apache2/codeigniter-error_log
 $ tail -f /var/log/apache2/codeigniter-access_log
-{% endhighlight %}
+```
 
 
 브라우저로 확인해볼까요?  
 Apache Documnet Root 로 설정된 위치에 phpinfo.php 파일을 생성합니다.   
 
-{% highlight bash linenos %}
+```bash
 $ cat /var/www/html/phpinfo.php
 
 <?php phpinfo() ?>
-{% endhighlight %}
+```
 
 확인하셨나요?  
 
@@ -368,9 +368,9 @@ $ cat /var/www/html/phpinfo.php
 이제 필요한 환경구성은 다 되었군요.  
 컨테이너를 이미지로 구워보겠습니다.  
 
-{% highlight bash linenos %}
+```bash
 $ docker commit ubuntu-container didalgus/ubuntu18_apache24_php56:0.2
-{% endhighlight %}
+```
 
 
 
@@ -386,17 +386,17 @@ $ docker commit ubuntu-container didalgus/ubuntu18_apache24_php56:0.2
 로컬개발환경 ~/Documents/CodeIgniter-2.2.6 에 압축을 풀었습니다.   
 위에서 구워논 이미지를 컨테이너로 띄울때 로컬개발환경 볼륨정보를 추가하였습니다.  
 
-{% highlight bash linenos %}
+```bash
 $ docker run -i -t -p 80:80 -v ~/Documents/CodeIgniter-2.2.6:/var/www/codeigniter --name my_container didalgus/ubuntu18_apache24_php56:0.2
-{% endhighlight %}
+```
 
 컨테이너에서 /var/www/ 경로를 확인하니 마운트 된걸 확인 할 수 있군요.  
 
-{% highlight bash linenos %}
+```bash
 $ ll /var/www/
 drwxr-xr-x 10 root root  320 Mar 21 21:59 codeigniter       # docker volume mount (local)
 drwxr-xr-x  1 root root 4096 Mar 21 00:10 html              # apache default root
-{% endhighlight %}
+```
 
 브라우저에서 확인해보아요.
 
