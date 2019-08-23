@@ -182,7 +182,7 @@ github pages 에서 기본 제공하는 [플러그인 목록](https://help.githu
 [Google Marketing Platfom](https://marketingplatform.google.com/about/analytics/) 로그인 후 추적 ID 발급하여 적용합니다.   
 (개발자들이란.. 설명에 인색하다.. 사실 귀찬.. 구글링하세요 ㅠ)
 
-## etc
+## ETC
 
 ### post 작성 후 게시되지 경우
 
@@ -201,8 +201,45 @@ date:   2019-06-17 16:30:01 +0900
 
 ### html, css 변경시 적용안되는 경우
 
+- 로컬 환경에서   
+브라우저 캐시 설정이 **실시간적용** 상태인데도 안되는 경우는  
 `./my-awesome-site/didalgus.github.io/_site/` 하위 디렉토리를 삭제해 주세요.  
-jekyll 이 실행시 자동 생성하는 파일입니다.
+jekyll 이 실행시 자동 생성하는 파일입니다.  
+
+<br>
+
+- 운영 환경(github) 에서   
+적용 안되는 경우는 url주소 뒤에 dummy(?v=20190823) 값을 붙여주세요.  
+
+ex) `./my-awesome-site/_includes/header.html`
+
+{% highlight html linenos %}
+  <link rel="stylesheet" type="text/css" media="screen" href="{{ "/css/main.css"  | prepend: site.baseurl  }}?v=20190820" />
+{% endhighlight %}
+
+
+### Bundle Update
+
+보안 취약점 안내 메일이 왔네요.  
+
+![mail]({{ site.url }}/assets/article_images/2019-06-17-Welcome-to-Jekyll/security_vulnerability.png)
+
+기존 버전 확인합니다.
+
+`./my-awesome-site/Gemfile.lock`
+```
+nokogiri (1.10.3)
+```
+
+버전을 올려야겠네요.
+
+```bash
+$ bundle update
+...
+Fetching nokogiri 1.10.4
+Installing nokogiri 1.10.4 with native extensions
+...
+```
 
 
 
