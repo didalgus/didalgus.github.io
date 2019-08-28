@@ -16,12 +16,12 @@ published: true
 ![pro git book]({{ site.url }}/assets/article_images/2019-06-20-About-Git/progit2.png)
 
 git 사이트에서 [Pro Git book](https://git-scm.com/book/ko/v2)을 제공하고 있습니다.  
-cherry-pick과 rebase가 궁금하여 읽기 시작했다가 cherry-pick이 나오는 페이지까지 읽다보니 거의 다 읽은거나 다름없어 완독해버렸습니다.  
+cherry-pick과 rebase가 궁금하여 읽기 시작했다가 거의 읽은거나 다름없어 완독해버렸습니다.  
 책 내용과 동일한 부분도 있고 제 나름대로 재 정리한 부분도 있습니다.  
 (정리하다보니 내용이 많아 좀 쳐냈습니다.)
 
 
-## Git Basics
+## Basics
 
 ![git logo]({{ site.url }}/assets/article_images/2019-06-20-About-Git/logo@2x.png)
 
@@ -51,9 +51,9 @@ $ git show HEAD~3
 >이것은 HEAD^^^ 와 같은 표현이다. 부모의 부모의 부모 즉 증조 부모쯤 되겠다. p.221
 
 
-## Git Use
+## Use
 
-### Commit
+### Git Commit
 
 ```bash
 $ git commit -am 'remove invalid default value'
@@ -63,7 +63,7 @@ $ git commit -m  'remove invalid default value'
 ```
 
 
-### Merge
+### Git Merge
 
 - 3-way Merge
 >현재 브랜치가 가리키는 커밋이 Merge 할 브랜치의 조상이 아니 Git은 'Fast-forward’로 Merge 하지 않는다.   
@@ -108,7 +108,7 @@ $ git clean -f
 > 수동 Merge를 위해서 만들었던 각종 파일은 이제 필요 없으니 git clean 명령을 실행해서 지워준다. p. 274
 
 
-### Delete
+### Git Delete
 
 커밋한 파일을 제거할려면 로컬 환경에 있는 파일을 삭제한 후 커밋하면 됩니다.  
 이런 경우 로컬 환경에 있는 파일도 지워는 경우예요.
@@ -217,18 +217,46 @@ $ vi /project/myproject1/.git/config   # local 설정
 
 ## Git Checkout
 
->checkout -f 옵션을 붙여서 강제로 브랜치를 Checkout 할 수 있지만,서브모듈에서 저장하지 않은 내용을 되돌릴 수 없게 덮어쓰기 때문에 주의 깊게 강제 적용 옵션을 사용해야 한다. p.318  
+보통 `checkout` 은 브랜치간 이동할때 사용하지요.
 
+>checkout -f 옵션을 붙여서 강제로 브랜치를 Checkout 할 수 있지만,  
+서브모듈에서 저장하지 않은 내용을 되돌릴 수 없게 덮어쓰기 때문에 주의 깊게 강제 적용 옵션을 사용해야 한다. p.318  
 
 ```bash
 $ git checkout -f master
 ```
+<br>
+
+:herb: 쥔장의 Tip.  
+
+프로젝트 분석중에 파일이 수정되는 경우가 있지요.  
+(작은 공백이라던지, 실수로 누른 오타, 분석용 log 등등)  
+<br>
+
+브랜치 단위로 엉망이 된경우 로컬 브랜치를 삭제하고 다시 checkout 해오세요.  
+파일 1~2개 인경우에는 파일 단위로 수정하는게 더 빠르지요.  
+파일 단위일때도 `checkout` 를 사용해보세요.
+
+
+```bash
+$ git status
+
+Changes not staged for commit:
+        modified:   ManageMapper.xml
+
+$ git heckout ManageMapper.xml
+
+$ git status
+nothing to commit, working tree clean
+```
+
 
 
 
 ## Git Branching
 
-브랜치는 이슈가 생길때마다 생성하는 `topic 브랜치`와 master, deveop과 같은 `Long-Running 브랜치`가 있습니다.
+브랜치는 이슈가 생길때마다 생성하는 **topic 브랜치** 와   
+master, deveop과 같은 **Long-Running 브랜치** 가 있습니다.
 
 ### branch 확인 명령어
 
