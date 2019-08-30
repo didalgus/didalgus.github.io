@@ -51,18 +51,23 @@ Java EE 플랫폼은 PC에서 동작하는 표준 플랫폼인 Java SE에 부가
 ### 멀티 톰캣 운영
 
 물리 서버 1대에 톰캣서버 2개 이상 띄워야 하는경우  
-엔진 디렉토리 1개, 인스턴스 디렉토리 2개 로 나누어 띄우는 방법과  
-톰캣 전체 디렉토리 한개 더 copy 해서 server.xml 설정 (포트 변경) 변경해서 띄우는 방법과  
-[데몬으로 띄우는 방법](#jsvc)이 있답니다.  
+- 엔진 디렉토리 1개, 인스턴스 디렉토리 2개 로 나누어 띄우는 방법과  
+- 톰캣 디렉토리 한개 더 copy 해서 server.xml 설정(ex. port) 변경해서 띄우는 방법과  
+- [데몬으로 띄우는 방법](#jsvc)이 있답니다.  
 
 
 
 ## 로컬환경
 
 개발자 로컬환경에 톰캣을 설치 해볼까요?  
-binary 파일 다운로드 후 압출을 풀면 끝이랍니다. (참 쉽죵~?)   
-저의 개발환경(macOS)에서는 binary 파일 실행 방법과 homebrew 설치 후 실행 방법이 있습니다.  
 <br>
+
+제 개발환경(macOS)같은 경우  
+- binary 파일 실행 방법과  
+- homebrew 설치 후 실행 방법이 있지요.  
+<br>  
+
+binary 파일인 경우 다운로드 후 압출을 풀면 끝이랍니다. (참 쉽죵~?)  
 
 ### homebrew 설치
 
@@ -98,7 +103,7 @@ Or, if you dont want/need a background service you can just run :
 🍺  /usr/local/homebrew/Cellar/tomcat@8/8.5.37: 641 files, 13.1MB, built in 7 seconds
 ```
 
-잘 설치되었느지 확인해 볼까요?  
+잘 설치되었는지 확인해 볼까요?  
 설치된 목록 확인 `list` 명령에  `--versions` 버전정보 옵션도 추가해보아요.
 
 ```bash
@@ -108,7 +113,7 @@ tomcat@8 8.5.38
 
 ### 톰캣서버 기동
 
-homebrew 설치때 안내한 방법으로 톰캣을 기동해보겠습니다.
+homebrew 설치시 안내해준 방법으로 톰캣을 기동해보겠습니다.
 
 ```bash
 $ cd /usr/local/homebrew/Cellar/tomcat\@8/8.5.38/bin
@@ -130,7 +135,7 @@ java    14725   we   55u  IPv6 0x18c983bb654b707f    0t0  TCP *:8009 (LISTEN)
 ```
 
 <br>
-브라우저에서도 확인해 볼께요.
+브라우저에서도 확인해 볼께요.  
 [http://localhost:8080/](http://localhost:8080/)    
 
 
@@ -185,7 +190,7 @@ ROOT/    docs/    examples/     host-manager/     manager/
 ![apache tomcat]({{ site.url }}/assets/article_images/2019-07-25-About-Tomcat/2019-08-01-tomcat-1.png)
 
 `Server Status`, `Manager App` , `Host Manager` 버튼을 눌러볼까요?  
-권한 설정 필요 안내와 권한에 대한 설명이 있군요.    
+권한 설정 안내가 있군요.    
 
 ![apache tomcat]({{ site.url }}/assets/article_images/2019-07-25-About-Tomcat/2019-08-01-tomcat-2.png)
 
@@ -206,30 +211,15 @@ ROOT/    docs/    examples/     host-manager/     manager/
 
 
 
-## PROD
+## 운영환경
 
-Prod 환경을 살펴보겠습니다. (장애, 너란 녀석;;)
-
-### JSVC
-
-
-
-
+Prod 환경을 살펴보겠습니다. (장애, 너란 녀석;;)  
 설정 확인을 위해 server.xml 파일을 살펴보니 기본 설정 그대로 쓰고 있네요.  
 프로세스 리스트를 살펴보니 `jsvc` 로 실행했군요.  
 
 
-```bash
-$ ps -ef | grep tomcat
-tomcat   11 10  2 10:21 ? 00:00:58 jsvc.exec -java-home /usr/lib/jvm/java-8-oracle  
--user tomcat
--pidfile /home/willow/my-project/run/my-project.pid
--outfile /home/willow/my-project/logs/catalina-daemon.out
--Duser.timezone=Asia/Seoul
--Dcatalina.base=/home/willow/my-project
--Dcatalina.home=/usr/local/tomcat
-...
-```
+### JSVC
+
 
 >Jsvc is a set of libraries and applications for making Java applications run on UNIX more easily.  
 Jsvc allows the application (e.g. Tomcat) to perform some privileged operations as root (e.g. bind to a port < 1024), and then switch identity to a non-privileged user.  
@@ -239,6 +229,22 @@ Jsvc allows the application (e.g. Tomcat) to perform some privileged operations 
 `jsvc`(Java based daemons or services)는 Native library로 톰캣을 데몬으로 띄워주는 역할을 하지요.  
 톰캣 바이너리 버전을 다운받으면 기본으로 포함되어 있답니다.  
 <br>
+
+
+```bash
+$ ps -ef | grep tomcat
+tomcat   11 10  2 10:21 ? 00:00:58 jsvc.exec -java-home /usr/lib/jvm/java-8-oracle  
+-user tomcat
+-pidfile /home/willow/my-project/run/my-project.pid
+-outfile /home/willow/my-project/logs/catalina-daemon.out
+-Dspring.profiles.active=prod 
+-Djava.net.preferIPv4Stack=true
+-Duser.timezone=Asia/Seoul
+-Dcatalina.base=/home/willow/my-project
+-Dcatalina.home=/usr/local/tomcat
+...
+```
+
 
 
 
