@@ -255,6 +255,8 @@ nothing to commit, working tree clean
 
 ## Git Branching
 
+![branch]({{ site.url }}/assets/article_images/2019-06-20-About-Git/branch.png)
+
 브랜치는 이슈가 생길때마다 생성하는 **topic 브랜치** 와   
 master, deveop과 같은 **Long-Running 브랜치** 가 있습니다.
 
@@ -483,6 +485,12 @@ git rebase teamone/master
 
 
 ## Cherry pick
+
+
+![pull request]({{ site.url }}/assets/article_images/2019-06-20-About-Git/pull-request.png)
+출처 : [https://www.atlassian.com/ko/git/tutorials/making-a-pull-request](https://www.atlassian.com/ko/git/tutorials/making-a-pull-request)
+
+<br>
 
 [체리픽](https://git-scm.com/docs/git-cherry-pick)을 처음 경험한것은  
 이슈 처리 후 feature 브랜치에 커밋 해야하는데   
