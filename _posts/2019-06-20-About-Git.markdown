@@ -856,3 +856,24 @@ size-garbage: 0
           (develop) $ git merge feature/DEV-99
           (develop) $ git push origin
 ```
+
+### 배포(CI)툴로 배포시 파일 실행권한
+
+프로젝트 재 배포 후 스케쥴러에서 실행되거나 AWS에서 자동실행되어야하는 파일인 경우 실행권한이 필요하게 되지요.  
+<br>
+
+>스크립트 파일들에 실행 권한을 추가해서 Git에 올리고 싶다면 다음과 같은 명령어를 이용하면 된다.  
+git update-index --chmod=+x <스크립트 파일 이름>  
+서비스 운영이 쉬워지는 AWS 인프라 구축 가이드 p.133  
+
+로컬에서 아래와 같이 명령어를 사용합니다.  
+```bash
+(master) $ git update-index --chmod=+x scripts/stop_application.sh
+```
+
+AWS에서 git clone 후 확인해보니 실행권한이 있네요.  
+```bash
+[ec2-user@ip-172-xx-xx-xx scripts]$ ls -al
+-rwxr-xr-x 1 root root   86  9월 25 05:26 stop_application.sh
+
+```
