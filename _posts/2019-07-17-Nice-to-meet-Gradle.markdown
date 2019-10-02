@@ -364,9 +364,32 @@ Gradle 에서 Jar 파일 생성 기본 경로는 `libs` 디렉토리입니다.
 
 ## Run  
 
+스프링부트 프레임웍을 사용한경우 `bootRun` 명령어를 지원한답니다.  
+<br>
+
+단일 프로젝트인 경우  
+(settings.gradle 파일이 없는 경우)
 
 ```bash
-$ ./gradlew project-web:bootRun -Dspring.profiles.active=dev
+$ ./gradlew bootRun -Dspring.profiles.active=dev
+```
+
+멀티 프로젝트인 경우  
+settings.gradle 파일에 프로젝트 목록이 있겠지요.  
+
+```bash
+$ cat settings.gradle
+rootProject.name = 'tree project'
+include 'tree-web'
+include 'tree-batch'
+include 'tree-api'
+include 'tree-file'
+```
+
+`프로젝트명:bootRun` 를 사용해서 서비스를 띄워봅시다.  
+
+```bash
+$ ./gradlew tree-web:bootRun -Dspring.profiles.active=dev
 ```
 
 ## Scope
