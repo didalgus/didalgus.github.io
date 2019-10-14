@@ -16,8 +16,9 @@ categories: JAVA
 
 SpringBoot 프로젝트에  
 nodejs 기반 Vue.js 프로젝트를 생성하여  
-webpack으로 SpringBoot 정적 리소스를 생성해 봅시다.
+webpack으로 SpringBoot 정적 리소스를 생성해 봅시다.  
 <br>
+나는요~ Full Stack 개빨쫘(가 될테얏)~
 
 ## 환경
 
@@ -46,6 +47,7 @@ CLI도 좋구요. IDE도 좋아요.
 
 기본 구조가 생성되었네요.
 
+### gitignore
 
 ![gitignore.io]({{ site.url }}/assets/article_images/2019-10-07-VueJS-SpringBoot/gitignoreio.svg)
 저장소에 올리기전에 .gitignore 파일을 갈무리 해줄까요?  
@@ -54,7 +56,16 @@ CLI도 좋구요. IDE도 좋아요.
 요렇게~ [https://www.gitignore.io/api/git,java,vuejs,gradle,eclipse,intellij](https://www.gitignore.io/api/git,java,vuejs,gradle,eclipse,intellij){: target="_blank" }    
 깨끗한 저장소를 위하여~!  
 
+<br>
 
+### Lombok
+
+롬복 라이브러리 사용을 위해   
+Lombok Requires Annotation Processing  
+"Settings > Build > Compiler > Annotation Processors"  
+메뉴로 이동 후
+[v] Enable annotation prodessing
+위 항목 선택해주세요.   
 
 ## Git Repository
 
