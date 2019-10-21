@@ -16,17 +16,22 @@ categories: docker
 * **Docker Apache+PHP ✓** <span class="series">SERIES 2/3</span>
 * [Docker Hub]({% post_url 2019-08-08-Docker-Hub %}) <span class="series">SERIES 3/3</span>
 
-유지보수중인 서비스가 로컬 개발환경(MacOS)에 설치된 Apache, PHP버전(최신)에서 동작하지 않는 이슈가 발생하였습니다.  
+유지보수중인 서비스가 로컬 개발환경(MacOS)에 설치된 Apache, PHP버전에서 동작하지 않는 이슈가 발생하였습니다.  
 <br>
 부연하자면,  
-MacOS에 내장된 Apache 는 OS 업그레이드 될때 기존 설정을 backup 후 초기화 해버립니다.  
+MacOS High Sierra 에서 Mojave 업그레이드 했더니 MacOS에 내장된 Apache도 업그레이드 되면서 backup 후 초기화 해버렸습니다.  
+이때 PHP 버전도 7.2로 업그레이드 되었지요.  
 이럴때마다 기존 설정을 복원해야하는 번거로움이 있더군요.  
-PHP 는 homebrew로 버전별 설치 가능한데, 7버전(최신)는 mcrypt 모듈을 사용할 수 없고, 5버전에는 mcrypt 모듈 추가가 안되었습니다. (제가 방법을 몰라서 그런걸 수도 있어요.)  
+PHP 는 homebrew로 버전별 설치 가능한데, 7.2버전은 mcrypt 모듈을 사용할 수 없고, 5버전에는 mcrypt 모듈 추가가 안되었습니다. (제가 방법을 몰라서 그런걸 수도 있어요.)  
+<br>
 
+>This feature was DEPRECATED in PHP 7.1.0, and REMOVED in PHP 7.2.0.  
+[https://www.php.net/manual/en/intro.mcrypt.php](https://www.php.net/manual/en/intro.mcrypt.php)
 
 ## Goal
 
-docker 컨테이너에 apache+php 환경 구성 후 로컬환경에 있는 소스파일을 볼륨연결 설정하여 개발 환경을 구축해보겠습니다.
+docker 컨테이너에 apache+php 환경 구성 후 로컬환경에 있는 소스파일을 볼륨연결 설정하여 개발 환경을 구축해보겠습니다.  
+(DB는 로컬 개발환경에 기설치된 MySQL을 사용할 예정입니다.)
 
 
 ## Version
