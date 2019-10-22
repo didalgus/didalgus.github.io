@@ -115,6 +115,17 @@ On frame deactivation : 핫디플로이 기능!! 애플리케이션이 대기상
 ![jboss]({{ site.url }}/assets/article_images/2019-07-11-How-to-use-intelliJ/update-2.png)
 
 
+## Launch Web Browser
+
+Jboss Server 일때는 아래 이미지처럼 Open brower 옵션이 있어서 편리했어요.  
+유지보수 서비스가 많아서 일일히 외울 수가 없었지요.   
+![Jboss Configurations]({{ site.url }}/assets/article_images/2019-07-11-How-to-use-intelliJ/launch-2019-10-22-001.png)
+
+Spring Boot 프레임워크를 사용하니 내장톰캣 덕에 따로 WAS 설정이 없어 좋은데 브라우저로 띄우는 옵션이 보이지 않아 찾아봤어요.  
+역시~ 있군요!   
+![Spring Boot Configurations]({{ site.url }}/assets/article_images/2019-07-11-How-to-use-intelliJ/launch-2019-10-22-002.png)
+
+
 ## UML
 
 구축된 서비스 분석할때 종종 들여다보게 되는 UML 이예요.  
