@@ -390,7 +390,7 @@ SYNOPSIS
 
 ```
 
->프로젝트 관리자가 사람들의 수정 사항을 Merge 하고 나서 Jessica의 브랜치를 Merge 하려고 할 때 충돌이 날 수도 있다.
+>프로젝트 관리자가 사람들의 수정 사항을 Merge 하고 나서 Jessica의 브랜치를 Merge 하려고 할 때 충돌이 날 수도 있다.  
 그러면 Jessica가 자신의 브랜치를 origin/master 에 Rebase 해서 충돌을 해결하고 다시 Pull Request을 보낸다.
 
 ```bash
@@ -410,18 +410,21 @@ $ git commit
 $ git push myfork featureBv2
 ```
 
->--squash 옵션은 현재 브랜치에 Merge 할 때 해당 브랜치의 커밋을 모두 커밋 하나로 합쳐서 Merge 한다. 이 때 Merge 커밋은 만들지 않는다.
-다른 브랜치에서 수정한 사항을 전부 가져오는 것은 똑같다.
-하지만 새로 만들어지는 커밋은 부모가 하나이고 커밋을 기록하기 전에 좀 더 수정할 기회도 있다. 다른 브랜치에서 수정한 사항을 전부 가져오면서 그전에
-추가적으로 수정할 게 있으면 수정하고 Merge 할 수 있다.
-게다가 새로 만들어지는 커밋은 부모가 하나다. --no-commit 옵션을 추가하면 커밋을 합쳐 놓고 자동으로 커밋하지 않는다.
+>--squash 옵션은 현재 브랜치에 Merge 할 때 해당 브랜치의 커밋을 모두 커밋 하나로 합쳐서 Merge 한다.  
+이 때 Merge 커밋은 만들지 않는다.  
+다른 브랜치에서 수정한 사항을 전부 가져오는 것은 똑같다.  
+하지만 새로 만들어지는 커밋은 부모가 하나이고 커밋을 기록하기 전에 좀 더 수정할 기회도 있다.  
+다른 브랜치에서 수정한 사항을 전부 가져오면서 그전에 추가적으로 수정할 게 있으면 수정하고 Merge 할 수 있다.  
+게다가 새로 만들어지는 커밋은 부모가 하나다.  
+--no-commit 옵션을 추가하면 커밋을 합쳐 놓고 자동으로 커밋하지 않는다.  
 
 
 branch-test 에 master 내용을 덮어 쓴 후 충돌된 것들을 처리합니다.
 
-- 충돌이 없는 경우
-master head 를 상속 받은 경우 (branch-test head 부모값과 일치) 입니다.
-사실, sub 브랜치가 master 브랜치 상속받아 작업 후 commit 한 경우는 굳이 rebase 할 필요없이 merge(fast-forward) 하면 됩니다.
+- 충돌이 없는 경우  
+
+master head 를 상속 받은 경우 (branch-test head 부모값과 일치) 입니다.  
+사실, sub 브랜치가 master 브랜치 상속받아 작업 후 commit 한 경우는 굳이 rebase 할 필요없이 merge(fast-forward) 하면 됩니다.  
 
 ```bash
 (branch-test) $ git rebase master
@@ -443,7 +446,7 @@ Using index info to reconstruct a base tree...
 M	practice_git/1.txt
 ```
 
-출동된 코드를 정리합니다.
+충돌된 코드를 정리합니다.  
 
 ```bash
 ((no branch, rebasing branch-test)) $ git add practice_git/1.txt
@@ -454,7 +457,7 @@ Applying: topic branch conflict
 
 rebase 명령을 실행하면 새로운 commit 을 만들어 냅니다.
 
-Rebase before  
+- Rebase before  
 
 ```bash
 (branch-test) $ git tree
@@ -463,7 +466,7 @@ Rebase before
 
 ```
 
-Rebase after : new commit 생성  
+- Rebase after : new commit 생성  
 
 ```bash
 $ git tree
