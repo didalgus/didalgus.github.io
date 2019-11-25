@@ -56,6 +56,38 @@ lrwxr-xr-x  1 we  staff    29B 11  5 10:46 재배치된 항
 ...
 ```
 
+아파치 설정파일이 '재배치된 항목' 디렉토리에 백업되어 있네요.  
+설정들을 확인해서 OS apache 에 적용해줍니다.  
+
+참고로,   
+MacOS High Sierra 에서 Mojave 업그레이드 했을땐 아래와 같이 백업파일이 생성되었더랍니다.  
+```bash
+$ ll /etc/apache2/extra
+-rw-r--r--  1 root  wheel   2.8K 10 18 10:07 httpd-autoindex.conf
+-rw-r--r--  1 root  wheel   2.8K  7 16  2017 httpd-autoindex.conf~previous
+-rw-r--r--  1 root  wheel   1.7K 10 18 10:07 httpd-dav.conf
+-rw-r--r--  1 root  wheel   1.7K  7 16  2017 httpd-dav.conf~previous
+-rw-r--r--  1 root  wheel   2.9K 10 18 10:07 httpd-default.conf
+-rw-r--r--  1 root  wheel   2.9K  7 16  2017 httpd-default.conf~previous
+-rw-r--r--  1 root  wheel   1.1K 10 18 10:07 httpd-info.conf
+-rw-r--r--  1 root  wheel   1.1K  7 16  2017 httpd-info.conf~previous
+-rw-r--r--  1 root  wheel   5.0K 10 18 10:07 httpd-languages.conf
+-rw-r--r--  1 root  wheel   5.0K  7 16  2017 httpd-languages.conf~previous
+-rw-r--r--  1 root  wheel   1.4K 10 18 10:07 httpd-manual.conf
+-rw-r--r--  1 root  wheel   1.4K  7 16  2017 httpd-manual.conf~previous
+-rw-r--r--  1 root  wheel   4.4K 10 18 10:07 httpd-mpm.conf
+-rw-r--r--  1 root  wheel   4.4K  7 16  2017 httpd-mpm.conf~previous
+-rw-r--r--  1 root  wheel   2.2K 10 18 10:07 httpd-multilang-errordoc.conf
+-rw-r--r--  1 root  wheel   2.2K  7 16  2017 httpd-multilang-errordoc.conf~previous
+-rw-r--r--  1 root  wheel    13K 10 18 10:07 httpd-ssl.conf
+-rw-r--r--  1 root  wheel    13K  7 16  2017 httpd-ssl.conf~previous
+-rw-r--r--  1 root  wheel   607B 10 18 10:07 httpd-userdir.conf
+-rw-r--r--  1 root  wheel   607B  7 16  2017 httpd-userdir.conf~previous
+-rw-r--r--  1 root  wheel   2.5K 11 15 12:57 httpd-vhosts.conf
+-rw-r--r--  1 root  wheel   1.9K 11 28  2018 httpd-vhosts.conf~previous
+```
+
+
 
 
 아놔... OS 업그레이드 왤케 잦은거냐고요~~~
