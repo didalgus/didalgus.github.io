@@ -1,0 +1,70 @@
+---
+layout: post
+title:  "hi macOS"
+series:
+date: 2019-11-05 12:30:00 +0900
+abstract: ""
+tags: [bit]
+image:
+toc: true
+categories: Tech
+---
+
+
+OS 업데이트 알림이 떴습니다.  
+미루고 미루다가 오늘 업데이트 했지요.
+macOS Mojave 10.14.6 > Catalina 10.15.1  
+
+그랬더니~  
+
+32bit 지원 종료...!!  
+https://support.apple.com/ko-kr/HT208436
+
+아아.. 동작안하는 앱 다시 설치하고 나니 오전이 날아갔...  
+
+![web]({{ site.url }}/assets/article_images/2019-11-05-hi-macOS/2019-11-05-001.png)
+
+바탕화면에 새로운 폴더가 생겼군요.  
+
+```bash
+~/Desktop $ ll
+total 0
+lrwxr-xr-x  1 we  staff    29B 11  5 10:46 재배치된 항목@ -> /Users/Shared/Relocated Items     
+```
+
+열어봤더니 이런 안내가 있군요.
+```
+
+최근 macOS 업그레이드 또는 마이그레 이션을 진행하는 동안, 일부 파일을 새로 운 위치로 이동할 수 없습니다. 이 폴더에 는 이 파일들이 포함되어 있습니다.
+```
+
+아아..이번에도 아파치 설정파일들이..  
+도커 셋팅하길 잘했응~ 크윽~
+
+관련 포스팅 [Docker Apache+PHP]({{ site.url }}/2019/08/07/Docker-Apache-PHP.html)
+
+
+```bash
+~/Desktop $ tree '재배치된 항목'
+├── Configuration
+│   └── private
+│       └── etc
+│           └── apache2
+│               ├── extra
+│               │   └── httpd-vhosts.conf
+│               └── httpd.conf
+...
+```
+
+
+
+아놔... OS 업그레이드 왤케 잦은거냐고요~~~
+
+```bash
+~/didalgus.github.io (master) $ bundle exec jekyll serve
+-bash: /usr/local/bin/bundle: /System/Library/Frameworks/Ruby.framework/Versions/2.3/usr/bin/ruby: bad interpreter: No such file or directory
+
+```
+
+치료를 시작해봅시다.  
+회생 불가 ... 엉엉 ㅠ
