@@ -17,7 +17,7 @@ image:
 #draft: "yes"
 toc: true
 categories: Tech
-last_modified_at: 2019-06-19T14:23:00+09:00
+last_modified_at: 2019-11-30T23:40:00+09:00
 ---
 
 
@@ -239,6 +239,120 @@ $ bundle update
 Fetching nokogiri 1.10.4
 Installing nokogiri 1.10.4 with native extensions
 ...
+```
+
+
+## Jekyll 심폐소생
+
+[hi macOS]({% post_url 2019-11-05-hi-macOS %}) 에서 이어지는 내용입니다.  
+`Mojave 10.14.6` > `Catalina 10.15.1` 업데이트 후 식물인간 지킬을 심폐소생하였습니다.  
+<br>
+새로 셋팅하는 시나리오입니다. (집에있는 맥북~)  
+
+## ruby
+
+macOS 내장 ruby에서는 지킬이 정상동작하지 않습니다.  
+```bash
+$ gem install bundler jekyll
+
+mkmf.rb can not find header files for ruby at /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/include/ruby.h
+
+You might have to install separate package for the ruby development
+environment, ruby-dev or ruby-devel for example.
+```
+
+구글링해보니 [homebrew 로 ruby 설치해서 사용](https://medium.com/faun/macos-catalina-xcode-homebrew-gems-developer-headaches-cf7b1edf10b7)하라고 안내해주는군요.
+
+그래서 [homebrew 설치](https://brew.sh/index_ko.html) 합니다.
+
+```bash
+$ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+..
+- Run `brew help` to get started
+- Further documentation:
+    https://docs.brew.sh
+
+$ ll /usr/local/
+total 0
+drwxrwxr-x   2 willow  admin    64B 11 30 22:59 Caskroom/
+drwxrwxr-x   7 willow  admin   224B 11 30 23:03 Cellar/
+drwxrwxr-x   3 willow  admin    96B 11 30 23:03 Frameworks/
+drwxrwxr-x  19 willow  admin   608B 11 30 23:01 Homebrew/
+...
+
+$ brew -v
+Homebrew 2.2.0
+```
+
+Ruby 설치합니다.  
+
+```bash
+$ brew install ruby
+
+...
+By default, binaries installed by gem will be placed into:
+  /usr/local/lib/ruby/gems/2.6.0/bin
+
+You may want to add this to your PATH.
+
+ruby is keg-only, which means it was not symlinked into /usr/local,
+because macOS already provides this software and installing another version in
+parallel can cause all kinds of trouble.
+
+If you need to have ruby first in your PATH run:
+  echo 'export PATH="/usr/local/opt/ruby/bin:$PATH"' >> ~/.bash_profile
+
+For compilers to find ruby you may need to set:
+  export LDFLAGS="-L/usr/local/opt/ruby/lib"
+  export CPPFLAGS="-I/usr/local/opt/ruby/include"
+
+localhost@willow:/usr/local$ /usr/local/opt/ruby/bin/ruby -v
+ruby 2.6.5p114 (2019-10-01 revision 67812) [x86_64-darwin19]
+
+```
+
+PATH 설정을 해야겠네요.
+
+```bash
+$ vi ~/.profile
+
+export RUBY_HOME=/usr/local/opt/ruby/bin
+export LDFLAGS="-L/usr/local/opt/ruby/lib"
+export CPPFLAGS="-I/usr/local/opt/ruby/include"
+export GEM_PATH=~/.gem/ruby/2.6.0
+
+export PATH=$RUBY_HOME:$GEM_PATH/bin:$PATH
+```
+
+### install jekyll
+ruby가 정상 설치되었으니 이제 jekyll 를 살리러 갈까요?
+
+```bash
+$ gem install bundler jekyll
+...
+Post-install message from sass:
+
+Ruby Sass has reached end-of-life and should no longer be used.
+
+* If you use Sass as a command-line tool, we recommend using Dart Sass, the new
+  primary implementation: https://sass-lang.com/install
+
+* If you use Sass as a plug-in for a Ruby web framework, we recommend using the
+  sassc gem: https://github.com/sass/sassc-ruby#readme
+
+* For more details, please refer to the Sass blog:
+  https://sass-lang.com/blog/posts/7828841
+```
+
+### jekyll serve
+
+jekyll 이 정상 구동 되었습니다~ ^^  
+
+```bash
+$ git clone https://github.com/didalgus/didalgus.github.io.git
+$ cd didalgus.github.io.git
+$ bundle install
+$ bundle exec jekyll serve
 ```
 
 

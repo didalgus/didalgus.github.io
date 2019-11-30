@@ -17,7 +17,7 @@ categories: Tech
 AWS 프리티어 사용자입니다.  
 매달 몇백원씩 청구되길래 살펴봤어요. (아껴야 잘산다!)  
 
-![aws console]({{ site.url }}/assets/article_images/2019-10-14-AWS Service Charges/2019-10-14-005.png)
+![aws console]({{ site.url }}/assets/article_images/2019-10-14-AWS-Service-Charges/2019-10-14-005.png)
 
 청구되는 항목이 2개더군요.  
 <br>
@@ -29,7 +29,7 @@ $0.005 per Elastic IP address not attached to a running instance per hour (prora
 
 
 
-![aws console]({{ site.url }}/assets/article_images/2019-10-14-AWS Service Charges/2019-10-14-001.png)
+![aws console]({{ site.url }}/assets/article_images/2019-10-14-AWS-Service-Charges/2019-10-14-001.png)
 
 EC2 대시보드에서 스냅샷, 탄력적 IP 를 확인합니다.  
 음~ 사용하는게 있군용!
@@ -37,14 +37,14 @@ EC2 대시보드에서 스냅샷, 탄력적 IP 를 확인합니다.
 ## EBS
 
 스냅샷 메뉴로 이동해서 삭제 해볼까요?  
-![aws console]({{ site.url }}/assets/article_images/2019-10-14-AWS Service Charges/2019-10-14-002.png)
+![aws console]({{ site.url }}/assets/article_images/2019-10-14-AWS-Service-Charges/2019-10-14-002.png)
 
 2개는 이미 사용중이니 삭제할 수 없다는 안내가 나오네요.  
 어디에서 쓰고있나 확인해보니 `인스턴스 > 시작 템플릿` 에서 쓰고있군요.  
 시작템플릿에서 쓰고있다면 `이미지 > AMI` 도 같이 지워야지요. (너와 나의 연!결!고!리! ^0^)  
 확인해보고 지워도 되는 인스턴스이면 지워주세요.  
 
-![aws console]({{ site.url }}/assets/article_images/2019-10-14-AWS Service Charges/2019-10-14-003.png)
+![aws console]({{ site.url }}/assets/article_images/2019-10-14-AWS-Service-Charges/2019-10-14-003.png)
 
 
 
@@ -53,7 +53,7 @@ EC2 대시보드에서 스냅샷, 탄력적 IP 를 확인합니다.
 
 연결된 인스턴스가 없는걸 확인했다면 주소 릴리즈 해주세요.  
 
-![aws console]({{ site.url }}/assets/article_images/2019-10-14-AWS Service Charges/2019-10-14-004.png)
+![aws console]({{ site.url }}/assets/article_images/2019-10-14-AWS-Service-Charges/2019-10-14-004.png)
 
 
 사용중인것은 지우지 않았습니다.  

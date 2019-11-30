@@ -12,36 +12,42 @@ categories: Tech
 
 
 OS 업데이트 알림이 떴습니다.  
-미루고 미루다가 오늘 업데이트 했지요.
-macOS Mojave 10.14.6 > Catalina 10.15.1  
+미루고 미루다가 오늘 업데이트 했지요.  
+macOS `Mojave 10.14.6` > `Catalina 10.15.1`  
+<br>
+그랬더니~
 
-그랬더니~  
+## 32비트 앱
 
-32bit 지원 종료...!!  
-https://support.apple.com/ko-kr/HT208436
+[32bit 지원 종료...!!](https://support.apple.com/ko-kr/HT208436)
 
+![https://support.apple.com/ko-kr/HT208436]({{ site.url }}/assets/article_images/2019-11-05-hi-macOS/2019-11-05-001.png)
 아아.. 동작안하는 앱 다시 설치하고 나니 오전이 날아갔...  
+<br>
 
-![web]({{ site.url }}/assets/article_images/2019-11-05-hi-macOS/2019-11-05-001.png)
+## 재배치된 항목
 
 바탕화면에 새로운 폴더가 생겼군요.  
 
 ```bash
 ~/Desktop $ ll
 total 0
-lrwxr-xr-x  1 we  staff    29B 11  5 10:46 재배치된 항목@ -> /Users/Shared/Relocated Items     
+lrwxr-xr-x  1 me staff 29B 11 5 10:46 재배치된 항목@ -> /Users/Shared/Relocated Items     
 ```
 
-열어봤더니 이런 안내가 있군요.
+열어봤더니 이런 안내가 있군요.  
 ```
 
 최근 macOS 업그레이드 또는 마이그레 이션을 진행하는 동안, 일부 파일을 새로 운 위치로 이동할 수 없습니다. 이 폴더에 는 이 파일들이 포함되어 있습니다.
 ```
+집에 사용하는 맥북에서는 Blizzard, Battle.net, Parallels 등... 소소한 앱들이 백업되어 있군요.  
+
+### Apache
 
 아아..이번에도 아파치 설정파일들이..  
-도커 셋팅하길 잘했응~ 크윽~
+도커 셋팅하길 잘했응~ 크윽~  
 
-관련 포스팅 [Docker Apache+PHP]({{ site.url }}/2019/08/07/Docker-Apache-PHP.html)
+관련 포스팅 [Docker Apache+PHP]({{ site.url }}/2019/08/07/Docker-Apache-PHP.html)  
 
 
 ```bash
@@ -58,27 +64,16 @@ lrwxr-xr-x  1 we  staff    29B 11  5 10:46 재배치된 항
 
 아파치 설정파일이 '재배치된 항목' 디렉토리에 백업되어 있네요.  
 설정들을 확인해서 OS apache 에 적용해줍니다.  
+<br>
+참고차,   
+MacOS `High Sierra` 에서 `Mojave` 업그레이드 했을땐  
+아래와 같이 백업파일이 생성되었더랍니다.  
 
-참고로,   
-MacOS High Sierra 에서 Mojave 업그레이드 했을땐 아래와 같이 백업파일이 생성되었더랍니다.  
 ```bash
 $ ll /etc/apache2/extra
 -rw-r--r--  1 root  wheel   2.8K 10 18 10:07 httpd-autoindex.conf
 -rw-r--r--  1 root  wheel   2.8K  7 16  2017 httpd-autoindex.conf~previous
--rw-r--r--  1 root  wheel   1.7K 10 18 10:07 httpd-dav.conf
--rw-r--r--  1 root  wheel   1.7K  7 16  2017 httpd-dav.conf~previous
--rw-r--r--  1 root  wheel   2.9K 10 18 10:07 httpd-default.conf
--rw-r--r--  1 root  wheel   2.9K  7 16  2017 httpd-default.conf~previous
--rw-r--r--  1 root  wheel   1.1K 10 18 10:07 httpd-info.conf
--rw-r--r--  1 root  wheel   1.1K  7 16  2017 httpd-info.conf~previous
--rw-r--r--  1 root  wheel   5.0K 10 18 10:07 httpd-languages.conf
--rw-r--r--  1 root  wheel   5.0K  7 16  2017 httpd-languages.conf~previous
--rw-r--r--  1 root  wheel   1.4K 10 18 10:07 httpd-manual.conf
--rw-r--r--  1 root  wheel   1.4K  7 16  2017 httpd-manual.conf~previous
--rw-r--r--  1 root  wheel   4.4K 10 18 10:07 httpd-mpm.conf
--rw-r--r--  1 root  wheel   4.4K  7 16  2017 httpd-mpm.conf~previous
--rw-r--r--  1 root  wheel   2.2K 10 18 10:07 httpd-multilang-errordoc.conf
--rw-r--r--  1 root  wheel   2.2K  7 16  2017 httpd-multilang-errordoc.conf~previous
+...
 -rw-r--r--  1 root  wheel    13K 10 18 10:07 httpd-ssl.conf
 -rw-r--r--  1 root  wheel    13K  7 16  2017 httpd-ssl.conf~previous
 -rw-r--r--  1 root  wheel   607B 10 18 10:07 httpd-userdir.conf
@@ -87,10 +82,10 @@ $ ll /etc/apache2/extra
 -rw-r--r--  1 root  wheel   1.9K 11 28  2018 httpd-vhosts.conf~previous
 ```
 
+## Jekyll 오작동
 
-
-
-아놔... OS 업그레이드 왤케 잦은거냐고요~~~
+지킬이 뜨질 않는군요.  
+아놔... OS 업그레이드 왤케 잦은거냐고요~~~  
 
 ```bash
 ~/didalgus.github.io (master) $ bundle exec jekyll serve
@@ -99,4 +94,4 @@ $ ll /etc/apache2/extra
 ```
 
 치료를 시작해봅시다.  
-회생 불가 ... 엉엉 ㅠ
+지킬 심폐 소생술 성공기는 [Welcome to Jekyll!]({% post_url 2019-06-17-Welcome-to-Jekyll %}) 에서 확인하세요.
