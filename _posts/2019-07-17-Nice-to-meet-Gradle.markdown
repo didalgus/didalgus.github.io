@@ -384,12 +384,38 @@ total 8
 ```
 Gradle 에서 Jar 파일 생성 기본 경로는 `libs` 디렉토리입니다.  
 
+## Run
+IntelliJ 에서 gradle 프로젝트를 생성합니다.
+
+![grable project]({{ site.url }}/assets/article_images/2019-07-17-Nice-to-meet-Gradle/run-1-2019-12-02.png)
+
+```bash
+/source/gradle-sample/first$ ./gradlew war
+...
+BUILD SUCCESSFUL in 0s
+1 actionable task: 1 executed
+
+$ ll /source/gradle-sample/first/build/libs/
+-rw-r--r--  1 willow  staff   582B 12  2 00:36 first-1.0-SNAPSHOT.war
+
+
+/source/gradle-sample/first$ mv build/libs/first-1.0-SNAPSHOT.war /usr/local/apache-tomcat-8.5.15/webapps/first.war
+
+$ cd /usr/local/apache-tomcat-8.5.15/webapps/
+$ bin/startup.sh
+```  
+
+브라우저에서 확인해보아요.  
+
+![http://localhost:8080/first/]({{ site.url }}/assets/article_images/2019-07-17-Nice-to-meet-Gradle/run-2-2019-12-02.png)
+
 
 
 ## Run with Spring Boot
 
 스프링부트 프레임웍을 사용한경우 `bootRun` 명령어를 지원한답니다.  
 [bootRun gradle plugin](https://github.com/spring-projects/spring-boot/blob/master/spring-boot-project/spring-boot-tools/spring-boot-gradle-plugin/src/main/java/org/springframework/boot/gradle/tasks/run/BootRun.java)은 스프링부트에서 어플리케이션을 분리된 형태로 실행할 수 있게 해주지요.  
+(자매표 [`bootWar`](https://github.com/spring-projects/spring-boot/blob/master/spring-boot-project/spring-boot-tools/spring-boot-gradle-plugin/src/main/java/org/springframework/boot/gradle/tasks/bundling/BootWar.java))
 <br>
 
 ### Single Project
