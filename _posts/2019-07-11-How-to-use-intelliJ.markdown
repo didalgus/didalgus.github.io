@@ -47,6 +47,8 @@ Preferences.. (⌘,) > Keymap
 Preferences.. (⌘,) > Keymap > 명령라인 우클릭 > Add Keyboard Shorcut  
 ![Shortcut]({{ site.url }}/assets/article_images/2019-07-11-How-to-use-intelliJ/shortcut.png)
 
+![Shortcut]({{ site.url }}/assets/article_images/2019-07-11-How-to-use-intelliJ/shortcut-2019-11-23.png)
+
 
 ## Tool Window
 실수로 창 닫아버리고는 헤매지 말자!  
