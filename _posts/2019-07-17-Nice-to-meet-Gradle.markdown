@@ -7,6 +7,7 @@ tags: [Gradle]
 image:
 toc: true
 categories: Gradle
+last_modified_at: 2019-12-01T20:00:00+09:00
 ---
 
 
@@ -268,6 +269,31 @@ BUILD SUCCESSFUL in 43s
 2 actionable tasks: 2 executed
 ```
 
+프로젝트를 컴파일 합니다.  
+
+```bash
+$ gradle compileJava
+
+BUILD SUCCESSFUL in 8s
+1 actionable task: 1 executed
+```
+
+> build 디렉터리는 그래들에서 컴파일할 때 클래스 파일들이 위치하는 기본 경로로,  
+컴파일 이전의 디렉터리 구조와 동일하게 생성됩니다.  
+엔터프라이즈 빌드 자동화를 위한 Gradle - 한빛 미디어 p.34
+
+
+자, build 디렉토리가 가서 확인해볼까요?
+
+```bash
+$ ll build/classes/java/main/practice2/
+total 16
+-rw-r--r--  1 we  staff   605B  7  8 18:53 Sample.class
+-rw-r--r--  1 we  staff   350B  7  8 18:53 Library.class
+```
+
+### java plugin
+
 java plugin 설정을 추가하니 아래 Task 들이 추가되어 있군요.  
 
 ```bash
@@ -302,27 +328,25 @@ test - Runs the unit tests.
 위 이미지를 보시면 java plugin 설정했을 때 사용할 수 있는 task 명령과 의존관계를 한눈에 보실 수 있어요.  
 <br>  
 
+[Project layout](https://docs.gradle.org/current/userguide/java_plugin.html#sec:java_project_layout)  
+The Java plugin assumes the project layout shown below.
 
-```bash
-$ gradle compileJava
+{:.table.table-key-value-60}
+|구분| 기본 output 디렉토리 경로|
+|---|---|
+|src/main/java | Production Java source. |
+|src/main/resources | Production resources, such as XML and properties files. |
+|src/test/java | Test Java source. |
+|src/test/resources | Test resources. |
+|src/sourceSet/java | Java source for the source set named sourceSet. |
+|src/sourceSet/resources | Resources for the source set named sourceSet. |
 
-BUILD SUCCESSFUL in 8s
-1 actionable task: 1 executed
-```
+디렉토리 구조 변경은 설정에서 가능합니다. [매뉴얼](https://docs.gradle.org/current/userguide/java_plugin.html#sec:changing_java_project_layout)에 있습니다.
 
-> build 디렉터리는 그래들에서 컴파일할 때 클래스 파일들이 위치하는 기본 경로로,  
-컴파일 이전의 디렉터리 구조와 동일하게 생성됩니다.  
-엔터프라이즈 빌드 자동화를 위한 Gradle - 한빛 미디어 p.34
+<br>
+기본 디렉토리 구조는 소스 레벨에 정의 되어 있지요.  
+[하단 소스코드](#project) 에서 확인 가능하지요.
 
-
-자, build 디렉토리가 가서 확인해볼까요?
-
-```bash
-$ ll build/classes/java/main/practice2/
-total 16
--rw-r--r--  1 we  staff   605B  7  8 18:53 Sample.class
--rw-r--r--  1 we  staff   350B  7  8 18:53 Library.class
-```
 
 ## Clean
 
@@ -362,10 +386,13 @@ Gradle 에서 Jar 파일 생성 기본 경로는 `libs` 디렉토리입니다.
 
 
 
-## Run  
+## Run with Spring Boot
 
 스프링부트 프레임웍을 사용한경우 `bootRun` 명령어를 지원한답니다.  
+[bootRun gradle plugin](https://github.com/spring-projects/spring-boot/blob/master/spring-boot-project/spring-boot-tools/spring-boot-gradle-plugin/src/main/java/org/springframework/boot/gradle/tasks/run/BootRun.java)은 스프링부트에서 어플리케이션을 분리된 형태로 실행할 수 있게 해주지요.  
 <br>
+
+### Single Project
 
 단일 프로젝트인 경우  
 (settings.gradle 파일이 없는 경우)
@@ -373,6 +400,9 @@ Gradle 에서 Jar 파일 생성 기본 경로는 `libs` 디렉토리입니다.
 ```bash
 $ ./gradlew bootRun -Dspring.profiles.active=dev
 ```
+
+
+### Multi Project  
 
 멀티 프로젝트인 경우  
 settings.gradle 파일에 프로젝트 목록이 있겠지요.  
@@ -386,11 +416,40 @@ include 'tree-api'
 include 'tree-file'
 ```
 
+멀티프로젝트로 형식으로 구성된 스프링부트 프로젝트를 실행할때 명령어입니다.  
 `프로젝트명:bootRun` 를 사용해서 서비스를 띄워봅시다.  
 
 ```bash
 $ ./gradlew tree-web:bootRun -Dspring.profiles.active=dev
 ```
+
+<br>
+gradle 사이트 안내에서 가져왔어요.  
+
+[Example: Listing the projects in a build](https://docs.gradle.org/current/userguide/intro_multi_project_builds.html)  
+멀티 프로젝트 구조를 확인해보아요.  
+
+```bash
+$ gradle -q projects
+
+------------------------------------------------------------
+Root project
+------------------------------------------------------------
+
+Root project 'multiproject'
++--- Project ':api'
++--- Project ':services'
+|    +--- Project ':services:shared'
+|    \--- Project ':services:webservice'
+\--- Project ':shared'
+
+To see a list of the tasks of a project, run gradle <project-path>:tasks
+For example, try running gradle :api:tasks
+```
+
+
+
+
 
 ## Scope
 
@@ -449,14 +508,6 @@ runtime - Runtime dependencies for source set 'main' (deprecated, use 'runtimeOn
 ```
 
 
-## Multi Project
-
-멀티프로젝트로 형식으로 구성된 스프링부트 프로젝트를 실행할때 명령어입니다.  
-
-```bash
-$ ./gradlew project-web:bootRun -Dspring.profiles.active=dev
-```
-스프링부트에서 어플리케이션을 분리된 형태로 실행할 수 있는 [bootRun](https://github.com/spring-projects/spring-boot/blob/master/spring-boot-project/spring-boot-tools/spring-boot-gradle-plugin/src/main/java/org/springframework/boot/gradle/tasks/run/BootRun.java) gradle plugin을 제공하고 있습니다.
 
 ## Plugins
 
@@ -554,7 +605,7 @@ drwxr-xr-x  4 we  staff   128B  7 19 16:42 packages/
 
 
 ### Settings
-&#47;usr&#47;local&#47;radle-4.8.&#47;src&#47;core-api&#47;org&#47;gradle&#47;api&#47;initialization&#47;Settings.java
+&#47;usr&#47;local&#47;gradle-4.8.&#47;src&#47;core-api&#47;org&#47;gradle&#47;api&#47;initialization&#47;Settings.java
 
 ```java
 @HasInternalProtocol
@@ -568,24 +619,25 @@ public interface Settings extends PluginAware {
 #### Project
 
 &#47;usr&#47;local&#47;gradle-4.8.1&#47;src&#47;core-api&#47;org&#47;gradle&#47;api&#47;Project.java
-```
+
+```java
 @HasInternalProtocol
 public interface Project extends Comparable<Project>, ExtensionAware, PluginAware {
     /**
      * The default project build file name.
      */
     String DEFAULT_BUILD_FILE = "build.gradle";
-
-
 ```
 
 &#47;usr&#47;local&#47;gradle-4.8.1&#47;src&#47;core-api&#47;org&#47;gradle&#47;api&#47;Task.java
-```
+
+```java
     /**
      * The default build directory name.
      */
     String DEFAULT_BUILD_DIR_NAME = "build";
 ```
+
 > Task 인터페이스에서는 기본적으로 Task의 이름과 Task의 유형, Task의 의존성 여부, Task 액션 등을 속성으로 가지고 있습니다.  
 엔터프라이즈 빌드 자동화를 위한 Gradle - 한빛 미디어 p.10
 
@@ -593,6 +645,13 @@ public interface Project extends Comparable<Project>, ExtensionAware, PluginAwar
 
 
 ### IntelliJ 설정
+
+
+{:.table.table-key-value-60}
+|구분| 기본 output 디렉토리 경로|
+|---|---|
+|이클립스 | bin |
+|인텔리제이 | out |
 
 이클립스의 기본 output 디렉토리는 bin 이고,  
 인텔리제이 기본 output 디렉토리는 out입니다.  
