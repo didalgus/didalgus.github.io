@@ -7,6 +7,7 @@ tags: [tomcat]
 image:
 toc: true
 categories: WAS
+last_modified_at: 2019-12-08T22:30:00+09:00
 ---
 
 ## 소개  
@@ -42,10 +43,10 @@ Java EE 플랫폼은 PC에서 동작하는 표준 플랫폼인 Java SE에 부가
 |bin | 톰캣 서버 시작, 중지 명령(실행) 관련된 스크립트 파일 |
 |conf | 환경 설정파일 |
 |lib | 톰캣 서버의 java library (jar) |
-|logs | 톰캣 서버 인스턴스 로그 파일 |
+|logs | 톰캣 서버 인스턴스 실행상태를 기록하는 로그 파일 |
 |temp | 톰캣 서버 인스턴스 실행중 사용하는 임시 디렉토리 |
 |webapps | 웹 어플리케이션 배포 디렉토리 (html, java) |
-|work | JSP 파일이 java servlet 소스(class)로 변환 (읽기전용) |
+|work | JSP를 java servlet 소스(class)로 변환한 파일 (읽기전용) |
 
 
 ### 멀티 톰캣 운영
@@ -237,7 +238,7 @@ tomcat   11 10  2 10:21 ? 00:00:58 jsvc.exec -java-home /usr/lib/jvm/java-8-orac
 -user tomcat
 -pidfile /home/willow/my-project/run/my-project.pid
 -outfile /home/willow/my-project/logs/catalina-daemon.out
--Dspring.profiles.active=prod 
+-Dspring.profiles.active=prod
 -Djava.net.preferIPv4Stack=true
 -Duser.timezone=Asia/Seoul
 -Dcatalina.base=/home/willow/my-project
@@ -272,4 +273,76 @@ $ ll /usr/local/tomcat/bin
 -rwxr-x--- 1 tomcat tomcat  21793 Sep 28  2017 catalina.sh*
 -rwxr-xr-x 1 tomcat tomcat 192424 May 10 17:22 jsvc*
 ...
+```
+
+
+## WAR 배포  
+
+### Gradle   
+
+플러그인 `java`, [`war`](https://docs.gradle.org/current/userguide/war_plugin.html) 를 적용한 gradle 프로젝트를 build 해서 war 를 톰캣서버에 배포해볼까요?  
+
+```bash
+$ cat /source/sample/build.gradle
+
+apply plugin: 'java'
+apply plugin: 'war'
+...
+```
+
+설정 확인후 빌드합니다.  
+```bash
+/source/sample $ ./gradlew clean build
+...
+BUILD SUCCESSFUL in 8s
+```
+
+gradle 빌드시 `build/libs` 위치에 war 파일생성 된답니다.
+
+```bash
+$ ll build/libs/
+-rw-r--r--  1 willow  staff   8.0M 12  8 22:02 sample-1.0.war
+```
+
+생성된 war 파일을 톰캣 서버 webapps 디렉토리로 복사합니다.
+<br>
+
+참고로,  
+`$TOMCAT_HOME/webapps`  : 웹 애플리케이션을 배치하는 디렉토리
+
+```bash
+$ mv build/libs/sample-1.0.war :/usr/local/apache-tomcat-8.5.15/webapps/
+```
+
+톰캣을 시작합니다.
+```bash
+$ cd $TOMCAT_HOME/bin
+$ ./startup.sh      // 실행
+$ ./shutdown.sh     // 종료
+```
+
+
+브라우저에서 확인해보아요.  
+![http://localhost:8080/sample/]({{ site.url }}/assets/article_images/2019-07-25-About-Tomcat/2019-12-08-war.png)
+
+
+sample/ 하위 디렉토리가 아닌 최상위 디렉토리에 적용하고 싶다고요?  
+그럼~   
+sample.war 가 아닌 ROOT.war 로 파일을 생성 한 후 webapps 디렉토리에 넣어주세요~ ^.~  
+
+### Jenkins
+
+CI 배포시 war 파일 이동 명령입니다.  
+```bash
+scp -r /var/lib/jenkins/workspace/project/build/libs/project-0.0.1-SNAPSHOT.war ssh계정@10.x.x.x:/opt/tomcat/latest/webapps/ROOT.war
+```
+
+```bash
+commands:
+  - mv target/*.war target/ROOT.war
+```
+
+```bash
+- source: ROOT.war
+destination: /var/lib/tomcat8/webapps
 ```

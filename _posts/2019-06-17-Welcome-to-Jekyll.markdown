@@ -176,11 +176,16 @@ github pages 에서 기본 제공하는 [플러그인 목록](https://help.githu
 
 ### facebook-comments
 
-[facebook for developers](https://developers.facebook.com/docs/plugins/comments/) 로그인 후 **댓글 플러그인 코드 생성 도구** 에서 [코드받기] 버튼을 클릭하여 코드를 받아 적용합니다.
+[facebook for developers](https://developers.facebook.com/docs/plugins/comments/) 로그인 후 **댓글 플러그인 코드 생성 도구** 에서 [코드받기] 버튼을 클릭하여 코드를 받아 적용합니다.  
+<br>
+자매품~ [facaebook 공유 디버(https://developers.facebook.com/tools/debug/sharing/)  
+Open Graph Tag 가 안맞아서 수정했지요.  
+
 
 ### google analytics
 [Google Marketing Platfom](https://marketingplatform.google.com/about/analytics/) 로그인 후 추적 ID 발급하여 적용합니다.   
 (개발자들이란.. 설명에 인색하다.. 사실 귀찬.. 구글링하세요 ㅠ)
+
 
 ## ETC
 
