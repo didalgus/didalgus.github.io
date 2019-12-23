@@ -24,9 +24,25 @@ Java EE 플랫폼은 PC에서 동작하는 표준 플랫폼인 Java SE에 부가
 
 ![apache tomcat]({{ site.url }}/assets/article_images/2019-07-25-About-Tomcat/tomcat.png)
 
-
-톰캣은 WAS(Web Application Serve) 에서도 서블릿 컨테이너만 있는 웹 어플리케이션 서버이지요.  
+Java 에서 WAS 란, JavaEE 기술 사양을 준수하여 만든 서버를 말한답니다.  
+JavaEE 구현체(Implementation) 이라고도 하지요.   
+톰캣은 WAS(Web Application Serve) 에서도 서블릿 컨테이너(Servlet, JSP)만 있는 웹 어플리케이션 서버이지요.  
+웹 컨테이너 라고도 불리는 이 서버들은 톰캣 외 Caucho Resin, Jetty 등이 있답니다.  
 <br>
+
+
+{:.table.table-key-value-60}
+
+| JavaEE | Servlet/JSP | Tomcat | JBoss | webLogic | JEUS |
+|---|---|---|---|---|---|
+| JavaEE 6 | Servlet 3.0 <br> JSP 2.2 | 7.0.x | 7.x | 12.x | 7.x |
+| JavaEE 5 | Servlet 2.5 <br> JSP 2.1 | 6.0.x | 5.x | 10.x | 6.x |
+
+
+Tomcat 6 버전인 경우 Servlet 2.5 은 애노테이션을 이용한 설정방법을 사용 할수 없어 web.xml 에 배치 정보를 작성해야 한답니다.  
+Servlet 2.4 버전까지는 web.xml <listener> 태그 작성시 순서를 지켜야 한답니다.  
+Servlet 2.5 부터는 순서 상관없답니다.  
+실습시 사용한 톰캣(8.5)은 Servlet 3.1 이군요.  
 
 > This is the top-level entry point of the documentation bundle for the Apache Tomcat Servlet/JSP container.  
  Apache Tomcat version 8.5 implements the Servlet 3.1 and JavaServer Pages 2.3 specifications from the Java Community Process, and includes many additional features that make it a useful platform for developing and deploying web applications and web services.  
@@ -311,16 +327,19 @@ $ ll build/libs/
 `$TOMCAT_HOME/webapps`  : 웹 애플리케이션을 배치하는 디렉토리
 
 ```bash
-$ mv build/libs/sample-1.0.war :/usr/local/apache-tomcat-8.5.15/webapps/
+$ mv build/libs/sample-1.0.war /usr/local/apache-tomcat-8.5.15/webapps/
 ```
 
 톰캣을 시작합니다.
 ```bash
 $ cd $TOMCAT_HOME/bin
-$ ./startup.sh      // 실행
-$ ./shutdown.sh     // 종료
+$ ./startup.sh      // 실행 (유닉스용)
+$ ./shutdown.sh     // 종료 (유닉스용)
 ```
+윈도우에서는 startup.bat, shutdown.bat 파일이겠네요.  
+톰캣 서버를 실행하면 배치 디렉토리`$TOMCAT_HOME/webapps`에 있는 .war 파일들이 자동으로 풀린답니다.  
 
+<br>
 
 브라우저에서 확인해보아요.  
 ![http://localhost:8080/sample/]({{ site.url }}/assets/article_images/2019-07-25-About-Tomcat/2019-12-08-war.png)
@@ -328,7 +347,7 @@ $ ./shutdown.sh     // 종료
 
 sample/ 하위 디렉토리가 아닌 최상위 디렉토리에 적용하고 싶다고요?  
 그럼~   
-sample.war 가 아닌 ROOT.war 로 파일을 생성 한 후 webapps 디렉토리에 넣어주세요~ ^.~  
+sample.war를 `ROOT.war`로 변경 후 `webapps 디렉토리`에 넣어주세요~ ^.~  
 
 ### Jenkins
 

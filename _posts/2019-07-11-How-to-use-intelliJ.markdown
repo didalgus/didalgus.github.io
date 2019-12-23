@@ -28,7 +28,7 @@ last_modified_at: 2019-07-12T16:30:00+09:00
 
 어디까지나 개인의 취향이 반영된 포스팅입니다.  
 개발 룰에 사용하지 않는 import 정리 필수 인경우 파일을 열었을때 사용하지 않는 import 를 눈으로 확인하고 정리하는 패턴이 반복되는거예요.  
-이런경우 매번 import 부분을 펼쳐는 저를 보며..
+이런경우 매번 import 부분을 펼치는 저를 보며..
 
 차라리 스크롤링을 하겠어! 클릭 귀찮아!!  
 ![Source Code]({{ site.url }}/assets/article_images/2019-07-11-How-to-use-intelliJ/expand-all-1.png)
@@ -123,7 +123,8 @@ Jboss Server 일때는 아래 이미지처럼 Open brower 옵션이 있어서 �
 유지보수 서비스가 많아서 일일히 외울 수가 없었지요.   
 ![Jboss Configurations]({{ site.url }}/assets/article_images/2019-07-11-How-to-use-intelliJ/launch-2019-10-22-001.png)
 
-Spring Boot 프레임워크를 사용하니 내장톰캣 덕에 따로 WAS 설정이 없어 좋은데 브라우저로 띄우는 옵션이 보이지 않아 찾아봤어요.  
+Spring Boot 프레임워크를 사용하니 내장톰캣 덕에 따로 WAS 설정이 없어 좋은데  
+브라우저로 띄우는 옵션이 보이지 않아 찾아봤어요.  
 역시~ 있군요!   
 ![Spring Boot Configurations]({{ site.url }}/assets/article_images/2019-07-11-How-to-use-intelliJ/launch-2019-10-22-002.png)
 
@@ -140,4 +141,48 @@ Spring Boot 프레임워크를 사용하니 내장톰캣 덕에 따로 WAS 설�
 ## Export
 맥북 업글! (아리가또!)  
 설정 옮겨야징! 우와~ 언제적 버전;  
-![UML]({{ site.url }}/assets/article_images/2019-07-11-How-to-use-intelliJ/export.png)
+![Export]({{ site.url }}/assets/article_images/2019-07-11-How-to-use-intelliJ/export.png)
+
+
+## WAS deploy directory
+
+IntelliJ 에서 Jboss 구동시 deploy 경로가 필요할 때가 있지요.
+
+```xml
+<deployments>
+    <deployment name="sample.war" runtime-name="sample.war">
+        <fs-exploded path="/source/sample/target/sample.war"/>
+    </deployment>
+</deployments>
+```
+
+참고로,
+Eclipse 에서 tomcat 구동시 사용하는 deploy 경로는 아래와 같답니다.
+```
+.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/sample
+```
+WTP(Web Tools Platfrom) 플러그인 관리하는 임시 디렉토리 랍니다.  
+
+<br>  
+
+참고로,  
+project source 파일이 deploy 될때 위치는 아래와 같답니다.
+
+{:.table.table-key-value-60}
+
+| source project | deploy project |
+|---|---|
+|  |  ROOT |  
+|sample | sample |  
+|L build |  |  
+|LL classes |  |  
+|LLL sub01 |  |  
+|L src |  |  
+|L webapps  |  |  
+|LL META-INF  | L META-INF  |  
+|LL WEB-INF  | L WEB-INF |  
+|LLL lib  |  LL lib |  
+|LLL web.xml  | LL web.xml |  
+|LLL index.html | L index.html |  
+|  | LL classes  |
+|  | LLL sub01  |  
