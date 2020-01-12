@@ -1,0 +1,129 @@
+---
+layout: post
+title:  "CRLF"
+series:
+date: 2020-01-12 23:20:00 +0900
+abstract: ""
+tags: [CRLF]
+image:
+toc: true
+categories: Tech
+last_modified_at: 2020-01-12T23:40:00+09:00
+---
+
+윈도우 OS 에서 개발한 소스파일을 받아 Mac OS 에서 작업하다 보니  
+줄바꿈 기호 문제가 발생~~ 두둥~~  
+
+## 증상
+
+```bash
+$ vi -b sample.xml
++    ^M
++    ^M
+...
+```
+
+Mac 에서 변환된 파일을 git에 올렸더니 아래와 같은 현상이;;;  
+이거~ 이거~ 한두줄이 아니라~ 몇백 라인이 죄다 저러니 ~ (식은땀이 나는구나..)
+![source tree]({{ site.url }}/assets/article_images/2020-01-12-CRLF/CRLF_2020-01-07.png)
+
+
+## CRLF
+
+> 컴퓨터 환경에서는 간단히 CR로 줄여 쓴다.   
+원래 캐리지 리턴은 타자기의 구조나 레버를 가리키는 용어였다.  
+출처 : https://ko.wikipedia.org/wiki/캐리지_리턴
+
+
+- LF(Line Feed)  
+  라인피드는 커서를 현재위치에서 바로 아래로 이동하지요.
+
+- CR(Carrige Return)  
+  캐리지 리턴은 커서의 위치를 현재위치의 제일 앞으로 이동한답니다.
+
+
+## 조치
+구글링 해보니 대부분 vi로 해결법이 나오는 군요.  
+
+### vi
+
+파일의 줄바꿈을 확인해 볼까요?
+```bash
+$ vi -b sample.xml
+<?xml version="1.0" encoding="UTF-8"?>^M
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">^M
+<mapper namespace="com.didalgus.dao.SampleDao">^M
+^M
+    <sql id="sqlField">^M
+```
+
+이제 `Ctrl + V + M`(^M) 문자를 제거 해봅시다.  
+vi 편집모드에서 아래 3가지 방법으로 가능하답니다.  
+<br> 
+
+첫번째 방법은  
+```bash
+:%s/^M//
+```
+
+두번째 방법은  
+```bash
+:%s/\015//
+```
+
+세번째 방법으로는
+```bash
+:set ff=unix
+```
+
+짜짠~ 잘되시나요?  
+
+
+### intelliJ
+
+손에 익은 intelliJ 로 쉽게 변환해보아요.
+
+[IntelliJ 줄바꿈 설정](https://www.jetbrains.com/help/idea/configuring-line-endings-and-line-separators.html) 페이지에서 안내해준 대로 변환해 보아요.  
+파일의 줄바꿈을 먼저 확인을 해야겠지요.  
+<br>
+
+WindowsOS 에서 생성한 파일
+![made in WindowsOS]({{ site.url }}/assets/article_images/2020-01-12-CRLF/CRLF_winodws_2020-01-12.png)
+
+MacOS 에서 생성한 파일
+![made in MacOS]({{ site.url }}/assets/article_images/2020-01-12-CRLF/CRLF_mac_2020-01-12.png)
+
+<br>
+2가지 방법으로 변경가능하지요.   
+첫번째는 하단 상태바(Status Bar) 에서 바꾸기~  
+`LF - Unix and OS X (\n)` 으로 변경해주세요.  
+
+![made in MacOS]({{ site.url }}/assets/article_images/2020-01-12-CRLF/CRLF_2020-01-12_convert.png)
+
+
+두번째로 상단 메뉴 에서 바꾸기~  
+![made in MacOS]({{ site.url }}/assets/article_images/2020-01-12-CRLF/CRLF_2020-01-12_menu.png)
+
+
+vi 명령어로 확인해보았어요  
+```bash
+$ vi -b sample.xml
+<?xml version="1.0" encoding="UTF-8"?>^M
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">^M
+<mapper namespace="com.didalgus.dao.SampleDao">^M
+^M
+    <sql id="sqlField">^M
+```
+
+수정후  
+```bash
+$ vi -b sample.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.didalgus.dao.SampleDao">
+
+    <sql id="sqlField">
+```
+
+IntelliJ 히스토리에서 확인 할 수 있어요.
+![made in MacOS]({{ site.url }}/assets/article_images/2020-01-12-CRLF/CRLF_2020-01-12_history.png)
