@@ -17,7 +17,7 @@ image:
 #draft: "yes"
 toc: true
 categories: Tech
-last_modified_at: 2019-11-30T23:40:00+09:00
+last_modified_at: 2020-08-31T23:40:00+09:00
 ---
 
 
@@ -290,6 +290,7 @@ Homebrew 2.2.0
 ```
 
 Ruby 설치합니다.  
+Ruby 버전에 따라 환경변수가 달라지네요. (회사 맥북버전이 다른 변수선언이 추가되었네요.)
 
 ```bash
 $ brew install ruby
@@ -358,6 +359,16 @@ $ git clone https://github.com/didalgus/didalgus.github.io.git
 $ cd didalgus.github.io.git
 $ bundle install
 $ bundle exec jekyll serve
+```
+
+
+### etc
+
+친절해라. root 로 실행하지말라고 안내해주네요.
+
+```bash
+root# bundle install
+Don't run Bundler as root. Bundler can ask for sudo if it is needed, and installing your bundle as root will break this application for all non-root users on this machine.
 ```
 
 
