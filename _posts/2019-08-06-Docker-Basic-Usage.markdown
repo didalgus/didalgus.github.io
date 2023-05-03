@@ -4,7 +4,7 @@ title:  "Docker Basic Usage"
 series: 1/3
 date:   2019-08-06 18:20:00 +0900
 abstract: ""
-tags: [docker]
+tags: [docker, featured]
 image:
 toc: true
 categories: docker

@@ -3,7 +3,7 @@ layout: post
 title:  "About Git"
 date:   2019-06-20 16:50:00 +0900
 abstract: "Git 개념과 기본적인 사용법을 정리하였습니다. <br> Rebase, cherry-pick, Reset 을 이용한 history 관리를 시작해보세요."
-tags: [git, commit, featured]
+tags: [git, commit]
 image:
 toc: true
 categories: Tech
