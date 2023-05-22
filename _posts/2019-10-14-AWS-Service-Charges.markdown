@@ -2,7 +2,7 @@
 layout: post
 title:  "AWS Service Charges"
 series:
-date:   2019-10-14 11:00:00 +0900
+date:   2022-10-14 11:00:00 +0900
 abstract: ""
 tags: [AWS]
 image:

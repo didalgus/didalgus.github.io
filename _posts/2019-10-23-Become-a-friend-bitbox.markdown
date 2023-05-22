@@ -2,7 +2,7 @@
 layout: post
 title:  "Bit the Box"
 series:
-date: 2019-10-23 15:30:00 +0900
+date: 2022-10-23 15:30:00 +0900
 abstract: ""
 tags: [bit]
 image:

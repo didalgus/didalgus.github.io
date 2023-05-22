@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "How to compile java"
-date:   2019-07-17 17:30:00 +0900
+date:   2021-07-17 17:30:00 +0900
 abstract: ""
 tags: [java]
 image:

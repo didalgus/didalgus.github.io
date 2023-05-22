@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Convert files with iconv"
-date:   2019-07-23 15:00:00 +0900
+date:   2021-09-23 15:00:00 +0900
 abstract: ""
 tags: [linux, iconv]
 image:
