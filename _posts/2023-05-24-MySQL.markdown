@@ -1,0 +1,45 @@
+---
+layout: post
+title:  "MySQL"
+series:
+date: 2023-05-24 19:03:00 +0900
+abstract: ""
+tags: [MySQL useSSL]
+image:
+toc: true
+categories: Tech
+last_modified_at: 2023-05-24T23:40:00+09:00
+---
+
+아래와 같은 에러가 쭉 찍혀서 로그파일을 도배하고 있었다.  
+고렇담 수정해야겠지~
+
+## 증상
+
+```bash
+Wed May 24 11:50:56 KST 2023 WARN: Establishing SSL connection without server's identity verification is not recommended. According to MySQL 5.5.45+, 5.6.26+ and 5.7.6+ requirements SSL connection must be established by default if explicit option isn't set. For compliance with existing applications not using SSL the verifyServerCertificate property is set to 'false'. You need either to explicitly disable SSL by setting useSSL=false, or set useSSL=true and provide truststore for server certificate verification.
+Wed May 24 11:51:03 KST 2023 WARN: Establishing SSL connection without server's identity verification is not recommended. According to MySQL 5.5.45+, 5.6.26+ and 5.7.6+ requirements SSL connection must be established by default if explicit option isn't set. For compliance with existing applications not using SSL the verifyServerCertificate property is set to 'false'. You need either to explicitly disable SSL by setting useSSL=false, or set useSSL=true and provide truststore for server certificate verification.
+```
+
+## 원인 
+
+MySQL 5.5 버전부터 보안이 강화되어 연결시 기본적으로 SSL통신을 사용하도록 적용되어 SSL 접속(useSSL=true)이 기본값입니다.  
+그래서 SSL처리를 안하면 위와 같은 에러가 나오지요.
+
+
+## 조치
+
+방안 1) 
+propeties 클래스사용시 옵션 추가 
+```java
+properties.setProperty("useSSL", "false");
+```
+
+
+방안 2)
+url 방식에 추가 
+useSSL=false 옵션 추가 
+
+```bash
+jdbc:mysql://000.internal.mysql.com:3306/db_name?useUnicode=true&characterEncoding=utf8&useSSL=false
+```
