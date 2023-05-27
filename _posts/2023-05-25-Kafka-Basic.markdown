@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Apache Kafka"
+title:  "Apache Kafka Basic"
 series:
 date: 2023-05-25 19:03:00 +0900
 abstract: "Apache Kafka 시리즈 중 첫번째 글입니다. Kafka의 기본개념을 알아보고 설치 운영해봅시다."
@@ -12,38 +12,40 @@ last_modified_at:
 ---
 
 kafka 를 잊어버린 미래의 나에게 kafka는 말이지~ 라고 알려주는 목표를 설정하고 글쓰기 하고있습니다. 
-+ 유툽에서 개발자 글쓰기를 할때 저렇게 설정하고 글을 써보라고 조언하시더군요. 
-
-제가 있는 IOT 부서에서는 디바이스(ex. 카메라, 센서 등등) 데이터 수집을 Kafka 로 하고있습니다. 
-Kafka 유료 온라인 강의를 신청해주셔서 (돈이 아까우니!) 강의를 시청하면서 정리를 해보았습니다.
-
-내용이 많으면 시리즈로 나눌예정입니다. 
+(유툽에서 개발자 글쓰기를 할때 저렇게 설정하고 글을 써보라고 조언하시더군요.)
 
 ![kafka logo]({{ site.url }}/assets/article_images/2023-05-25-Kafka/kafka_logo-simple.png)
-
 [Kafka 공식사이트](https://kafka.apache.org/) 
+
+제가 있는 IOT 부서에서는 디바이스(ex. 카메라, 센서 등등) 데이터 수집을 Kafka 로 하고있습니다.   
+Kafka 유료 온라인 강의를 신청해주셔서 (돈이 아까우니!) 강의를 시청하면서 정리를 해보았습니다.   
+
+* **Apache Kafka Basic ✓** <span class="series">SERIES 1/3</span>  
+* [Apache Kafka Usage]({% post_url 2023-05-26-Kafka-Usage %}) <span class="series">SERIES 2/3</span>  
+
 
 
 ## Apache Kafka 의 기본 개념 및 이해 
 
-Kafka는 Linkedin 내에서 개발하여 후에 아파치재단에 2011년에 기부되어 오픈소스화 되었습니다.   
+Kafka는 Linkedin 내에서 개발하여 후에 아파치 재단에 2011년에 기부되어 오픈소스화 되었습니다.   
 기존의 MQ(Messaging Platform) 에서 처리 불가능 이벤트 스트림 처리를 위해 개발 되었습니다.  
     
 <br />    
 Kafka 라고 명명한 계기는 창시자인 Jay Kreps는 아래와 같이 말했습니다.  
 
-![kafka logo]({{ site.url }}/assets/article_images/2023-05-25-Kafka/quora-2023-05-25.png)  
-https://www.quora.com/What-is-the-relation-between-Kafka-the-writer-and-Apache-Kafka-the-distributed-messaging-system/answer/Jay-Kreps 
+![]({{ site.url }}/assets/article_images/2023-05-25-Kafka/quora-2023-05-25.png)  
+[https://www.quora.com/What-is-the-relation-between-Kafka-the-writer-and-Apache-Kafka-the-distributed-messaging-system/answer/Jay-Kreps](https://www.quora.com/What-is-the-relation-between-Kafka-the-writer-and-Apache-Kafka-the-distributed-messaging-system/answer/Jay-Kreps)
 
 
-구글번역 :  
-
-    카프카는 작가 이름을 쓰는 것에 최적화된 시스템이니까 말이 된다고 생각했다. 나는 대학에서 많은 조명 수업을 들었고 Franz Kafka를 좋아했습니다. 또한 오픈 소스 프로젝트의 이름이 멋지게 들렸습니다.  
-    따라서 기본적으로 관계가 많지 않습니다.  
-
-Jay Kreps 이분은 후에 CONFLUENT 회사를 2014년에 설립했습니다.
+구글번역  
+```
+카프카는 작가 이름을 쓰는 것에 최적화된 시스템이니까 말이 된다고 생각했다. 나는 대학에서 많은 조명 수업을 들었고 Franz Kafka를 좋아했습니다. 또한 오픈 소스 프로젝트의 이름이 멋지게 들렸습니다.  
+따라서 기본적으로 관계가 많지 않습니다.  
+```
+Jay Kreps 이분은 2014년에 CONFLUENT 회사를 설립했습니다.
 
 ### Evnet란 무엇일까요? 
+Kafka 를 사용하기로 했다면 Event 가 많이 발생하는 시스템이겠군요. 
 
 - 은행 거래, 송금
 - 웹사이트에서의 행위
@@ -57,7 +59,7 @@ BinData가 발생하고 Event가 사용되는 모든곳이라고 할 수 있습�
 - IOT 디바이스로부터 데이터 수집 (제가 현재 있는 IOT부서에서 활용하는 사례입니다.)
 - DB동기화
 - Messaging System 
-- 실시간ETL
+- 실시간 ETL
 - Spark, Flink, Storm, Hadoop 과 같은 빅데이터 기술과 같이사용
 
 
