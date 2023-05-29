@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Apache Kafka Basic"
-series:
+series: 1/2
 date: 2023-05-25 19:03:00 +0900
 abstract: "Apache Kafka 시리즈 중 첫번째 글입니다. Kafka의 기본개념을 알아보고 설치 운영해봅시다."
 tags: [Kafka]
@@ -22,8 +22,8 @@ Kafka 유료 온라인 강의를 시청하면서 정리를 해보았습니다. (
 ![kafka logo]({{ site.url }}/assets/article_images/2023-05-25-Kafka/kafka_logo-simple.png)
 
 
-* **Apache Kafka Basic ✓** <span class="series">SERIES 1/3</span>  
-* [Apache Kafka Usage]({% post_url 2023-05-26-Kafka-Usage %}) <span class="series">SERIES 2/3</span>  
+* **Apache Kafka Basic ✓** <span class="series">SERIES 1/2</span>  
+* [Apache Kafka Usage]({% post_url 2023-05-26-Kafka-Usage %}) <span class="series">SERIES 2/2</span>  
 
 
 

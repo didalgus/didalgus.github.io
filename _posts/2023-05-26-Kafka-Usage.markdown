@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Apache Kafka Usage"
-series:
+series: 2/2
 date: 2023-05-26 19:03:00 +0900
 abstract: "Apache Kafka 시리즈 중 두번째 글입니다. Kafka 설치하고 Producer과 Consumer를 알아봅시다."
 tags: [Kafka]
@@ -17,8 +17,9 @@ kafka 를 잊어버린 미래의 나에게 이렇게 설치하고 이렇게 쓰�
 
 ![kafka logo]({{ site.url }}/assets/article_images/2023-05-25-Kafka/kafka_logo-simple.png)
 
-* **Apache Kafka Basic ✓** <span class="series">SERIES 1/3</span>  
-* [Apache Kafka Usage]({% post_url 2023-05-26-Kafka-Usage %}) <span class="series">SERIES 2/3</span>  
+* [Apache Kafka Usage]({% post_url 2023-05-25-Kafka-Basic %}) <span class="series">SERIES 1/2</span>    
+* **Apache Kafka Usage ✓** <span class="series">SERIES 2/2</span>    
+
 
 ### kafka 다운로드 & 설치
 
