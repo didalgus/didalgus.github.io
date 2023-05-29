@@ -11,8 +11,8 @@ categories: Tech
 last_modified_at: 
 ---
 
-kafka 를 잊어버린 미래의 나에게 이렇게 설치하고 이렇게 쓰는거야~ 라고 알려주는 목표를 설정하고 글쓰기 하고있습니다. 
-(유툽에서 개발자 글쓰기를 할때 저렇게 설정하고 글을 써보라고 조언하시더군요.)
+kafka 를 잊어버린 미래의 나에게 이렇게 설치하고 이렇게 쓰는거야~ 라고 알려주는 목표를 설정하고 글쓰기 하고있습니다.   
+유툽에서 개발자 글쓰기를 할때 저렇게 설정하고 글을 써보라고 조언하시더군요.  
 
 ![kafka logo]({{ site.url }}/assets/article_images/2023-05-25-Kafka/kafka_logo-simple.png)
 
@@ -128,17 +128,17 @@ Topic은 논리적인 표현으로 Kafka에서 메시지가 저장되는 장소 
 
 
 
-Topic 네이밍이 중요해서 찾아보았습니다. 
-운영중에 변경하기 어렵기때문에 생성시 알기쉽게 네이밍하는게 중요하더군요. 
-public 하게 명명하면 운영중 유지보수시 헷갈릴 수 있답니다. ㅠ 
-현 IOT부서에서는 _(언더바)를 권장하지 않아서 `SensorEvent` 이런식으로 파스칼 케이스(pascal case) 표기명을 사용하고 있습니다. 
+Topic 네이밍이 중요해서 찾아보았습니다.   
+운영중에 변경하기 어렵기때문에 생성시 알기쉽게 네이밍하는게 중요하더군요.   
+public 하게 명명하면 운영중 유지보수시 헷갈릴 수 있답니다. ㅠ   
+현 IOT부서에서는 _(언더바)를 권장하지 않아서 `SensorEvent` 이런식으로 파스칼 케이스(pascal case) 표기명을 사용하고 있습니다.   
 
-토픽 네임 규칙
-- 최대 249자 
+토픽 네임 규칙  
+- 최대 249자   
 - 공백허용 X
 - _. 권장하지 않음 
 
-깃헙 소스 내 정의된 규칙은 아래와 같군요. https://github.com/apache/kafka/blob/trunk/clients/src/main/java/org/apache/kafka/common/internals/Topic.java
+깃헙 소스 내 정의된 규칙은 아래와 같군요.   https://github.com/apache/kafka/blob/trunk/clients/src/main/java/org/apache/kafka/common/internals/Topic.java
 
 ```java
 public static final String LEGAL_CHARS = "[a-zA-Z0-9._-]";
@@ -232,37 +232,3 @@ total 16
 
 $ cat ~/apps/kafka/tmp/kafka-logs/willow-0/00000000000000000000.log
 ```
-
-
-```bash
-
-```
-
-
-```bash
-
-```
-
-
-```bash
-
-```
-
-```bash
-
-```
-
-```bash
-
-```
-
-```bash
-
-```
-
-```bash
-
-```
-
-
-

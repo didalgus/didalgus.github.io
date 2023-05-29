@@ -11,14 +11,12 @@ categories: Tech
 last_modified_at: 
 ---
 
-kafka 를 잊어버린 미래의 나에게 kafka는 말이지~ 라고 알려주는 목표를 설정하고 글쓰기 하고있습니다. 
-(유툽에서 개발자 글쓰기를 할때 저렇게 설정하고 글을 써보라고 조언하시더군요.)
-
-![kafka logo]({{ site.url }}/assets/article_images/2023-05-25-Kafka/kafka_logo-simple.png)
-[Kafka 공식사이트](https://kafka.apache.org/) 
-
-제가 있는 IOT 부서에서는 디바이스(ex. 카메라, 센서 등등) 데이터 수집을 Kafka 로 하고있습니다.   
-Kafka 유료 온라인 강의를 신청해주셔서 (돈이 아까우니!) 강의를 시청하면서 정리를 해보았습니다.   
+kafka 를 잊어버린 미래의 나에게 kafka는 말이지~ 라고 알려주는 목표를 설정하고 글쓰기 하고있습니다.   
+유투버에서 본 개발자 글쓰기를 할때 저렇게 설정하고 글을 써보라고 조언하시더군요.  
+<br>
+제가 있는 IOT 부서에서 디바이스(ex. 카메라, 도어락, 센서 등등) 데이터 수집을 Kafka 로 하고있습니다.   
+Kafka 유료 온라인 강의를 시청하면서 정리를 해보았습니다. (돈이 아까우니!)  
+<br>
 
 * **Apache Kafka Basic ✓** <span class="series">SERIES 1/3</span>  
 * [Apache Kafka Usage]({% post_url 2023-05-26-Kafka-Usage %}) <span class="series">SERIES 2/3</span>  
@@ -27,25 +25,29 @@ Kafka 유료 온라인 강의를 신청해주셔서 (돈이 아까우니!) 강�
 
 ## Apache Kafka 의 기본 개념 및 이해 
 
-Kafka는 Linkedin 내에서 개발하여 후에 아파치 재단에 2011년에 기부되어 오픈소스화 되었습니다.   
+
+![kafka logo]({{ site.url }}/assets/article_images/2023-05-25-Kafka/kafka_logo-simple.png)
+
+Kafka는 Linkedin 내에서 개발하여 후에 아파치 재단([Kafka 공식사이트](https://kafka.apache.org/))에 2011년에 기부되어 오픈소스화 되었습니다.   
 기존의 MQ(Messaging Platform) 에서 처리 불가능 이벤트 스트림 처리를 위해 개발 되었습니다.  
-    
-<br />    
+ 
 Kafka 라고 명명한 계기는 창시자인 Jay Kreps는 아래와 같이 말했습니다.  
 
 ![]({{ site.url }}/assets/article_images/2023-05-25-Kafka/quora-2023-05-25.png)  
-[https://www.quora.com/What-is-the-relation-between-Kafka-the-writer-and-Apache-Kafka-the-distributed-messaging-system/answer/Jay-Kreps](https://www.quora.com/What-is-the-relation-between-Kafka-the-writer-and-Apache-Kafka-the-distributed-messaging-system/answer/Jay-Kreps)
 
-
-구글번역  
+구글번역  [원문 링크](https://www.quora.com/What-is-the-relation-between-Kafka-the-writer-and-Apache-Kafka-the-distributed-messaging-system/answer/Jay-Kreps)
 ```
 카프카는 작가 이름을 쓰는 것에 최적화된 시스템이니까 말이 된다고 생각했다. 나는 대학에서 많은 조명 수업을 들었고 Franz Kafka를 좋아했습니다. 또한 오픈 소스 프로젝트의 이름이 멋지게 들렸습니다.  
 따라서 기본적으로 관계가 많지 않습니다.  
 ```
 Jay Kreps 이분은 2014년에 CONFLUENT 회사를 설립했습니다.
 
-### Evnet란 무엇일까요? 
-Kafka 를 사용하기로 했다면 Event 가 많이 발생하는 시스템이겠군요. 
+
+
+### Evnet란 무엇일까요?   
+
+Kafka 를 사용하기로 했다면 Event 가 많이 발생하는 시스템이겠군요.   
+Kafka 를 이야기하려면 Event 를 먼저 이야기해야 겠군요.  
 
 - 은행 거래, 송금
 - 웹사이트에서의 행위
@@ -54,7 +56,7 @@ Kafka 를 사용하기로 했다면 Event 가 많이 발생하는 시스템이�
 
 
 ### Kafka 의 활용 사례를 무엇이 있을까요?
-BinData가 발생하고 Event가 사용되는 모든곳이라고 할 수 있습니다. 
+BigData가 발생하고 Event가 사용되는 모든곳이라고 할 수 있습니다. 
 
 - IOT 디바이스로부터 데이터 수집 (제가 현재 있는 IOT부서에서 활용하는 사례입니다.)
 - DB동기화
@@ -65,127 +67,107 @@ BinData가 발생하고 Event가 사용되는 모든곳이라고 할 수 있습�
 
 ## Topic, Partition, Segment 
 
-Topic : Kafka 안에서 메시지가 저장되는 장소, 논리적인표현
-Partition : Commit Log, 하나의 Topic은 하나이상의 Partition으로 구성
-병렬처리(Throughput향상)를 위해서 다수의Partition 사용
-Segment : 메시지(데이터)가저장되는실제물리File
-Segment File이지정된 크기보다 크거나 지정된기간보다 오래되면 새파일이 열리고 메시지는 새파일에 추가됨
+### Topic 
+Topic 은 Kafka 안에서 메시지가 저장되는 장소, 논리적인 표현입니다.   
+<br>
 
+### Partition
+Partition 은 Commit Log, 하나의 Topic은 하나이상의 Partition으로 구성되어 있지요.    
+병렬처리(Throughput 향상)를 위해서 다수의 Partition 사용하게 됩니다.    
+Topic 생성시 Partition 개수를 지정합니다.     
+개수변경 가능하나 운영시에는 변경 권장하지 않습니다.     
+Partition 번호는 0부터 시작하고 오름차순입니다. 
+Topic 내의 Partition 들은 서로독립적입니다. 
 
-Topic 생성시 Partition개수를 지정
-개수변경 가능하나 운영시에는 변경권장하지않음
+Offset 값은 계속증가하고 0으로 돌아가지 않습니다. 
+Event(Message)의 순서는 하나의 Partition 내에서만 보장합니다. 그래서 순서가 보장되야 하는경우 Partition 개수를 1로 지정합니다.   
+Partition에 저장된 데이터(Message)는 변경이 불가능(Immutable)합니다.   
+Partition에 Write되는 데이터는 맨끝에 추가되어 저장됩니다.   
+Partition은 Segment File들로 구성됩니다.   
+Rolling 정책: log.segment.bytes(default 1 GB), log.roll.hours(default 168 hours)  
 
-• Partition 번호는 0부터 시작하고 오름차순
-• Topic내의P artition들은 서로독립적임
-
-Offset값은 계속증가하고 0으로 돌아가지 않음
-Event(Message)의순서는 하나의 Partition내에서만 보장
-Partition에 저장된데이터(Message)는 변경이 불가능(Immutable)
-Partition에 Write되는 데이터는 맨끝에 추가되어 저장됨
-Partition은 Segment File들로 구성됨
-Rolling 정책: log.segment.bytes(default 1 GB), log.roll.hours(default 168 hours)
+<br>
+### Segment
+Segment 는 메시지(데이터)가 저장되는 실제 물리 File 입니다.<br>
+Segment File이 지정된 크기보다 크거나 지정된 기간보다 오래되면 새파일이 열리고 메시지는 새파일에 추가되게 동작합니다.   
 
 
 ## Kafka broker 
 
-Kafka Server라고부르기도함
-- 모든 Kafka Broker는 Bootstrap(부트스트랩)서버라고 부름
+Kafka Server 라고 부르기도 합니다.  
+모든 Kafka Broker는 Bootstrap(부트스트랩)서버라고 부릅니다.  
+Kafka Cluster는 여러개의 Broker들로 구성됩니다.   
+최소 3대이상의 Broker를 하나의 Cluster로 구성해야 하며 4대 이상을 권장합니다.  
+Kafka broker 는 Topic 내의 Partition 들을 분산,유지 및 관리합니다.   
+Broker 는 Partition 에 대한 Read 및 Write를 관리하는 소프트웨어입니다. 
 
-최소 3대이상의 Broker를 하나의 Cluster로 구성해야 함. 4대 이상을 권장함
-	
-Topic내의 Partition들을 분산,유지 및 관리
+각각의 Broker 들은 ID로 식별합니다. (단, ID는숫자)  
 
-Broker는Partition에대한Read및Write를관리하는소프트웨어
-• Broker는Topic내의Partition들을분산,유지및관리
-
-
-각각의Broker들은ID로식별됨(단, ID는숫자)
-• Topic의일부Partition들을포함
-Topic데이터의일부분(Partition)을갖을뿐데이터전체를갖고있지않음
-• Client는특정Broker에연결하면전체클러스터에연결됨
-각각의Broker는모든Broker, Topic, Partition에대해알고있음(Metadata)
-
-Kafka Cluster : 여러개의Broker들로구성됨
-
-
-- 하나의 Broker에만 연결하면 Cluster 전체에 연결됨
-    하지만,특정 Broker 장애를 대비하여, 전체 Broker List(IP, port)를 파라미터로 입력권장
-
+Topic 데이터의 일부분(Partition)을 갖을 뿐 데이터 전체를 갖고있지 않습니다.  
+Client는 특정 Broker에 연결하면 전체 클러스터에 연결됩니다. (편리!)  
+하지만,특정 Broker 장애를 대비하여, 전체 Broker List(IP, port)를 파라미터로 입력 권장합니다.   
+각각의 Broker는 모든 Broker, Topic, Partition 에 대해알고있습니다. (Metadata)
 
 
 ## Zookeeper
 
-Zookeeper는 Broker를 관리(Broker 들의 목록/설정을 관리)하는 소프트웨어
+Zookeeper는 Broker를 관리(Broker 들의 목록/설정을 관리)하는 소프트웨어입니다.   
 
-Zookeeper는변경사항에대해Kafka에알림
-èTopic 생성/제거, Broker 추가/제거등
+Zookeeper 는 변경사항에 대해 Kafka 에 알립니다.   
+ex) Topic 생성/제거, Broker 추가/제거 등등   
 
-Zookeeper 없이는Kafka가작동할수없음
-KIP-500 을통해서Zookeeper제거가진행중
+Zookeeper 없이는 Kafka가 작동 할 수 없습니다.   
+(KIP-500 을 통해서 Zookeeper 제거가 진행중)  
 
-- Zookeeper는 홀수의 서버로 작동하게 설계되어있음 (최소3, 권장5)
-- Zookeeper에는 Leader(writes)가있고 나머지 서버는 Follower(reads)
+Zookeeper 는 홀수의 서버로 작동하게 설계되어있습니다. (최소3, 권장5)  
+Zookeeper 에는 Leader(writes) 가 있고 나머지 서버는 Follower(reads)입니다.   
 
-
-Ensemble은Zookeeper 서버의클러스터
-Quorum(쿼럼)은“정족수”이며, 합의체가의사를진행시키거나의결을하는데필요한최소한도의
-인원수를뜻함
-
-분산코디네이션환경에서예상치못한장애가발생해도분산시스템의일관성을유지시키기
-위해서사용
-Ensemble이3대로구성되었다면Quorum은2,즉Zookeeper 1대가장애가발생하더라도정상동작
+<br>
+Ensemble 은 Zookeeper 서버의 클러스터입니다.   
+Quorum(쿼럼) 은 “정족수”이며, 합의체가 의사를 진행시키거나 의결을 하는데 필요한 최소한 인원수를뜻합니다.   
+분산 코디네이션환경 에서 예상치 못한 장애가 발생해도 분산시스템의 일관성을 유지시키기 위해서 사용합니다.   
+Ensemble이 3대로 구성되었다면 Quorum 은 2, 즉 Zookeeper 1대가 장애가 발생 하더라도 정상동작합니다.  
 
 
 
 ## Producer는
 
-Producer는 메시지를 생산(Produce)해서 Kafka의 Topic으로 메시지를 보내는 애플리케이션입니다. 
+Producer는 메시지를 생산(Produce)해서 Kafka의 Topic으로 메시지를 보내는 애플리케이션입니다.   
 
+Consumer Group는 Topic의 메시지를 사용하기 위해 협력하는 Consumer들의 집합입니다.  
+하나의 Consumer는 하나의Consumer Group에 포함되며, Consumer Group내의 Consumer들은 협력하여 Topic의 메시지를 분산병렬 처리합니다.  
 
-Consumer Group는 Topic의 메시지를 사용하기 위해 협력하는 Consumer들의 집합입니다.
-하나의 Consumer는 하나의Consumer Group에 포함되며, Consumer Group내의 Consumer들은 협력하여 Topic의 메시지를 분산병렬 처리합니다.
-
-
-Producer와 Consumer는 서로알지 못하며, Producer와 Consumer는 각각 고유의 속도로 Commit Log에 Write및 Read를 수행
+Producer와 Consumer는 서로 알지 못하며, Producer와 Consumer는 각각 고유의 속도로 Commit Log에 Write및 Read를 수행합니다. 
 
 
 
 ## Consumer 
 
+Consumer는 Topic의 메시지를 가져와서 소비(Consume)하는 애플리케이션입니다.   
 
-Consumer는 Topic의 메시지를 가져와서 소비(Consume)하는 애플리케이션입니다. 
-
-Consumer는각각고유의속도로Commit Log로부터순서대로Read(Poll)를수행
-• 다른Consumer Group에속한Consumer들은서로관련이없으며, Commit Log에있는
-Event(Message)를동시에다른위치에서Read할수있음
-
+Consumer 는 각각 고유의 속도로 Commit Log 로부터 순서대로 Read(Poll) 를 수행합니다.   
+다른 Consumer Group 에 속한 Consumer 들은 서로관련이없으며, Commit Log 에 있는 Event(Message)를 동시에 다른위치 에서 Read 할수있습니다.     
 
 
 Consumer Offset 
-
-- Consumer가자동이나수동으로데이터를읽은위치를commit하여다시읽음을방지
-- __consumer_offsets라는Internal Topic에서Consumer Offset을저장하여관리
-- LOG-END-OFFSET: Producer 가 Write
-- CURRENT-OFFSET : Group의 Consumer가 Read하고 처리한후에 Commit
-- Cardinality
-		특정 데이터 집합에서 유니크(Unique)한값의 개수
-- Partition전체에 Record를 고르게 배포하는 Key를 만드는것이 중요
+  
+- Consumer 가 자동이나 수동으로 데이터를 읽은위치를 commit하여 다시 읽음을 방지  
+- __consumer_offsets 라는 Internal Topic 에서 Consumer Offset을 저장하여 관리  
+- LOG-END-OFFSET: Producer 가 Write  
+- CURRENT-OFFSET : Group의 Consumer가 Read하고 처리한후에 Commit  
+- Cardinality : 특정 데이터 집합에서 유니크(Unique)한 값의 개수  
+- Partition 전체에 Record를 고르게 배포하는 Key를 만드는것이 중요  
 
 
 
 ## Replication 
 
+Broker에 장애가 발생하면 장애가 발생한 Broker의 Partition들은 모두 사용할 수 없게 되는 문제발생합니다.   
+Partition을 복제(Replication)하여 다른 Broker상에서 복제물(Replicas)을 만들어서 장애를 미리대비합니다. 
 
-Broker에장애가발생하면?
-장애가발생한Broker의Partition들은모두사용할수없게되는문제발생
-
-Partition을 복제(Replication)하여 다른 Broker상에서 복제물(Replicas)을 만들어서 장애를 미리대비함
-
-
-
-Producer는 Leader에만 Write하고 Consumer는 Leader로부터만 Read함
-Follower는 Broker장애시안정성을제공하기위해서만존재
-Follower는 Leader의Commit Log에서데이터를가져오기요청(Fetch Request)으로복제
+Producer는 Leader 에만 Write하고 Consumer는 Leader로부터만 Read합니다. 
+Follower는 Broker 장애시 안정성을 제공하기 위해서만 존재합니다. 
+Follower는 Leader 의 Commit Log 에서 데이터를 가져오기 요청(Fetch Request)으로 복제합니다. 
 
 
 Partition Leader에 대한 자동분산  
@@ -202,283 +184,26 @@ leader.imbalance.per.broker.percentage : 기본값 10
 
 ## In-Sync Replicas(ISR)
 
-Leader 장애시Leader를선출하는데사용
-Partition을 복제(Replication)하여 다른 Broker상에서 복제물(Replicas)을 만들어서 장애를 미리대비함
+Leader 장애시 Leader 를 선출하는데 사용합니다.   
+Partition을 복제(Replication)하여 다른 Broker상에서 복제물(Replicas)을 만들어서 장애를 미리대비합니다.   
+Replicas - Leader Partition, Follower Partition  
+In-Sync Replicas(ISR)는 High Water Mark라고 하는 지점까지 동일한 Replicas (Leader와 Follower모두)의 목록입니다.  
+Leader에 장애가 발생하면, ISR 중에서 새 Leader를 선출합니다.  
 
-Replicas - Leader Partition, Follower Partition
+<br>
+High Water Mark  
+- 가장 최근에 Committed 메시지의 Offset 추적  
+- replication-offset-checkpoint 파일에 체크포인트를 기록  
 
+<br>
+Leader Epoch  
+- leader-epoch-checkpoint 파일에 체크포인트를 기록   
 
-
-In-Sync Replicas(ISR)는 High Water Mark라고 하는 지점까지 동일한 Replicas (Leader와 Follower모두)의 목록
-Leader에 장애가 발생하면, ISR 중에서 새 Leader를 선출
-
-
-High Water Mark
-- 가장 최근에 Committed 메시지의 Offset 추적
-- replication-offset-checkpoint 파일에 체크포인트를 기록    # server /data/ 하위 디렉토리에 없음
-
-Leader Epoch
-- leader-epoch-checkpoint 파일에 체크포인트를 기록      # server /data/ 하위 디렉토리에 없음
-
-
-replica.lag.time.max.ms 으로 판단 해야함
-- Follower가Leader로 Fetch 요청을 보내는 Interval을 체크
-
-replica.lag.max.messages    #서버내 설정 못찾음 (server.properties)
-replica.lag.time.max.ms      #서버내 설정 못찾음 (server.properties)
-
-
-
-## Kafka 설치 
-
-kafka 를 잊어버린 미래의 나에게 이렇게 설치하고 이렇게 쓰는거야~ 라고 알려주는 목표를 설정하고 글쓰기 하고있습니다. 
-+ 유툽에서 개발자 글쓰기를 할때 저렇게 설정하고 글을 써보라고 조언하시더군요. 
-
-
-### kafka 다운로드 & 설치
-
-다운로드 받아봅시다. 
-https://kafka.apache.org/downloads
-
-2023년 2월 7일자 소스버전은 3.4.0가 최신이군요. 
-맥 환경인지라 Binary 버전 2.13 으로 받아서 설치해보겠습니다. 
-
-Scala 2.13 https://archive.apache.org/dist/kafka/2.8.2/kafka_2.13-2.8.2.tgz 
-
-apps 디렉토리에 압축파일을 풀어줍니다. (명령어로든 더블클릭이로든~)  
+<br>
+replica.lag.time.max.ms 으로 판단 해야합니다.    
+Follower가Leader로 Fetch 요청을 보내는 Interval을 체크합니다.    
 
 ```bash
-$ mkdir ~/apps
-$ cd apps 
+replica.lag.max.messages 
+replica.lag.time.max.ms 
 ```
-
-접근 용이하게 심볼릭 링크를 걸어주겠습니다.
-```bash
-ln -s kafka_2.13-2.8.2 kafka
-```
-
-참 쉽죵?  
-```bash
-$ ll apps 
-lrwxr-xr-x 1 willow staff 16B 1 5 17:38 kafka@ -> kafka_2.13-2.8.2
-drwxr-xr-x@ 10 willow staff 320B 1 5 17:43 kafka_2.13-2.8.2/
-```
-
-### zookeeper 설정 & 구동
-
-zookeeper data 가 저장될 디렉토리를 지정해줍니다.
-
-```bash
-$ vi ~/apps/kafka/config/zookeeper.properties 
-# the directory where the snapshot is stored.
-dataDir=/tmp/zookeeper
-# the port at which the clients will connect
-clientPort=2181
-```
-
-zookeeper를 구동해보겠습니다. 2181 포트로 구동되는군요.  
-```bash
-$ ~/apps/kafka/bin/zookeeper-server-start.sh ~/apps/kafka/config/zookeeper.properties 
-= willow ~/apps/kafka/bin  $ ./zookeeper-server-start.sh ../config/zookeeper.properties 
-...
-[2023-05-25 17:43:13,562] INFO clientPortAddress is 0.0.0.0:2181 (org.apache.zookeeper.server.quorum.QuorumPeerConfig)
-...
-[2023-05-25 17:43:13,644] INFO binding to port 0.0.0.0/0.0.0.0:2181 (org.apache.zookeeper.server.NIOServerCnxnFactory)
-```
-
-zookeeper가 정상 구동되었는지 확인해보겠습니다. 
-```bash
-$ telnet 0 2181
-Trying 0.0.0.0...
-Connected to 0.
-Escape character is '^]'.
-```
-
-  
-zookeeper 쉘을 실행해볼까요?   
-```bash
-$ bin/zookeeper-shell.sh localhost:2181 
-Connecting to localhost:2181
-Welcome to ZooKeeper!
-JLine support is disabled
-
-WATCHER::
-
-WatchedEvent state:SyncConnected type:None path:null
-ls /
-[zookeeper]
-```
-
-zookeeper 로그를 확인보겠습니다.  
-위에서 설정한 zookeeper.properties 경로에 로그가 생성된것을 확인했습니다. 
-```bash
-$ ll /tmp/zookeeper/version-2
-total 48
--rw-r--r--  1 willow  wheel    64M  1  5 17:47 log.1
--rw-r--r--  1 willow  wheel   424B  1  5 17:43 snapshot.0
-```
-
-### kafka 설정 & 구동
-
-kafka 설정 파일을 열어보니 9092 포트가 선언되어 있습니다. 
-
-```bash
-$ vi ~/apps/kafka/config/server.properties
-
-listeners=PLAINTEXT://127.0.0.1:9092
-```
-
-kafka(broker) 서버를 실행합니다.
-id = 0 서버가 구동되었네요. 
-```bash
-$ ~/apps/kafka/bin/kafka-server-start.sh config/server.properties
-
-...
-[2023-05-25 17:16:35,827] INFO [KafkaServer id=0] started (kafka.server.KafkaServer)
-```
-
-
-## Topic 
-
-Topic은 논리적인 표현으로 Kafka에서 메시지가 저장되는 장소 입니다. 
-
-
-
-Topic 네이밍이 중요해서 찾아보았습니다. 
-운영중에 변경하기 어렵기때문에 생성시 알기쉽게 네이밍하는게 중요하더군요. 
-public 하게 명명하면 운영중 유지보수시 헷갈릴 수 있답니다. ㅠ 
-현 IOT부서에서는 _(언더바)를 권장하지 않아서 `SensorEvent` 이런식으로 파스칼 케이스(pascal case) 표기명을 사용하고 있습니다. 
-
-토픽 네임 규칙
-- 최대 249자 
-- 공백허용 X
-- _. 권장하지 않음 
-
-깃헙 소스 내 정의된 규칙은 아래와 같군요. https://github.com/apache/kafka/blob/trunk/clients/src/main/java/org/apache/kafka/common/internals/Topic.java
-
-```java
-public static final String LEGAL_CHARS = "[a-zA-Z0-9._-]";
-private static final int MAX_NAME_LENGTH = 249;
-```
-
-
-topic를 생성해보겠습니다.
-
-```bash
-$ ~/apps/kafka/bin/kafka-topics.sh --create --topic willow --bootstrap-server localhost:9092
-Created topic willow.
-```
-
-생성된 topic 를 확인해봅니다. 
-```bash
-$ ~/apps/kafka/bin/kafka-topics.sh --list --bootstrap-server localhost:9092
-willow
-```
-
-## producer & consumer 
-
-
-
-
-
-topic을 생성해보았으니 프로듀서와 컨슈머를 사용해보겠습니다.
-
-producer 
-```bash
-$ ~/apps/kafka/bin/kafka-console-producer.sh --bootstrap-server localhost:9092 --topic willow 
->11
->22
-```
-
-consumer 
-```bash
-$ ~/apps/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic willow                  
-11
-22
-
-$ ~/apps/kafka/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic willow --from-beginning
-11
-22
-```
-
-topics 토픽 확인
-```bash
-$ ~/apps/kafka/bin/zookeeper-shell.sh localhost:2181
-Connecting to localhost:2181
-Welcome to ZooKeeper!
-JLine support is disabled
-
-WATCHER::
-
-WatchedEvent state:SyncConnected type:None path:null
-
-ls /
-[admin, brokers, cluster, config, consumers, controller, controller_epoch, feature, isr_change_notification, latest_producer_id_block, log_dir_event_notification, zookeeper]
-ls /brokers
-[ids, seqid, topics]
-ls /brokers/ids
-[0]
-ls /brokers/topics
-[__consumer_offsets, willow, greenpine]
-
-
-```
-
-## 로그 확인
-
-로그 디렉토리를 살펴볼까요?
-
-```bash
-$ ll ~/apps/kafka/tmp/kafka-logs/           
-total 32
--rw-r--r--  1 willow  wheel     0B  1  6 17:16 cleaner-offset-checkpoint
-drwxr-xr-x  6 willow  wheel   192B  1  6 17:22 willow-0/
-drwxr-xr-x  6 willow  wheel   192B  1  6 17:29 greenpine-0/
--rw-r--r--  1 willow  wheel     4B  1  6 17:30 log-start-offset-checkpoint
--rw-r--r--  1 willow  wheel    88B  1  6 17:16 meta.properties
--rw-r--r--  1 willow  wheel    33B  1  6 17:30 recovery-point-offset-checkpoint
--rw-r--r--  1 willow  wheel    33B  1  6 17:30 replication-offset-checkpoint
-
-$ ll ~/apps/kafka/tmp/kafka-logs/willow-0
-total 16
--rw-r--r--  1 willow  wheel    10M  1  6 17:29 00000000000000000000.index
--rw-r--r--  1 willow  wheel   302B  1  6 17:29 00000000000000000000.log
--rw-r--r--  1 willow  wheel    10M  1  6 17:29 00000000000000000000.timeindex
--rw-r--r--  1 willow  wheel     8B  1  6 17:29 leader-epoch-checkpoint
-
-$ cat ~/apps/kafka/tmp/kafka-logs/willow-0/00000000000000000000.log
-```
-
-
-```bash
-
-```
-
-
-```bash
-
-```
-
-
-```bash
-
-```
-
-```bash
-
-```
-
-```bash
-
-```
-
-```bash
-
-```
-
-```bash
-
-```
-
-
-
