@@ -18,6 +18,10 @@ kafka 를 잊어버린 미래의 나에게 kafka는 말이지~ 라고 알려주�
 Kafka 유료 온라인 강의를 시청하면서 정리를 해보았습니다. (돈이 아까우니!)  
 <br>
 
+
+![kafka logo]({{ site.url }}/assets/article_images/2023-05-25-Kafka/kafka_logo-simple.png)
+
+
 * **Apache Kafka Basic ✓** <span class="series">SERIES 1/3</span>  
 * [Apache Kafka Usage]({% post_url 2023-05-26-Kafka-Usage %}) <span class="series">SERIES 2/3</span>  
 
@@ -25,13 +29,11 @@ Kafka 유료 온라인 강의를 시청하면서 정리를 해보았습니다. (
 
 ## Apache Kafka 의 기본 개념 및 이해 
 
-
-![kafka logo]({{ site.url }}/assets/article_images/2023-05-25-Kafka/kafka_logo-simple.png)
-
 Kafka는 Linkedin 내에서 개발하여 후에 아파치 재단([Kafka 공식사이트](https://kafka.apache.org/))에 2011년에 기부되어 오픈소스화 되었습니다.   
 기존의 MQ(Messaging Platform) 에서 처리 불가능 이벤트 스트림 처리를 위해 개발 되었습니다.  
  
 Kafka 라고 명명한 계기는 창시자인 Jay Kreps는 아래와 같이 말했습니다.  
+<br>
 
 ![]({{ site.url }}/assets/article_images/2023-05-25-Kafka/quora-2023-05-25.png)  
 

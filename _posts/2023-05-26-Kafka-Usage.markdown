@@ -13,6 +13,7 @@ last_modified_at:
 
 kafka 를 잊어버린 미래의 나에게 이렇게 설치하고 이렇게 쓰는거야~ 라고 알려주는 목표를 설정하고 글쓰기 하고있습니다.   
 유툽에서 개발자 글쓰기를 할때 저렇게 설정하고 글을 써보라고 조언하시더군요.  
+<br>
 
 ![kafka logo]({{ site.url }}/assets/article_images/2023-05-25-Kafka/kafka_logo-simple.png)
 
@@ -24,7 +25,7 @@ kafka 를 잊어버린 미래의 나에게 이렇게 설치하고 이렇게 쓰�
 다운로드 받아봅시다. 
 https://kafka.apache.org/downloads
 
-2023년 2월 7일자 소스버전은 3.4.0가 최신이군요. 
+2023년 2월 7일자 소스버전은 3.4.0가 최신이군요.   
 맥 환경인지라 Binary 버전 2.13 으로 받아서 설치해보겠습니다. 
 
 Scala 2.13 https://archive.apache.org/dist/kafka/2.8.2/kafka_2.13-2.8.2.tgz 
