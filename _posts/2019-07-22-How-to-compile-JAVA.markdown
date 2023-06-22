@@ -7,7 +7,7 @@ tags: [java]
 image:
 toc: true
 categories: JAVA
-last_modified_at: 2019-12-08T22:30:00+09:00
+last_modified_at: 2023-06-20T22:15:00+09:00
 ---
 
 멀티 Thread 테스트중 동일 클래스를 여러개 띄울 일이 생겼습니다.    
@@ -52,6 +52,7 @@ Hello.java
 Hello.class
 {% endhighlight %}
 
+
 ### java
 
 동일 `src` 디렉토리에서 `java` 명령으로 실행해볼까요?
@@ -69,9 +70,9 @@ Hello World!
 그럼 `javap` 명령으로 역컴파일(Decompile) 해볼까요?
 
 
-{% highlight bash linenos %}
-$ javap Hello > Hello.javap
-{% endhighlight %}
+{% highlight bash linenos %}  
+$ javap Hello > Hello.javap  
+{% endhighlight %}  
 
 디컴파일한 파일 내용을 보니 디컴파일 했다는 `Compiled from` 정보가 추가되어 있네요.
 
@@ -100,6 +101,80 @@ public class Hello {
     }
 }
 {% endhighlight %}
+
+
+## Java Compile vs Gradle 
+
+javac 컴파일 할때 사용할 수 있는 옵션이 있는데요.  
+
+-source : 컴파일에 사용하는 JDK, Java 버전과 일치하는 값을 포함합니다 (예: JDK8의 경우 1.8). 소스 코드에서 사용할 수 있는 기능을 해당 Java 버전으로 제한합니다.  
+-target : soource 옵션과 유사하지만 생성된 클래스 파일의 버전을 제어합니다. 프로그램이 실행될 수 있는 가장 낮은 자바 버전이 될 것임을 의미합니다.  
+<br>
+
+```
+  --source <release>, -source <release>
+        Provide source compatibility with the specified Java SE release. Supported releases: 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17
+
+  --target <release>, -target <release>
+        Generate class files suitable for the specified Java SE release. Supported releases: 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17
+```
+
+{% highlight bash linenos %}  
+$ javac Main.java -source 1.7 -target 1.8    
+{% endhighlight %}  
+
+역컴파일(Decompile) 했을때 정보를 볼까요?  
+
+java 1.8 로 target 옵션을 주면 major version 항목에 java 8 클래스 파일의 버전인 52가 나옵니다.  
+{% highlight bash linenos %}  
+$ javap -verbose Main.class 
+Classfile /Users/nhn/Documents/source/didalgus/unit/src/main/java/Main.class
+  Last modified 2023. 6. 20.; size 414 bytes
+  SHA-256 checksum b4c41c5920686379d539984509bbbf79494838b83f97ebaa965efe60337a6771
+  Compiled from "Main.java"
+public class Main
+  minor version: 0
+  major version: 52
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #21                         // Main
+  super_class: #2                         // java/lang/Object
+  interfaces: 0, fields: 0, methods: 2, attributes: 1
+{% endhighlight %}  
+
+target 에 11 버전을 설정했습니다.  
+{% highlight bash linenos %}  
+$ javac Main.java -source 1.8 -target 11   
+{% endhighlight %}  
+
+
+11 버전은 major version: 55 이군요.  
+{% highlight bash linenos %}  
+$ javap -verbose Main.class             
+Classfile /Users/nhn/Documents/source/didalgus/unit/src/main/java/Main.class
+  Last modified 2023. 6. 20.; size 414 bytes
+  SHA-256 checksum cc7484351b8c696b7dbcb501f4c145456197f14cc00c638dd06cfe49e24cddb4
+  Compiled from "Main.java"
+public class Main
+  minor version: 0
+  major version: 55
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #21                         // Main
+  super_class: #2                         // java/lang/Object
+  interfaces: 0, fields: 0, methods: 2, attributes: 1
+{% endhighlight %}
+
+<br>
+javac 명령의 -source, -target 옵션을 Gradle 에서도 지원합니다.  <br>
+sourceCompatibility, targetCompatibility 항목으로 소스 및 대상 옵션을 설정할 수 있습니다.   
+
+{% highlight java linenos %}
+java {
+    sourceCompatibility = "1.6"
+    targetCompatibility = "1.8"
+}
+{% endhighlight %}
+
+출처 : [Gradle: sourceCompatiblity vs targetCompatibility](https://www.baeldung.com/gradle-sourcecompatiblity-vs-targetcompatibility)
 
 
 ## Compile Package
