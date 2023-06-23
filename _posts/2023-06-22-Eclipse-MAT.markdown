@@ -12,8 +12,8 @@ last_modified_at:
 ---
 
 운영서버의 메모리 사용률이 90%가 넘어가면서 메모리증설 이슈가 생겼습니다.   
-메모리 증설을 하기전에 서버 점검도 하고  
-메모리 누수는 없는지 Eclipse MAT Tool 로 점검해보았습니다.  
+메모리 증설을 하기전에 서버 점검도 하고   
+메모리 누수는 없는지 Eclipse MAT Tool 로 점검해보았습니다.   
 
 ## Server Check  
 
@@ -30,23 +30,24 @@ Swap:           15G        111M         15G
 
 
 
-서버내 메모리 Top 10 를 살펴봅시다.  (예시로 보여주기 위해 가공했습니다.)
-jenkins 프로세스가 RSS(resident set size, 현재 점유하고 있는 메모리의 크기) 2.7 G, VSZ(virtual memory size, 가상메모리의 크기) 9.5G 를 사용하고 있군요.  
-9.5G 메모리는 VAS에 할당된 메모리 주소의 합, 2.7 G 메모리는 부여 받은 물리 주소의 총 합이라고 보시면 되겠습니다.   
+서버내 메모리 Top 10 를 살펴봅시다. (예시로 보여주기 위해 가공했습니다.)  
+jenkins 프로세스가 RSS(resident set size, 현재 점유하고 있는 메모리의 크기) 2.7 G, VSZ(virtual memory size, 가상메모리의 크기) 9.5G 를 사용하고 있군요.   
+9.5G 메모리는 VAS에 할당된 메모리 주소의 합, 2.7 G 메모리는 물리 주소의 총 합이라고 보시면 되겠습니다.   
 
 ```bash
 $ ps -eo user,pid,ppid,rss,vsize,pmem,pcpu,time,cmd --sort -rss | head -n 10
 USER       PID  PPID   RSS    VSZ %MEM %CPU     TIME CMD
 user   25611     1 2755168 9533080 22.7 0.2 10:23:29 java -Xms2048m -Xmx2048m -jar /home/jenkins/jenkins.war --httpPort=190 
 user    6942     1 1964000 10725108 16.1 12.0 16-15:23:11 java -Xms1024m -Xmx2048m -jar /home/batch-0.0.1-SNAPSHOT.jar --server.port=110=
-root         1     0 1744860 1784816 14.3 0.0 07:13:11 /usr/lib/systemd/systemd --switched-root --system --deserialize 21
-root       430     1 56472 111696  0.4  0.0 01:53:18 /usr/lib/systemd/systemd-journald
-root     14640     1 31680 742000  0.2  0.0 00:26:03 /usr/sbin/rsyslogd -n
+root       1     0 1744860 1784816 14.3 0.0 07:13:11 /usr/lib/systemd/systemd --switched-root --system --deserialize 21
+root     430     1 56472 111696  0.4  0.0 01:53:18 /usr/lib/systemd/systemd-journald
+root   14640     1 31680 742000  0.2  0.0 00:26:03 /usr/sbin/rsyslogd -n
 user   13946     1 24912 904156  0.2  0.0 00:45:28 node app.js
 user   21935     1 23740 902152  0.1  0.0 00:44:54 node app.js
 user   25429     1 23336 903080  0.1  0.0 00:45:25 node app.js
 ```
 
+{:.table.table-key-value-60}
 | option | desc | desc | 
 |:---:|:---:|---|
 | rss | RSS | resident set size, the non-swapped physical memory that a task has used (in kiloBytes).  (alias rssize, rsz). <br>상주 세트 크기, 태스크가 사용한 스왑되지 않은 물리적 메모리(킬로바이트 단위) |
@@ -72,7 +73,6 @@ $ pmap 25611
 00007ffcda788000      8K r-x--   [ anon ]
 ffffffffff600000      4K r-x--   [ anon ]
  total          9533080K
-
 ```
 
 
@@ -80,8 +80,10 @@ ffffffffff600000      4K r-x--   [ anon ]
 
 ## Local PC Spec.
 
-Apple M1 Pro  
-macOS Ventura 13.4   
+로컬 PC 사양입니다. 
+
+- Apple M1 Pro  
+- macOS Ventura 13.4   
 
 ## Download  
 https://www.eclipse.org/downloads/download.php
@@ -130,17 +132,25 @@ Open & Heap Dump 를 클릭해서 파일을 선택합니다.
   
 기존에 사용한적이 있으면 History is empty 문구 대신 파일 목록이 나옵니다.  
 
-![exec](/assets/article_images/2023-06-22-Eclipse-MAT/Eclipse-MAT-002.png)
+![Eclipse Memory Analyzer](/assets/article_images/2023-06-22-Eclipse-MAT/Eclipse-MAT-002-01.png)
 
 
+![Eclipse Memory Analyzer](/assets/article_images/2023-06-22-Eclipse-MAT/Eclipse-MAT-002-02.png)
 
-![exec](/assets/article_images/2023-06-22-Eclipse-MAT/Eclipse-MAT-003.png)
+![Eclipse Memory Analyzer](/assets/article_images/2023-06-22-Eclipse-MAT/Eclipse-MAT-002-03.png)
+
+리포팅 화면입니다.  
+![Eclipse Memory Analyzer](/assets/article_images/2023-06-22-Eclipse-MAT/Eclipse-MAT-002-04.png)
+
+Overview 화면에서 Tree 가 있습니다.  
+![Reporting](/assets/article_images/2023-06-22-Eclipse-MAT/Eclipse-MAT-003.png)
+
 
 
 ## OOM
 
 서버내 2개 java 서비스가 있는데  
-하나는 751M 분석은 성공, 1.6G dump file 분석은 실패하였습니다.   
+751M dump file 은 분석 성공, 1.6G dump file 분석은 실패하였습니다.   
 
 ```
 java.lang.OutOfMemoryError  
@@ -168,12 +178,13 @@ $ vi /Applications/mat.app/Contents/Eclipse/MemoryAnalyzer.ini
 -XstartOnFirstThread
 ```
 
-툴 재실행 후 파일 분석 성공~! 
+Eclipse Memory Analyzer 재실행하여 1.6G dump 파일 분석 성공~! 
 
 
 ## HeapDumpOnOutOfMemoryError
 
-[WAS 이슈 해결 #2] MAT 힙 덤프 분석으로 JAVA 메모리 누수
-https://extsdd.tistory.com/258
-    -XX:+HeapDumpOnOutOfMemoryError
-    : JVM 실행 옵션에 위 옵션을 추가하면 OutOfMemoryError가 발생했을 때 힙메모리 덤프를 떠준다
+JVM 실행 옵션에 위 옵션을 추가하면 OutOfMemoryError가 발생했을 때 힙메모리 덤프를 생성합니다.  
+```bash
+-XX:+HeapDumpOnOutOfMemoryError
+```
+
