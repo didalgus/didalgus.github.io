@@ -86,6 +86,10 @@ ffffffffff600000      4K r-x--   [ anon ]
 - macOS Ventura 13.4   
 
 ## Download  
+
+이클립스 툴의 플러그인으로 나온 MAT은 java heap dump 파일을 분석해줍니다.   
+플러그인으로 분석시 큰용량의 dump 파일 분석이 어렵다는 말이 있어 MAT 클라이언트 버전을 설치하였습니다.   
+<br>
 https://www.eclipse.org/downloads/download.php
 
 ![Download](/assets/article_images/2023-06-22-Eclipse-MAT/Eclipse-MAT-001.png)
@@ -142,12 +146,14 @@ Open & Heap Dump 를 클릭해서 파일을 선택합니다.
 리포팅 화면입니다.  
 ![Eclipse Memory Analyzer](/assets/article_images/2023-06-22-Eclipse-MAT/Eclipse-MAT-002-04.png)
 
-Overview 화면에서 Tree 가 있습니다.  
+Overview 화면에서 Dominator Tree 가 있습니다.  
+큰 객체부터 정렬해서 보여주입니다. 
+
 ![Reporting](/assets/article_images/2023-06-22-Eclipse-MAT/Eclipse-MAT-003.png)
 
+![Reporting](/assets/article_images/2023-06-22-Eclipse-MAT/Eclipse-MAT-003-02.png)
 
-
-## OOM
+## OutOfMemoryError
 
 서버내 2개 java 서비스가 있는데  
 751M dump file 은 분석 성공, 1.6G dump file 분석은 실패하였습니다.   
