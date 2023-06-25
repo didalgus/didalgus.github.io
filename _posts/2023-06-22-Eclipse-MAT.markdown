@@ -189,7 +189,10 @@ Eclipse Memory Analyzer 재실행하여 1.6G dump 파일 분석 성공~!
 
 ## HeapDumpOnOutOfMemoryError
 
-JVM 실행 옵션에 위 옵션을 추가하면 OutOfMemoryError가 발생했을 때 힙메모리 덤프를 생성합니다.  
+JVM 실행 옵션에 위 옵션을 추가하면 OutOfMemoryError가 발생했을 때 힙메모리 덤프를 생성합니다.    
+원인을 모르는데 종종 메모리 사용률이 많은경우 옵션을 적용해두면 유용할꺼 같습니다.    
+(ex. 파라메터 누락으로 인해 특정 케이스에만 무한 루프 로직을 타는 경우)    
+
 ```bash
 -XX:+HeapDumpOnOutOfMemoryError
 ```
