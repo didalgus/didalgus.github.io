@@ -13,7 +13,8 @@ last_modified_at:
 
 
 
-내가 볼려고 정리하는 Couchbase   
+내가 볼려고 정리하는 Couchbase ~! 
+
 
 ![Couchbase logo]({{ site.url }}/assets/article_images/2023-07-03-Couchbase/couchbase_logo.png)
 
@@ -80,24 +81,26 @@ Server 답게(?) 1G 용량을 자랑하는군요.
 ![]({{ site.url }}/assets/article_images/2023-07-03-Couchbase/couchbase-04.png)
 
 설치가 무척 쉽습니다. 이제 설정을 할 차례이군요. 
-인터넷 브라우저 http://127.0.0.1:8091/ui/index.html 에서 진행해 보아요.  
+<br>
+인터넷 브라우저 http://127.0.0.1:8091/ui/index.html 에서 진행해 보아요.    
 ![]({{ site.url }}/assets/article_images/2023-07-03-Couchbase/couchbase-05.png)
 
-카우치베이스는 클러스터가 디폴트입니다. 
+카우치베이스는 클러스터가 디폴트입니다. <br>
 클러스터의 이름을 적어주세요. 서비스명을 적어주거나 확장가능성을 고려해서 적어주시면 되겠네요. 
 ![]({{ site.url }}/assets/article_images/2023-07-03-Couchbase/couchbase-06.png)
 
 약관동의 체크, 사용정보 제공은 체크해제 하였습니다. 
 ![]({{ site.url }}/assets/article_images/2023-07-03-Couchbase/couchbase-07.png)
 
-Defaults 설정하는 버튼과 직접 설정하는 버튼이 있습니다. 
-직접 설정하는 버튼이 활성되어 있습니다. 
+Defaults 설정하는 버튼과 직접 설정하는 버튼이 있습니다. <br>
+직접 설정하는 버튼이 활성되어 있습니다.   <br> 
+
 ![]({{ site.url }}/assets/article_images/2023-07-03-Couchbase/couchbase-08.png)
 
 직접 설정하는 버튼을 눌른 다음 화면입니다. 기본값으로 진행합니다. 
 ![]({{ site.url }}/assets/article_images/2023-07-03-Couchbase/couchbase-09.png)
 
-설정이 완료되어 서버가 정상 동작하는 화면이 나왔습니다.   
+설정이 완료되어 서버가 정상 동작하는 화면이 나왔습니다. <br>
 버킷이 아직 하나도 없는 상태이군요. 샘플 버킷을 제공하는군요. 설치해볼까요? 
 ![]({{ site.url }}/assets/article_images/2023-07-03-Couchbase/couchbase-10.png)
 
@@ -107,14 +110,14 @@ travel-sample 버킷으로 생성해보겠습니다.
 travel-sample 버킷 Documents 를 확인해볼까요? 
 ![]({{ site.url }}/assets/article_images/2023-07-03-Couchbase/couchbase-13.png)
 
-travel-sample 버킷 생성후 얼랏 메세지가 발생하였습니다. 
-
-Warning: approaching low index resident percentage. Indexer RAM percentage on node "127.0.0.1" is 0%, which is under the threshold of 10%.  
-경고: 낮은 지수 상주 비율에 근접하고 있습니다. 노드 "127.0.0.1"의 인덱서 RAM 백분율은 0%이며 임계값 10% 미만입니다.  
-
-관련 
+travel-sample 버킷 생성후 얼랏 메세지가 발생하였습니다.  
+<br>
+Warning: approaching low index resident percentage. Indexer RAM percentage on node "127.0.0.1" is 0%, which is under the threshold of 10%.  <br>
+경고: 낮은 지수 상주 비율에 근접하고 있습니다. 노드 "127.0.0.1"의 인덱서 RAM 백분율은 0%이며 임계값 10% 미만입니다.  <br>
+<br>
+관련   
 https://www.couchbase.com/forums/t/index-resident-ratio-below-10-with-70-memory-available/34724/2
-
+<br>
 
 ![]({{ site.url }}/assets/article_images/2023-07-03-Couchbase/couchbase-12.png)
 
