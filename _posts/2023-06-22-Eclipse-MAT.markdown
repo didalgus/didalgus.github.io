@@ -31,20 +31,21 @@ Swap:           15G        111M         15G
 
 
 서버내 메모리 Top 10 를 살펴봅시다. (예시로 보여주기 위해 가공했습니다.)  
-jenkins 프로세스가 RSS(resident set size, 현재 점유하고 있는 메모리의 크기) 2.7 G, VSZ(virtual memory size, 가상메모리의 크기) 9.5G 를 사용하고 있군요.   
+jenkins 프로세스가 RSS 2.7 G, VSZ 9.5G 를 사용하고 있군요.   
 9.5G 메모리는 VAS에 할당된 메모리 주소의 합, 2.7 G 메모리는 물리 주소의 총 합이라고 보시면 되겠습니다.   
+<br>
+- RSS : Resident Set Size, 현재 점유하고 있는 메모리의 크기  
+- VSZ : Virtual Memory Size, 가상메모리의 크기  
 
 ```bash
 $ ps -eo user,pid,ppid,rss,vsize,pmem,pcpu,time,cmd --sort -rss | head -n 10
 USER       PID  PPID   RSS    VSZ %MEM %CPU     TIME CMD
 user   25611     1 2755168 9533080 22.7 0.2 10:23:29 java -Xms2048m -Xmx2048m -jar /home/jenkins/jenkins.war --httpPort=190 
-user    6942     1 1964000 10725108 16.1 12.0 16-15:23:11 java -Xms1024m -Xmx2048m -jar /home/batch-0.0.1-SNAPSHOT.jar --server.port=110=
+user    6942     1 1964000 10725108 16.1 12.0 16-15:23:11 java -Xms1024m -Xmx2048m -jar /home/batch-0.0.1-SNAPSHOT.jar --server.port=110
 root       1     0 1744860 1784816 14.3 0.0 07:13:11 /usr/lib/systemd/systemd --switched-root --system --deserialize 21
 root     430     1 56472 111696  0.4  0.0 01:53:18 /usr/lib/systemd/systemd-journald
 root   14640     1 31680 742000  0.2  0.0 00:26:03 /usr/sbin/rsyslogd -n
 user   13946     1 24912 904156  0.2  0.0 00:45:28 node app.js
-user   21935     1 23740 902152  0.1  0.0 00:44:54 node app.js
-user   25429     1 23336 903080  0.1  0.0 00:45:25 node app.js
 ```
 
 {:.table.table-key-value-60}
@@ -73,10 +74,37 @@ $ pmap 25611
 00007ffcda788000      8K r-x--   [ anon ]
 ffffffffff600000      4K r-x--   [ anon ]
  total          9533080K
+``` 
+
+## JVM Xms Xmx 
+
+
+xms 설정된값과 Xmx 가 다른경우 메모리 공간을 확장할때 jvm 에서 살짝의 딜레이가 발생한다고 합니다.  
+그래서 kafka 경우는 xms 값과 xms 값을 동일하게 설정합니다.  
+
+
+> Garbage Collector, Heap, and Runtime Compiler Default Selections
+> These are important garbage collector, heap size, and runtime compiler default selections: 
+> 
+> - Garbage-First (G1) collector
+> - The maximum number of GC threads is limited by heap size and available CPU resources 
+> - Initial heap size of 1/64 of physical memory 
+> - Maximum heap size of 1/4 of physical memory 
+> - Tiered compiler, using both C1 and C2 
+
+출처 : [Ergonomics](https://docs.oracle.com/en/java/javase/11/gctuning/ergonomics.html#GUID-DA88B6A6-AF89-4423-95A6-BBCBD9FAE781)
+
+
+번역 
+```
+물리적 메모리의 1/64인 초기 힙 크기 
+물리적 메모리의 1/4에 해당하는 최대 힙 크기 
 ```
 
-
-
+Xms Xmx 옵션값을 적용하지 않았을 경우   
+64G 메모리 서버인 경우   
+Xms 1G, Xmx 16G 설정이 적용된다고 보면 됩니다.   
+하지만 항상 저렇게 적용되지는 않는다고 합니다.   
 
 ## Local PC Spec.
 
