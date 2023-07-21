@@ -78,6 +78,8 @@ ffffffffff600000      4K r-x--   [ anon ]
 
 ## JVM Xms Xmx 
 
+Xms : 초기 java heap size   
+Xmx : 최대 java heap size   
 
 xms 설정된값과 Xmx 가 다른경우 메모리 공간을 확장할때 jvm 에서 살짝의 딜레이가 발생한다고 합니다.  
 그래서 kafka 경우는 xms 값과 xms 값을 동일하게 설정합니다.  
@@ -105,10 +107,33 @@ Xms Xmx 옵션값을 적용하지 않았을 경우
 64G 메모리 서버인 경우   
 Xms 1G, Xmx 16G 설정이 적용된다고 보면 됩니다.   
 하지만 항상 저렇게 적용되지는 않는다고 합니다.   
+<br>
+서버에서 확인해 보았습니다. 가이드대로 나오는군요. 
 
+```bash
+$ ~/jdk11/bin/java -XX:+PrintFlagsFinal -version | grep -i 'heapsize'
+   size_t ErgoHeapSizeLimit                        = 0                                         {product} {default}
+   size_t HeapSizePerGCThread                      = 43620760                                  {product} {default}
+   size_t InitialHeapSize                          = 1056964608                                {product} {ergonomic}
+   size_t LargePageHeapSizeThreshold               = 134217728                                 {product} {default}
+   size_t MaxHeapSize                              = 16848519168                               {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 5836300                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 122910970                              {pd product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 122910970                              {pd product} {ergonomic}
+   size_t ShenandoahSoftMaxHeapSize                = 0                                      {manageable} {default}
+openjdk version "11.0.19" 2023-04-18
+OpenJDK Runtime Environment Temurin-11.0.19+7 (build 11.0.19+7)
+OpenJDK 64-Bit Server VM Temurin-11.0.19+7 (build 11.0.19+7, mixed mode)
+```
+
+자주 찾아보는 옵션입니다.   
+참고로 permsize 사이즈는 자바8에서 deprecated 되었습니다.  
+```bash
+java -XX:+PrintFlagsFinal -version | grep -iE 'heapsize|threadstacksize|MetaspaceSize'
+```
 ## Local PC Spec.
 
-로컬 PC 사양입니다. 
+로컬 PC 사양입니다.
 
 - Apple M1 Pro  
 - macOS Ventura 13.4   
