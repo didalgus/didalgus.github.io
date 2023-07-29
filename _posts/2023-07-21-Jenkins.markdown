@@ -212,24 +212,6 @@ drwxrwxr-x 11 user user  264 Jul 20 15:06 war
 
 
 
-## CLI 
-
-    -- 젠킨스 구동/중지 
-    [irteam@cama-batch-wa901 ~]$ ~/scripts/batch/batch_jenkins_start.sh 
-    Starting  .
-
-    [irteam@cama-batch-wa901]$ ~/scripts/batch/batch_jenkins_stop.sh kill
-    Run kill !
-    Stopped PID(15704)
-
-    -- 스프링배치 구동/중지 
-    [irteam@cama-batch-wa901 ~]$ /home1/irteam/scripts/batch/batch_spring_stop.sh
-    Stopped PID(10904)
-
-    -- 스프링배치 로그 확인 
-    $ tail -f ~/logs/web_container/batch_spring/batch_spring.log 
-
-
 
 
 ## 플러그인 
