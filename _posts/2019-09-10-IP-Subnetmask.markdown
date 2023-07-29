@@ -2,7 +2,7 @@
 layout: post
 title:  "IP Subnet mask"
 series:
-date:   2022-09-10 15:00:00 +0900
+date:   2019-09-10 15:00:00 +0900
 abstract: ""
 tags: [ipaddress, subnet]
 image:

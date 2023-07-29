@@ -2,7 +2,7 @@
 layout: post
 title:  "Docker Hub"
 series: 3/3
-date:   2022-04-08 18:20:00 +0900
+date:   2019-04-08 18:20:00 +0900
 abstract: ""
 tags: [docker, docker hub]
 image:

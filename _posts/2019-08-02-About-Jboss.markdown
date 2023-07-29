@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "About Jboss"
-date:   2021-12-28 12:00:00 +0900
+date:   2019-12-28 12:00:00 +0900
 abstract: ""
 tags: [jboss, WAS, web application server]
 image:

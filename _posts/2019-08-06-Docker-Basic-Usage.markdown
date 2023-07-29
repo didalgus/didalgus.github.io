@@ -2,7 +2,7 @@
 layout: post
 title:  "Docker Basic Usage"
 series: 1/3
-date:   2022-04-06 18:20:00 +0900
+date:   2019-04-06 18:20:00 +0900
 abstract: "Docker 시리즈 중 첫번째 글입니다. Docker 기본 사용법과 도커 이미지를 생성하여 도커 허브에 올려봅시다."
 tags: [docker, featured]
 image:

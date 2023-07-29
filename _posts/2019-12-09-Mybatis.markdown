@@ -2,7 +2,7 @@
 layout: post
 title:  "Mybatis"
 series:
-date: 2023-02-09 22:40:00 +0900
+date: 2019-02-09 22:40:00 +0900
 abstract: ""
 tags: [java, mybatis]
 image:

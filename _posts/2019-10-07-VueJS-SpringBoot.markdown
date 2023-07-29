@@ -2,7 +2,7 @@
 layout: post
 title:  "Vue.js with SpringBoot"
 series:
-date:   2022-10-07 17:30:00 +0900
+date:   2019-10-07 17:30:00 +0900
 abstract: ""
 tags: [VueJS, SpringBoot, JAVA]
 image:

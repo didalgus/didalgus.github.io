@@ -1,13 +1,13 @@
 ---
 layout: post
 title:  "How to compile java"
-date:   2021-07-17 17:30:00 +0900
+date:   2019-07-17 17:30:00 +0900
 abstract: ""
 tags: [java]
 image:
 toc: true
 categories: JAVA
-last_modified_at: 2023-06-20T22:15:00+09:00
+last_modified_at: 2019-06-20T22:15:00+09:00
 ---
 
 멀티 Thread 테스트중 동일 클래스를 여러개 띄울 일이 생겼습니다.    

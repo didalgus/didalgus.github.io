@@ -1,13 +1,13 @@
 ---
 layout: post
 title:  "Nice to meet Gradle"
-date:   2021-07-17 17:30:00 +0900
+date:   2019-07-17 17:30:00 +0900
 abstract: ""
 tags: [Gradle]
 image:
 toc: true
 categories: Gradle
-last_modified_at: 2021-12-01T20:00:00+09:00
+last_modified_at: 2019-12-01T20:00:00+09:00
 ---
 
 
