@@ -18,6 +18,22 @@ last_modified_at:
 
 ![Couchbase logo]({{ site.url }}/assets/article_images/2023-07-03-Couchbase/couchbase_logo.png)
 
+
+카우치베이스의 특징을 알아보겠습니다. 
+
+- NoSQL
+- Memcached 기반 
+- JSON document database
+- SQL 지원 
+- Schema-less 
+- Indexing 
+- 쉬운 확장성
+- 다양한 SDK 지원
+
+참고 [Why Couchbase?](https://docs.couchbase.com/server/current/introduction/why-couchbase.html)
+
+
+
 - 공식 사이트  https://www.couchbase.com  
 - Learn > Blog https://www.couchbase.com/blog/  
 - 레퍼런스 ex)집계 함수 https://docs.couchbase.com/server/current/n1ql/n1ql-language-reference/aggregatefun.html
