@@ -1,0 +1,280 @@
+---
+layout: post
+title:  "Install Jenkins on CentOS"
+series: 
+date: 2023-07-21 17:00:00 +0900
+abstract: "Install Jenkins on CentOS"
+tags: [Jenkins, CentOS]
+image:
+toc: true
+categories: Tech
+last_modified_at: 
+---
+
+
+Jenkins와 Spring Batch 조합으로 배치서비스를 운영하고 있습니다.  
+메모리 증설 이슈가 생겨 신규서버로 Jenkins 이전을 진행하였습니다.  
+
+## Spec.
+
+젠킨스를 Linux 서버에 설치할때 기본 요구 사양을 확인해볼께요.  
+와우! 서버 디스크 용량이 50G 이상 필요하네요.  
+
+> Recommended hardware configuration for a small team:
+> 
+> - 4 GB+ of RAM
+> - 50 GB+ of drive space
+
+https://www.jenkins.io/doc/book/installing/linux/
+
+## Server Spec.
+
+설치할 서버의 사양도 확인해보겠습니다. 
+
+```bash
+$ cat /etc/redhat-release
+CentOS Linux release 7.9.2009 (Core) 
+
+$ arch
+x86_64
+
+$ nproc
+8
+
+$ free -h
+              total        used        free      shared  buff/cache   available
+Mem:            62G        8.9G         49G        8.8M        3.9G         53G
+Swap:          2.0G          0B        2.0G
+
+$ df -hT
+Filesystem     Type      Size  Used Avail Use% Mounted on
+/dev/vda2      xfs        98G  5.0G   94G   6% /
+```
+
+## Version 
+
+버전을 결정해야 겠군요.  
+2.346.1 로~ 땅땅! 
+
+> Long Term Support (LTS) Release Line
+> Supported Java versions for the LTS release line are:
+> 
+> 2.361.1 (September 2022) and newer
+> Java 11 or Java 17
+> 
+> 2.346.1 (June 2022) and newer
+> Java 8, Java 11, or Java 17
+> 
+> 2.164.1 (March 2019) and newer
+> Java 8 or Java 11
+> 
+> 2.60.1 (June 2017) and newer
+> Java 8
+> 
+> 1.625.1 (October 2015) and newer
+> Java 7  
+
+출처  https://get.jenkins.io/war-stable/
+
+
+
+## CentOS
+
+CentOS 7 수명 종료 발표.    
+![](/assets/article_images/2023-07-21-Jenkins/jenkins-16.png)
+
+> 2023-11-16 이후 CentOS Linux 7(Coore)을 더 이상 지원하지 않습니다.   
+
+자세한 내용은 블로그 [End of life operating systems](https://www.jenkins.io/blog/2023/05/30/operating-system-end-of-life/) 나 뉴스레터 [Jenkins June 2023 Newsletter](https://www.jenkins.io/blog/2023/07/10/jenkins-june-newsletter/) 에서 확인하실 수 있습니다.  
+
+
+
+## Install JAVA
+Java JDK 설치를 합니다. 
+https://adoptium.net/download/ 
+https://adoptium.net/temurin/archive/?version=11
+
+![](/assets/article_images/2023-07-21-Jenkins/jenkins-04.png)
+시스템에 맞는 jdk를 선택 후 다운로드를 하거나 Wget으로 받습니다.   
+
+<br>
+jdk 압축파일을 해제 후 심볼릭 링크도 걸어줍니다. 
+```bash
+$ wget https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.19%2B7/OpenJDK11U-jdk_x64_linux_hotspot_11.0.19_7.tar.gz
+$ tar -xzvf OpenJDK11U-jdk_x64_linux_hotspot_11.0.19_7.tar.gz -C ~/apps/ 
+$ ln -s ~/apps/jdk-11.0.19+7 ~/apps/jdk11
+```
+
+
+## Install JENKINS
+
+젠킨스 사이트에서 [다운로드](https://www.jenkins.io/download/) 받거나 파일 경로를 확인합니다. 
+![](/assets/article_images/2023-07-21-Jenkins/jenkins-05.png)
+
+
+Jenkins 파일을 다운 받습니다.  
+```bash
+$ wget https://get.jenkins.io/war-stable/2.346.3/jenkins.war
+```
+
+
+젠킨스를 실행 합니다.   
+실제 서버에서는 sh 스크립트 파일에 환경에 맞는 옵션들을 추가하여 구동하고 있습니다.  
+아래 명령어는 간단한 예시입니다.  
+```bash
+$ nohup java -jar ~/batch_jenkins/jenkins.war --httpPort=11000 >/dev/null 2>&1 &
+```
+
+브라우저에서 IP로 접속합니다.  
+
+http://127.0.0.1:11000/
+![](/assets/article_images/2023-07-21-Jenkins/jenkins-06.png)
+
+>AWT is not properly configured on this server. Perhaps you need to run your container with "-Djava.awt.headless=true"? See also: https://www.jenkins.io/redirect/troubleshooting/java.awt.headless
+
+아래 파일을 생성하여 설정을 추가해줍니다.  
+```bash
+$ vi /jdk11/lib/fontconfig.properties 
+
+version=1
+sequence.allfonts=default
+```
+
+Jenkins 재구동합니다. 
+설치를 위한 프로세싱 화면이 지나면 아래와 같이 Jenkins 설치를 위해 초기관리비밀번호 입력 화면이 나옵니다. 
+
+![](/assets/article_images/2023-07-21-Jenkins/jenkins-07.png)
+
+ 초기관리비밀번호를 복사합니다.   
+```bash
+$ cat ~/.jenkins_batch/secrets/initialAdminPassword
+
+93d362969077...e54c6b354
+```
+
+추천플러그인 모음 vs 플러그인 개별 선택 을 정합니다.   
+저는 추천플러그인을 선택하였습니다.  
+![](/assets/article_images/2023-07-21-Jenkins/jenkins-08.png)
+
+
+플러그인을 설치하고 있는 화면입니다.  
+젠킨스 유지보수에 익숙해지면 필요없는 플러그인을 제거할 예정입니다.  
+![](/assets/article_images/2023-07-21-Jenkins/jenkins-09.png)
+
+두근두근~  
+![](/assets/article_images/2023-07-21-Jenkins/jenkins-10.png)
+
+첫번째 관리자 계정을 생성하는 화면입니다.  
+![](/assets/article_images/2023-07-21-Jenkins/jenkins-11.png)
+
+젠킨스 접속 URL을 설정합니다.  
+![](/assets/article_images/2023-07-21-Jenkins/jenkins-12.png)
+
+젠킨스 설정이 완료되었습니다.  
+브라우저 창을 닫고 설정한 젠킨스 URL로 새로 접속합니다. 
+![](/assets/article_images/2023-07-21-Jenkins/jenkins-13.png)
+
+짜잔~! 이제 젠킨스 설치가 완료되었습니다.  
+![](/assets/article_images/2023-07-21-Jenkins/jenkins-14.png)
+
+
+첫번째 관리자 계정으로 로그인합니다.  
+아직 생성한 Job 이 없는 화면입니다.  
+![](/assets/article_images/2023-07-21-Jenkins/jenkins-15.png)
+
+## Config
+
+```bash
+$ ll ~/.jenkins_batch
+total 60
+-rw-rw-r--  1 user user 1660 Jul 20 15:16 config.xml
+-rw-rw-r--  1 user user  156 Jul 20 15:16 hudson.model.UpdateCenter.xml
+-rw-rw-r--  1 user user  370 Jul 20 15:13 hudson.plugins.git.GitTool.xml
+-rw-------  1 user user 1712 Jul 20 15:03 identity.key.enc
+-rw-rw-r--  1 user user 1611 Jul 20 15:13 jenkins.install.InstallUtil.installingPlugins
+-rw-rw-r--  1 user user    7 Jul 20 15:16 jenkins.install.InstallUtil.lastExecVersion
+-rw-rw-r--  1 user user    7 Jul 20 15:15 jenkins.install.UpgradeWizard.state
+-rw-rw-r--  1 user user  183 Jul 20 15:15 jenkins.model.JenkinsLocationConfiguration.xml
+-rw-rw-r--  1 user user  171 Jul 20 15:03 jenkins.telemetry.Correlator.xml
+drwxrwxr-x  2 user user    6 Jul 20 15:03 jobs
+-rw-rw-r--  1 user user  907 Jul 20 15:16 nodeMonitors.xml
+drwxrwxr-x  2 user user    6 Jul 20 15:03 nodes
+drwxrwxr-x 84 user user 8192 Jul 20 15:16 plugins
+-rw-rw-r--  1 user user  129 Jul 20 15:16 queue.xml.bak
+-rw-rw-r--  1 user user   64 Jul 20 15:03 secret.key
+-rw-rw-r--  1 user user    0 Jul 20 15:03 secret.key.not-so-secret
+drwx------  2 user user  136 Jul 20 15:19 secrets
+drwxrwxr-x  2 user user  149 Jul 20 15:16 updates
+drwxrwxr-x  2 user user   24 Jul 20 15:03 userContent
+drwxrwxr-x  3 user user   60 Jul 20 15:15 users
+drwxrwxr-x 11 user user  264 Jul 20 15:06 war
+```
+
+
+
+## CLI 
+
+    -- 젠킨스 구동/중지 
+    [irteam@cama-batch-wa901 ~]$ ~/scripts/batch/batch_jenkins_start.sh 
+    Starting  .
+
+    [irteam@cama-batch-wa901]$ ~/scripts/batch/batch_jenkins_stop.sh kill
+    Run kill !
+    Stopped PID(15704)
+
+    -- 스프링배치 구동/중지 
+    [irteam@cama-batch-wa901 ~]$ /home1/irteam/scripts/batch/batch_spring_stop.sh
+    Stopped PID(10904)
+
+    -- 스프링배치 로그 확인 
+    $ tail -f ~/logs/web_container/batch_spring/batch_spring.log 
+
+
+
+
+## 플러그인 
+
+
+플러그인을 설치합니다.  
+Jenkins 관리 > System Configuration > 플러그인 관리 메뉴로 이동합니다.    
+![](/assets/article_images/2023-07-21-Jenkins/jenkins-17.png)
+
+
+
+*  Simple Theme  
+<br>
+https://plugins.jenkins.io/simple-theme-plugin/  
+젠킨스를 여러개 사용하고 있어서 색으로 구별하기 위해서입니다.   
+Production 환경은 빨강!   
+develope 환경은 초록~   
+![](/assets/article_images/2023-07-21-Jenkins/jenkins-01.png)
+
+
+* HTTP Request Plugin  
+<br>
+https://www.jenkins.io/doc/pipeline/steps/http_request/  
+Jenkins 에서 외부 Http 프로토콜을 바로 호출할 수 있게 해주는 플러그인입니다.   
+외부 사이트 방화벽을 열어 주고 호출하면 되겠지요.   
+![](/assets/article_images/2023-07-21-Jenkins/jenkins-02.png)
+
+* Notification  
+<br>
+https://plugins.jenkins.io/notification/dependencies/  
+메세지를 보낼 수있는 플러그인입니다.   
+외부 모니터링용 알림 수신서버를 사용하고 있어서 플러그인을 추가하였습니다.   
+<br>
+처음 설치했을때 `Add Endpoint` 버튼이 나옵니다.   
+![](/assets/article_images/2023-07-21-Jenkins/jenkins-03-01.png)
+<br>  
+모니터링 수신 Url 를 입력하였습니다.     
+![](/assets/article_images/2023-07-21-Jenkins/jenkins-03-02.png)
+<br>  
+Job Lifecycle 중 언제 알림을 기능을 사용할지 정할 수 있습니다.  
+Job 이 실행 완료 후에 Url 을 호출하도록 하겠습니다.   
+![](/assets/article_images/2023-07-21-Jenkins/jenkins-03-03.png)
+
+## Jenkins 관리 
+
+Jenkins 관리 화면에 경고가 많아서 정리할때는 `다음 경고 중 표시할 경고 구성` 을 클릭하여 설정해주면 깔끔해집니다. 
+
+![](/assets/article_images/2023-07-21-Jenkins/jenkins-18.png)
