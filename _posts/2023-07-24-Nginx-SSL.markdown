@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Nginx SSL 인증서 교체"
-series: 
+series: 1/2
 date: 2023-07-24 17:00:00 +0900
 abstract: "Nginx SSL 인증서 교체 on CentOS"
 tags: [Nginx, CentOS]

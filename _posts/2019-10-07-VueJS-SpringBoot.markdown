@@ -4,7 +4,7 @@ title:  "Vue.js with SpringBoot"
 series:
 date:   2019-10-07 17:30:00 +0900
 abstract: ""
-tags: [VueJS, SpringBoot, JAVA]
+tags: [VueJS, SpringBoot, JAVA, featured]
 image:
 toc: true
 categories: JAVA

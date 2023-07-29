@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Apache SSL 인증서 교체"
-series: 
+series: 2/2
 date: 2023-07-26 17:00:00 +0900
 abstract: "Apache SSL 인증서 교체 on CentOS"
 tags: [Apache, CentOS]
