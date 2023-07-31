@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Scheduled, cron 설정"
+title:  "Scheduled, Cron 설정"
 date: 2023-07-26 17:00:00 +0900
 abstract: "Apache SSL 인증서 교체 on CentOS"
 tags: [Apache, CentOS]
@@ -10,8 +10,8 @@ categories: Tech
 last_modified_at: 
 ---
 
-이번에 Jenkins 를 이전하는 작업중에  
-팀원분이 Job 중에 1초마다 실행되는거 같다며 확인해보라고 하셨습니다.  
+이번에 Jenkins를 이전하는 작업중에  
+팀원분이 Jenkins Job 중에 1초마다 실행되는게 있다며 확인해보라고 하셨습니다.  
 "으잉?!" 뭔데 1초마다 실행되지? 하고 확인했더니 1분 단위였습니다.  
 왜 이런 오해가 생겼나 봤더니 `@Scheduled` 는 초마다 설정할 수 있어 젠킨스도 초단위부터라고 생각하신거였습니다.  
 그래서 정리해봤습니다. 
@@ -42,12 +42,79 @@ $ crontab -l
 
 ## Jenkins 
 
-젠킨스 : 분 시작
 
+팀원분이 확인해달라던 Job 설정화면입니다.   
+\* 가 5개이 있군요. 
+![Couchbase logo](/assets/article_images/2023-07-27-Cron/jenkins_01.png)
 
+그럼 Jenkins 설정은 어떻게 하는지 알아보겠습니다.   
+Jenkins에서 제공하는 Schedule 안내 내용을 가져왔습니다.  
 
+```
+분  시간  일  월  주 
+```
 
+{:.table.table-key-value-60}
+| 옵션 | 설명 |
+|---|---|---|
+| 분 | 시간 내의 분(0–59) |
+| 시간 | 시간(0–23) |
+| 일 | 날짜(1–31) |
+| 주 | 7이 일요일인 요일(0–7) |
 
-    
+- \* 모든 유효한 값을 지정합니다.
+- M-N 값의 범위를 지정합니다.
+- M-N/X 또는 */X지정된 범위 또는 전체 유효 범위를 통해 X의 간격으로 단계
+- A,B,...,Z 여러 값을 열거합니다.  
 
+<br>  
 
+주기적으로 예약된 작업이 시스템에 균일한 부하를 생성하도록 허용하려면 기호 H(`해시`)를 가능한 모든 곳에서 사용해야 합니다.     
+예를 들어, `0 0 * * * ` 매일 12개의 Job을 설정해두면 자정에 시스템이 큰 부하가 발생합니다.     
+반대로 `H H * * *` 로 설정하면 ​​각 작업을 하루에 한 번 실행하지만 모든 작업을 동시에 실행하지는 않아 제한된 리소스에서 운영할때 좋습니다.    
+<br>  
+기호 H는 범위와 함께 사용할 수 있습니다.   
+예를 들어 `H H(0-7) * * *` 오전 12시(자정)에서 오전 7시 59분 사이의 시간을 의미합니다.   
+<br>  
+기호 H는 범위에 걸친 임의의 값으로 생각할 수 있지만 실제로는 임의의 함수가 아니라 작업 이름의 해시이므로 주어진 프로젝트에서 값이 안정적으로 유지됩니다.  
+<br>  
+날짜 필드의 경우 또는 같은 짧은 주기는 */3월 H/3길이가 다양하기 때문에 대부분의 달이 거의 끝날 무렵 일관되게 작동하지 않습니다.   
+예를 들어, */3 긴 달의 1일, 4일, ...31일에 실행되고 다음 달의 다음 날에 다시 실행됩니다.   
+해시는 항상 1-28 범위에서 선택되므로 H/3월말에 3일에서 6일 사이의 실행 간격이 생성됩니다.   
+(주기가 길수록 길이도 일정하지 않지만 그 효과는 상대적으로 덜 눈에 띕니다.)  
+
+비어있는 라인과 #으로 시작하는 주석 라인은 무시됩니다.    
+
+추가적으로, @yearly, @annually, @monthly, @weekly, @daily, @midnight, @hourly 와 같은 별칭을 지원합니다.  
+해시 시스템을 사용하여 자동 밸런싱을 합니다.   
+예를 들어, @hourly 는 `H * * * *`과 동일하며 시간 중 Job을 실행합니다.   
+@midnight는 오전 12시에서 오전 2시 59분 사이의 시간을 의미합니다. 
+
+```
+
+# Every fifteen minutes (perhaps at :07, :22, :37, :52):
+H/15 * * * *
+# Every ten minutes in the first half of every hour (three times, perhaps at :04, :14, :24):
+H(0-29)/10 * * * *
+# Once every two hours at 45 minutes past the hour starting at 9:45 AM and finishing at 3:45 PM every weekday:
+45 9-16/2 * * 1-5
+# Once in every two hour slot between 8 AM and 4 PM every weekday (perhaps at 9:38 AM, 11:38 AM, 1:38 PM, 3:38 PM):
+H H(8-15)/2 * * 1-5
+# Once a day on the 1st and 15th of every month except December:
+H H 1,15 1-11 *
+```
+
+### Time zone specification
+
+Jenkins 는 지역 시간대를 설정할 수 있습니다.  
+작업은 Jenkins 구동시 설정된 JVM(현재 Asia/Seoul)의 시간대에서 예약된 시간에 정상적으로 실행됩니다.  
+이 동작은 필드의 첫 번째 줄에 대체 시간대를 지정하여 선택적으로 변경할 수 있습니다.   
+시간대 지정은 로 시작하고 TZ=뒤에 시간대 ID가 옵니다.  
+
+```
+TZ=Europe/London
+# This job needs to be run in the morning, London time
+H 8 * * *
+# Butlers do not have a five o'clock, so we run the job again
+H(0-30) 17 * * *
+```

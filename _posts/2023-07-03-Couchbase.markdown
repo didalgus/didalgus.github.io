@@ -18,7 +18,7 @@ last_modified_at:
 
 ![Couchbase logo]({{ site.url }}/assets/article_images/2023-07-03-Couchbase/couchbase_logo.png)
 
-
+## 특징  
 카우치베이스의 특징을 알아보겠습니다. 
 
 - NoSQL
@@ -32,23 +32,28 @@ last_modified_at:
 
 참고 [Why Couchbase?](https://docs.couchbase.com/server/current/introduction/why-couchbase.html)
 
+<br>
 
+## URLs.
 
-- 공식 사이트  https://www.couchbase.com  
-- Learn > Blog https://www.couchbase.com/blog/  
-- 레퍼런스 ex)집계 함수 https://docs.couchbase.com/server/current/n1ql/n1ql-language-reference/aggregatefun.html
-- couchbase java client 2.7.23 https://docs.couchbase.com/sdk-api/couchbase-java-client-2.7.23/com/couchbase/client/java/Bucket.html
-- java SDK 2.2 https://docs-archive.couchbase.com/java-sdk/2.2/java-intro.html
-- java SDK 3.4 https://docs.couchbase.com/java-sdk/current/hello-world/start-using-sdk.html
-- 국내 블로그 https://couchbase.tistory.com/   
+제가 자주가는 사이트를 모아봤습니다.    
+
+<br>  
+- 공식 사이트  [https://www.couchbase.com](https://www.couchbase.com)  
+- Learn > Blog [https://www.couchbase.com/blog/](https://www.couchbase.com/blog/)   
+- 레퍼런스 ex)집계 함수 [https://docs.couchbase.com/server/current/n1ql/](https://docs.couchbase.com/server/current/n1ql/n1ql-language-reference/aggregatefun.html)
+- couchbase java client 2.7.23 [https://docs.couchbase.com/sdk-api/](https://docs.couchbase.com/sdk-api/couchbase-java-client-2.7.23/com/couchbase/client/java/Bucket.html)  
+- java SDK 2.2 [https://docs-archive.couchbase.com/java-sdk/2.2/](https://docs-archive.couchbase.com/java-sdk/2.2/java-intro.html)  
+- java SDK 3.4 [https://docs.couchbase.com/java-sdk/](https://docs.couchbase.com/java-sdk/current/hello-world/start-using-sdk.html)  
+- 국내 블로그 [https://couchbase.tistory.com/](https://couchbase.tistory.com/)     
 
 - N1QL     
-- tutorials https://query-tutorial.couchbase.com/tutorial   
-- Get Started https://docs.couchbase.com/server/current/getting-started/try-a-query.html   
-- query https://docs.couchbase.com/java-sdk/current/concept-docs/n1ql-query.html   
-- SQL++ Language Reference https://docs.couchbase.com/server/current/n1ql/n1ql-language-reference/index.html  
-- SQL++ Language Reference https://docs.couchbase.com/server/current/n1ql/n1ql-language-reference/selectclause.html
-- N1QL https://www.baeldung.com/n1ql-couchbase  
+- tutorials [https://query-tutorial.couchbase.com/tutorial](https://query-tutorial.couchbase.com/tutorial)   
+- Get Started [https://docs.couchbase.com/server/current/getting-started/](https://docs.couchbase.com/server/current/getting-started/try-a-query.html)   
+- query [https://docs.couchbase.com/java-sdk/current/](https://docs.couchbase.com/java-sdk/current/concept-docs/n1ql-query.html)     
+- SQL++ Language Reference [index](https://docs.couchbase.com/server/current/n1ql/n1ql-language-reference/index.html)   
+- SQL++ Language Reference [selectclause](https://docs.couchbase.com/server/current/n1ql/n1ql-language-reference/selectclause.html)  
+- N1QL [https://www.baeldung.com/n1ql-couchbase](https://www.baeldung.com/n1ql-couchbase)   
 
 
 
