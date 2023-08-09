@@ -11,7 +11,7 @@ categories: Tech
 last_modified_at: 
 ---
 
-SSL 인증서... 1년마다 갱신해주는거 너무 귀찮습니당 ㅠ   
+SSL 인증서... 1년마다 갱신하는거 너무 귀찮습니당 ㅠ   
 
 * **Nginx SSL 인증서 교체 ✓** <span class="series">SERIES 1/2</span>
 * [Apache SSL 인증서 교체]({% post_url 2023-07-26-Apache-SSL %}) <span class="series">SERIES 2/2</span>
@@ -43,7 +43,6 @@ x86_64
 
 ```bash
 $ vi nginx.key 
-
 -----BEGIN RSA PRIVATE KEY-----
 Proc-Type: 4,ENCRYPTED
 DEK-Info: DES-EDE3-CBC,B483E552B16F30BD
@@ -64,25 +63,26 @@ $ cp nginx.key nginx_original.key
 OpenSSL로 이용해서 복호화를 해줍니다.   
 OpenSSL은 Linux 서버나 MacOS 에 기본으로 설치되어 있습니다.   
 
-> openssl rsa -in [암호화된 key 파일] -passin pass:[비밀번호]  -out [복호화될 key 파일] 
+```
+openssl rsa -in [암호화된 key 파일] -passin pass:[비밀번호]  -out [복호화될 key 파일] 
+```
 
+key파일이 복호화 되어 있다는것을 강조하기 위해 key 파일명에 `_NOPASS`를 붙여줍니다.  
+서버를 운영하다보면 파일이나 디렉토리 네이밍이 아주 중요합니다.   
+일일히 다 파헤치지 않아도 이서버는 복호화된 인증서를 사용하는구나~ 라고 알 수 있는것이지요.  
 ```bash
-$ openssl rsa -in nginx.key -passin pass:passwd1234 -out ngix_nopass.key
+$ openssl rsa -in nginx.key -passin pass:passwd1234 -out ngix_NOPASS.key
 ```
 
 복호화된 key 파일을 확인해봅니다. 
 
 ```bash
 $ ll *.key
--rw-r--r--@ 1 tree  willow   1.7K  7 25 10:00 ngix_nopass.key
+-rw-r--r--@ 1 tree  willow   1.7K  7 25 10:00 ngix_NOPASS.key
 -rw-r--r--@ 1 tree  willow   1.7K  7 25 10:00 nginx_original.key
 ```
 
-복호화된 key 파일 내용도 한번 볼까요? 
-
-> Proc-Type: 4,ENCRYPTED  
-> DEK-Info: DES-EDE3-CBC,B483E552B16F30BD   
-
+복호화된 key 파일 내용도 한번 볼까요?  
 암호화 안내 상단 부분이 없군요. 복호화 성공~ 
 
 ```bash
@@ -96,44 +96,56 @@ OHIqzmYOdAxKiZ2jR9KRXSTNeGLsQEIXbzBrWAwFhtMw4wodbmO3HtM=
 
 ## SSL 인증서 갱신  
 
-만료일 갱신한 인증서 파일을 준비합니다. 
-
+갱신한 인증서 파일을 준비합니다.   
+key 파일명에 `_NOPASS`를 보니 복호화파일이겠군요.   
 ```bash
 $ ll nginx.*
--rw-r--r--@ 1 tree  willow   1.7K  7 25 09:43 nginx_nopass.key
+-rw-r--r--@ 1 tree  willow   1.7K  7 25 09:43 nginx_NOPASS.key
 -rw-r--r--@ 1 tree  willow   2.4K  7 25 09:43 nginx.pem
 ```
 
-인증서 파일(key, pem)을 게이트웨이 서버에 전송합니다.  
+제가 작업한 순서는 회사 인프라 구성에 따라 다르답니다.  
+참고만 해주세요~  
+인증서 파일(key, pem)을 `로컬PC` 에서 `게이트웨이 서버`에 전송합니다.  
 ```bash
 $ scp ~/Downloads/nginx.* 사용자@게이트웨어서버:~/
 ```
 
-게이트웨이 서버에서 웹서버로 전송합니다. 
+인증서 파일(key, pem)을 `게이트웨이 서버`에서 `웹서버`로 전송합니다.  
+웹서가 여러대이니 삽질 시작~!  
 ```bash
 $ scp nginx.* 사용자@웹서버:~/
 ```
 
 인증서 파일을 사용하고 있는 설정파일을 찾아보겠습니다.  
 ```bash
-$ egrep -rni "ngix_nopass.key" ~/apps/nginx/conf/*
-~/apps/nginx/conf/toast.com.ssl:2:        ssl_certificate_key ssl/nginx_nopass.key;
+$ egrep -rni "ngix_nopass.key" ~/nginx/conf/*
+~/apps/nginx/conf/toast.com.ssl:2: ssl_certificate_key ssl/nginx_nopass.key;
 ```
 
-혹시 모를 롤백을 대비해서 백업합니다. 
+혹시 모를 롤백을 대비해서 기존인증서를 백업합니다.  
+전임자가 확장자를 반대로 (내용은 copy) 해놓아서 롤백하는일이 일어났습니다. ㅠ (왜?!!)  
 ```bash
 $ cp -r ssl ssl_20230724
 ```
 
-게이트웨이에서 가져온 인증서 파일을 덮어씌워줍니다. 
+파일명을 동일하게 수정한 신규 인증서 파일을 덮어씌워줍니다.   
+mv 명령은 동일한 파일명이 있는경우 덮어씌웁니다.  
 
 ```bash
 $ mv nginx.* ~/apps/nginx/conf/ssl/
 ```
 
-nginx 설정을 리로드 해줍니다. 
+웹서버가 여러대인경우  
+인증서 갱신한 웹서버의 아이피를 /etc/hosts 에 설정합니다. 
 ```bash
-$ ~/apps/nginx/sbin/nginx -s reload
+xxx.xxx.xxx.xx1	site.didalgus
+```
+
+
+인증서 갱신한 웹서버의 nginx 설정을 리로드 해줍니다. 
+```bash
+$ ~/nginx/sbin/nginx -s reload
 ```
 
 브라우저에서 새로고침 후 인증서 보기로 만료일을 확인합니다. 
@@ -146,3 +158,7 @@ $ ~/apps/nginx/sbin/nginx -s reload
 |변경전 | 변경후 |
 |---|---|
 |발급일:2022년 6월 30일 목요일 오전 9:00:00 <br> 만료일:2023년 8월 1일 화요일 오전 8:59:59|발급일:2023년 7월 10일 월요일 오전 9:00:00 <br> 만료일:2024년 8월 10일 토요일 오전 8:59:59| 
+
+
+이제 이 작업을 웹서버 개수만큼 반복합니다.  
+삽질 시작~!  
