@@ -322,7 +322,12 @@ Results
 Document id 를 아는경우는 아래와 같이 조회하였습니다.  
 소요시간 3.3ms
 ```sql
-SELECT t.area, s.shopName, s.shopId FROM `travel-sample` t UNNEST shops s WHERE META(t).id = 'hotplace_01' AND "B" IN s.shopItem
+SELECT 
+  t.area, s.shopName, s.shopId 
+FROM `travel-sample` t 
+UNNEST shops s 
+WHERE META(t).id = 'hotplace_01' 
+  AND "B" IN s.shopItem
 ```
 ![](/assets/article_images/2023-07-03-Couchbase/couchbase-17.png)  
 
@@ -330,6 +335,10 @@ Document id 를 모르는 경우입니다.
 Index를 타지는 않아 느리지만 결과는 가져오는군요.  
 소요시간 274.6ms  
 ```sql
-SELECT t.area, s.shopName, s.shopId FROM `travel-sample` t UNNEST shops s WHERE "B" IN s.shopItem
+SELECT 
+  t.area, s.shopName, s.shopId 
+FROM `travel-sample` t 
+UNNEST shops s 
+WHERE "B" IN s.shopItem
 ```
 ![](/assets/article_images/2023-07-03-Couchbase/couchbase-18.png)  
