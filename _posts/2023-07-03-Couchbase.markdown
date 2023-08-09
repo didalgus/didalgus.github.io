@@ -180,6 +180,8 @@ Query workbench [사용안내](https://docs.couchbase.com/server/current/tools/q
 ## Query 
 
 
+기본적인 사용법입니다.  
+
 ```sql
 select meta().id from `travel-sample`.`_default`.`_default` data order by meta().id limit 10 offset 10
 select meta().id from `travel-sample`.`inventory`.`airline` data order by meta().id limit 10 offset 0
@@ -227,3 +229,107 @@ The current dataset, 95764626 bytes, is too large to display quickly.
   RETURNING data;
 ```
 
+1개 Doucment 삭제  
+```sql
+DELETE FROM `travel-sample` WHERE META().id = 'hotplace_02'
+```
+1개 이상 Doucment 삭제  
+```sql
+DELETE FROM `travel-sample` WHERE META().id IN ['hotplace_01', 'hotplace_02']
+```
+
+### 배열 조회 
+
+key-value 구조에서 value 에 배열의 형태로 데이터가 있는경우 배열 중 하나만 있는 경우 조회를 해보겠습니다.  
+
+먼저, Document 를 생성하겠습니다.  
+Sample Data 를 만들어봤습니다.   
+```sql
+INSERT INTO `travel-sample` ( KEY, VALUE )
+  VALUES
+  (
+    "hotplace_01",
+    {
+        "area" : "Yangyang",
+        "shops" : [
+            {
+                "shopId" : "1",
+                "shopName" : "Yangyang-shop1",
+                "shopItem": [
+                    "A",
+                    "B",
+                    "C"
+                ]
+            },
+            {
+                "shopId" : "2",
+                "shopName" : "Yangyang-shop2",
+                "shopItem": [
+                    "D",
+                    "E"
+                ]
+            }
+        ]
+        ,"type": "hotplace"
+    }
+  ),
+  (
+    "hotplace_02",
+    {
+        "area" : "Sokcho",
+        "shops" : [
+            {
+                "shopId" : "1",
+                "shopName" : "Sokcho-shop1",
+                "shopItem": [
+                    "A"
+                ]
+            }
+        ]
+        ,"type": "hotplace"
+    }
+  )
+RETURNING META().id as docid, *;
+```
+
+1개 Document 조회해보겠습니다.  `_default` 는 생략해도 된답니다.  
+```sql
+SELECT * FROM `travel-sample` WHERE META().id = 'hotplace_02'
+SELECT * FROM `travel-sample`.`_default`.`_default` WHERE META().id = 'hotplace_02'
+```
+
+shop 1개 Document만 조회해보겠습니다. 
+```sql
+SELECT s.* FROM `travel-sample` t UNNEST shops s WHERE META(t).id = 'hotplace_01' AND s.shopId = '1'
+```
+
+Results
+```json
+[
+  {
+    "shopId": "1",
+    "shopItem": [
+      "A",
+      "B",
+      "C"
+    ],
+    "shopName": "Yangyang-shop1"
+  }
+]
+```
+
+판매하는 상품(shopItem)중에 B 상품을 판매하는 상점은 어디일지 조회해야 하는 경우가 생겼습니다.   
+Document id 를 아는경우는 아래와 같이 조회하였습니다.  
+소요시간 3.3ms
+```sql
+SELECT t.area, s.shopName, s.shopId FROM `travel-sample` t UNNEST shops s WHERE META(t).id = 'hotplace_01' AND "B" IN s.shopItem
+```
+![](/assets/article_images/2023-07-03-Couchbase/couchbase-17.png)  
+
+Document id 를 모르는 경우입니다.  
+Index를 타지는 않아 느리지만 결과는 가져오는군요.  
+소요시간 274.6ms  
+```sql
+SELECT t.area, s.shopName, s.shopId FROM `travel-sample` t UNNEST shops s WHERE "B" IN s.shopItem
+```
+![](/assets/article_images/2023-07-03-Couchbase/couchbase-18.png)  
