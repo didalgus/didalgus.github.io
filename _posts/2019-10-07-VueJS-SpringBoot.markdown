@@ -3,7 +3,7 @@ layout: post
 title:  "Vue.js with SpringBoot"
 series:
 date:   2019-10-07 17:30:00 +0900
-abstract: ""
+abstract: "SpringBoot 프로젝트에 nodejs 기반 Vue.js 프로젝트를 생성하여 webpack으로 SpringBoot 정적 리소스를 생성해 봅시다."
 tags: [VueJS, SpringBoot, JAVA, featured]
 image:
 toc: true
