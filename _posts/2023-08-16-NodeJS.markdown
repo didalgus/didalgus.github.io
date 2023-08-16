@@ -1,0 +1,60 @@
+---
+layout: post
+title:  "NodeJS"
+date: 2023-08-16 15:30:00 +0900
+abstract: "NodeJS"
+tags: [NodeJS]
+image:
+toc: true
+categories: Tech
+last_modified_at: 
+published: false
+---
+
+![NodeJS Logo](/assets/article_images/2023-08-16-NodeJS/NodeJS_logo.png)
+Node.js®는 Chrome V8 JavaScript 엔진으로 빌드된 JavaScript 런타임입니다.
+
+
+
+
+## NodeJS 버전  
+
+https://nodejs.org/ko 사이트에 방문합니다.  
+
+![nodeJS](/assets/article_images/2023-08-16-NodeJS/NodeJS_01.png)
+
+| Release  | Status              | Codename     |Initial Release | Active LTS Start | Maintenance Start | End-of-life               |
+| :--:     | :---:               | :---:        | :---:          | :---:            | :---:             | :---:                     |
+| [16.x][] | **Maintenance**     | [Gallium][]  | 2021-04-20     | 2021-10-26       | 2022-10-18        | [2023-09-11][nodejs16eol] |
+| [18.x][] | **LTS**             | [Hydrogen][] | 2022-04-19     | 2022-10-25       | 2023-10-18        | 2025-04-30                |
+| [20.x][] | **Current**         |              | 2023-04-18     | 2023-10-24       | 2024-10-22        | 2026-04-30                |
+
+릴리즈 일정은 [여기](https://github.com/nodejs/release#release-schedule) 에서 확인 할 수 있습니다. 
+
+### LTS 와 Current 차이
+* Current - 최신 기능이나 실헙적인 기능이 적용된 버전입니다. 
+* LTS (Long Term Support) - 3년간 지원하는 버전입니다. 안정적으로 운영해야 하는 경우 주로 사용합니다. 
+* 홀수 버전 - NodeJS 는 짧은 주기(1년 미만)로 버전을 릴리즈 합니다. 짝수 버전이 LTS 버전이 됩니다.
+
+
+> * Current - Should incorporate most of the non-major (non-breaking) changes that land on nodejs/node main branch.  
+> * Active LTS - New features, bug fixes, and updates that have been audited by the LTS team and have been determined to be appropriate and stable for the release line.
+> * Maintenance - Critical bug fixes and security updates. New features may be added at the discretion of the LTS team - typically only in cases where the new feature supports migration to later release lines.  
+
+출처 : https://github.com/nodejs/release#release-phases
+
+
+## NodeJS 설치
+
+homebrew 설치하였습니다.   
+학습용인지라 홀수 버전도 상관없습니다.   
+
+```bash
+➜  ~ which node
+/opt/homebrew/bin/node
+
+➜  ~ node -v  
+v19.8.1
+```
+
+
