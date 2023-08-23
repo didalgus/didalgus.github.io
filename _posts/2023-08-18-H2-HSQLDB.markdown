@@ -1,0 +1,21 @@
+---
+layout: post
+title:  "H2 & HSQLDB"
+date: 2023-08-18 15:30:00 +0900
+abstract: "H2"
+tags: [H2]
+image:
+toc: true
+categories: Tech
+last_modified_at: 
+published: false
+---
+
+H2 vs HSQLDB  
+
+
+
+https://jamie95.tistory.com/188
+
+
+

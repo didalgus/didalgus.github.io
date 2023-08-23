@@ -25,9 +25,9 @@ https://nodejs.org/ko 사이트에 방문합니다.
 
 | Release  | Status              | Codename     |Initial Release | Active LTS Start | Maintenance Start | End-of-life               |
 | :--:     | :---:               | :---:        | :---:          | :---:            | :---:             | :---:                     |
-| [16.x][] | **Maintenance**     | [Gallium][]  | 2021-04-20     | 2021-10-26       | 2022-10-18        | [2023-09-11][nodejs16eol] |
-| [18.x][] | **LTS**             | [Hydrogen][] | 2022-04-19     | 2022-10-25       | 2023-10-18        | 2025-04-30                |
-| [20.x][] | **Current**         |              | 2023-04-18     | 2023-10-24       | 2024-10-22        | 2026-04-30                |
+| 16.x | **Maintenance**     | Gallium  | 2021-04-20     | 2021-10-26       | 2022-10-18        | 2023-09-11 |
+| 18.x | **LTS**             | Hydrogen | 2022-04-19     | 2022-10-25       | 2023-10-18        | 2025-04-30                |
+| 20.x | **Current**         |              | 2023-04-18     | 2023-10-24       | 2024-10-22        | 2026-04-30                |
 
 릴리즈 일정은 [여기](https://github.com/nodejs/release#release-schedule) 에서 확인 할 수 있습니다. 
 
@@ -44,9 +44,16 @@ https://nodejs.org/ko 사이트에 방문합니다.
 출처 : https://github.com/nodejs/release#release-phases
 
 
+## 설치 환경
+
+MacBook Pro 16  
+MacOS Ventura 13.4.1  
+칩 Apple M1 Pro  
+메모리 16GB 
+
 ## NodeJS 설치
 
-homebrew 설치하였습니다.   
+MacOS homebrew 설치하였습니다.   
 학습용인지라 홀수 버전도 상관없습니다.   
 
 ```bash
