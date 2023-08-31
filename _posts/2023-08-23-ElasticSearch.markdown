@@ -8,7 +8,7 @@ image:
 toc: true
 categories: Tech
 last_modified_at: 
-published: false
+published: true
 ---
 
 엘라스틱서치는 세이베논(Shay Banon)이 아파치 루씬을 이용하여 개발했으며 오픈소스로 프로젝트로 진행하고 있습니다.   
@@ -66,13 +66,13 @@ JSON (javascript Object Notation) 웹에서 자료를 주고받을 때 사용하
 
 ```json
 {
-"name" : "hong gi-dong",
-"age" : 18,
-"hobby" : ["music", "book"],
-"friend" : {
-    "유관순" : {"name" : "hong gi-dong", "age" : 18},
-    "이순신" : {"name" : "hong gi-dong", "age" : 40}
-}
+  "name" : "hong gi-dong",
+  "age" : 18,
+  "hobby" : ["music", "book"],
+  "friend" : {
+      "유관순" : {"name" : "hong gi-dong", "age" : 18},
+      "이순신" : {"name" : "hong gi-dong", "age" : 40}
+  }
 }
 ```
 
@@ -159,7 +159,6 @@ total 424
 
 
 ```bash
-
 vi elasticsearch.log
 
 [2023-08-23T18:12:27,853][INFO ][o.e.n.Node               ] [didalgus] JVM home [/elasticsearch-8.9.1/jdk.app/Contents/Home], using bundled JDK [true]
@@ -182,7 +181,7 @@ logs/elasticsearch.log
 
 ### 중지
 
-
+구동중인 elasticsearch PID 를 찾습니다.
 ```bash
 ➜  logs ps -ef | grep elasticsearch
   501 94506 93815   0  6:12PM ttys004    0:07.53 /elasticsearch-8.9.1/jdk.app/Contents/Home/bin/java -Xms4m -Xmx64m -XX:+UseSerialGC -Dcli.name=server -Dcli.script=./elasticsearch -Dcli.libs=lib/tools/server-cli -Des.path.home=/elasticsearch-8.9.1 -Des.path.conf=/elasticsearch-8.9.1/config -Des.distribution.type=tar -cp /elasticsearch-8.9.1/lib/*:/elasticsearch-8.9.1/lib/cli-launcher/* org.elasticsearch.launcher.CliToolLauncher
@@ -190,19 +189,17 @@ logs/elasticsearch.log
   501 94544 94542   0  6:12PM ttys004    0:00.01 /elasticsearch-8.9.1/modules/x-pack-ml/platform/darwin-aarch64/controller.app/Contents/MacOS/controller
 ```
 
-이거 아닌듯;;; 
-
+PID 를 kill 명령으로 실행합니다. 
 ```bash
   kill 94506
 ```
 
 ## 사용 
 
-엘라스틱 서치는 port 를 지정하지 않으면 9200 을 사용한다. 
+엘라스틱 서치는 port 를 지정하지 않으면 9200을 사용합니다.  
 
 
-정보를 가져오는 Rest API 를 호출합니다. 
-
+정보를 가져오는 Rest API 를 호출해보겠습니다.  
 
 ```bash
 // https://localhost:9200/
@@ -247,24 +244,8 @@ $ curl http://10.xxx.xx.xx:9200
 회사 운영중인 엘라스틱서치는  2.3.0   
 테스트용 설치는 8.9.1   
 와.. 버전 갭 차이..어쩔..  
-이것이 이상과 현실의 차이인가 싶습니다.  
 
-
-
-
-```bash
-➜  logs curl -XGET https://localhost:9200
-curl: (60) SSL certificate problem: self signed certificate in certificate chain
-More details here: https://curl.se/docs/sslcerts.html
-
-curl failed to verify the legitimacy of the server and therefore could not
-establish a secure connection to it. To learn more about this situation and
-how to fix it, please visit the web page mentioned above.
-```
-
-
-
-
+최신판 책을 샀습니다. 허허  
 
 ## URLs.
 
