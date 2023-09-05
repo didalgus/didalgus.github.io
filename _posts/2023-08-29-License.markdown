@@ -1,0 +1,19 @@
+---
+layout: post
+title:  "Apache"
+date: 2023-08-29 16:30:00 +0900
+abstract: "Apache"
+tags: [Apache]
+image:
+toc: true
+categories: Tech
+last_modified_at: 
+published: false
+---
+
+
+라이센스 정리하장
+
+MIT License 등등 
+
+

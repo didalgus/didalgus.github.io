@@ -1,0 +1,366 @@
+---
+layout: post
+title:  "Nginx"
+date: 2023-08-31 15:30:00 +0900
+abstract: "Nginx"
+tags: [Nginx]
+image:
+toc: true
+categories: Tech
+last_modified_at: 
+published: true
+---
+
+![Nginx logo](/assets/article_images/2023-08-31-Nginx/nginx.png)
+
+
+Nginx 웹서버를 구축하면서 정리하는 글~ 
+
+
+## Nginx 란? 
+https://nginx.org/ 
+
+## Server Spec.
+
+```bash
+$ ~/nginx/sbin/nginx -V
+nginx version: nginx/1.18.0
+
+
+$ cat /etc/redhat-release
+CentOS Linux release 7.4.1708 (Core)
+
+$ arch
+x86_64
+```
+
+## Install 
+
+Nginx 설치 방법은 OS,확장자별 다양합니다.   
+저는 회사에서 제공하는 설치 스크립트(모니터링서비스 연동)로 설치하였습니다.  
+
+
+파일을 다운받아서 설치하는 기본적인 방법을 알아보겠습니다.  
+
+http://nginx.org/en/download.html  
+Nginx 사이트에서 버전을 정하고 설치파일을 다운받습니다.   
+
+```bash 
+$ wget http://nginx.org/download/nginx-1.22.0.tar.gz
+```
+
+의존 패키지를 설치합니다.   
+zlib, pcre, openssl 이렇게 3개 설치하겠습니다.  
+
+```bash 
+$ yum install -y gcc pcre-* zlib* openssl-devel
+```
+
+설치파일 압축을 해제 후 nginx 디렉토리로 이동 후 설정값을 적용합니다.  
+```bash 
+$ sudo ./configure --prefix=/willow/tree/nginx --with-debug --with-http_ssl_module --with-http_realip_module --with-http_stub_status_module --with-http_auth_request_module
+```
+
+빌드합니다.  
+```bash 
+$ sudo make install
+```
+
+prefix 에 지정해준 경로에 nginx를 확인합니다. 
+
+```bash 
+$ cd /willow/tree/nginx
+├── conf
+│   ├── fastcgi.conf
+│   ├── fastcgi.conf.default
+│   ├── fastcgi_params
+│   ├── fastcgi_params.default
+│   ├── koi-utf
+│   ├── koi-win
+│   ├── mime.types
+│   ├── mime.types.default
+│   ├── nginx.conf
+│   ├── nginx.conf.default
+│   ├── scgi_params
+│   ├── scgi_params.default
+│   ├── uwsgi_params
+│   ├── uwsgi_params.default
+│   └── win-utf
+├── html
+│   ├── 50x.html
+│   └── index.html
+├── logs
+└── sbin
+    └── nginx
+```
+
+## SetUID 
+
+Linux OS 서버 계정을 부여 받았을때 root 권한이 없는 경우가 있습니다.   
+Linux에서는 1024 port 이하는 일반계정에 root 권한이 없습니다.   
+Nginx가 주로 사용하는 80, 443 port 역시 1024 port 이하 인지라 일반계정이 Nginx를 구동, 종료할 수가 없습니다.   
+
+
+  
+그래서~ 일반 권한이 root 권한을 잠시 빌려서(?!) 사용할 수 있도록 SetUID 설정을 적용하겠습니다.   
+
+
+
+nginx 실행파일 소유자를 root 로 변경해줍니다.  
+```bash 
+$ sudo chown root:tree nginx
+```
+
+setuid 비트가 설정된 파일은 실행순간만 그 파일의 소유자 권한으로 실행합니다.   
+설정방법은 chmod 명령으로 8진수(4000) 이나 기호(u+s)를 이용하여 설정할 수 있습니다. 
+```bash 
+$ sudo chmod u+s nginx
+```
+
+제거방법은~
+```bash 
+$ sudo chmod u-s nginx
+``` 
+
+일반적으로 봐왔던 `-rwx` 가 아닌 `-rws` 로 적용이 잘되었습니다.  
+
+```bash 
+$ ll
+-rwsr-xr-x 1 root willow 8945830 Mar 17 17:47 nginx
+``` 
+
+참고로, 비밀번호 변경할때 사용하는 `passwd` 명령도 setuid 가 적용되어 있는 대표적인 예입니다.
+```bash 
+$ ll /usr/bin/passwd
+-rwsr-xr-x 1 root root 27832 Jun 10  2014 /usr/bin/passwd
+``` 
+
+
+## logs 
+
+Nginx 는 Apache 에서 기본으로 제공하는 rotatelogs(apache-2.x.x/bin/rotatelogs) 라이브러리가 없습니다.   
+그래서 따로 로그파일을 조건별로 분할해줘야 합니다.   
+  
+Apache rotatelogs 프로세스가 떠 있는 경우입니다.  
+```bash 
+$ ps -ef | grep rotatelogs
+root      6920  8662  0 Nov22 ?        00:00:00 /apache-2.4.39/bin/rotatelogs -l /apache-2.4.39/logs/error_tree_1.log.%Y%m%d 86400
+root      6921  8662  0 Nov22 ?        00:00:00 /apache-2.4.39/bin/rotatelogs -l /apache-2.4.39/logs/error_tree_2.log.%Y%m%d 86400
+root      6922  8662  0 Nov22 ?        00:00:00 /apache-2.4.39/bin/rotatelogs -l /apache-2.4.39/logs/error_tree_3.log.%Y%m%d 86400
+root      6923  8662  0 Nov22 ?        00:00:00 /apache-2.4.39/bin/rotatelogs -l /apache-2.4.39/logs/access.log.%Y%m%d 86400
+root      6925  8662  0 Nov22 ?        00:00:00 /apache-2.4.39/bin/rotatelogs -l /apache-2.4.39/logs/access_tree_1.log.%Y%m%d 86400
+root      6926  8662  0 Nov22 ?        00:00:00 /apache-2.4.39/bin/rotatelogs -l /apache-2.4.39/logs/access_tree_2.log.%Y%m%d 86400
+root      6927  8662  0 Nov22 ?        00:01:16 /apache-2.4.39/bin/rotatelogs -l /apache-2.4.39/logs/access_tree_3.log.%Y%m%d 86400
+root      6928  8662  0 Nov22 ?        00:01:35 /apache-2.4.39/bin/rotatelogs -l /apache-2.4.39/logs/mod_jk.log.%y%m%d 86400
+```
+
+일자별로 로그를 분할 후 특정기간별로 삭제하는 정책에 맞춰 linux CentOS 에 기본적으로 있는 logrotate 데몬을 이용하여 적용하겠습니다.  
+
+sudo 사용이 허용된 계정이나 root계정으로 로그인합니다.   
+/etc/logrotate.d/ 하위에 스크립트 파일을 생성해도 되지만 유지보수를 위해서 공용스크립트 디렉토리에 생성하겠습니다.  
+
+
+서버 디렉토리 규칙중에 `사용자 생성 스크립트 파일`을 모아두는 `공용 스크립트 디렉토리`가 있다면 거기에 모아주세요.  
+유지보수가 용이하답니다. (엄청난 장애를 예방할 수 있습니다.)  
+
+```bash 
+$ sudo vi ~/scripts/nginx_rotate.conf
+
+/logs/nginx/*.log {
+    su root root
+    daily
+    dateext
+    missingok
+    rotate 10
+    notifempty
+    sharedscripts
+    postrotate
+        if [ -f /logs/nginx/nginx.pid ]; then
+            kill -USR1 `cat /logs/nginx/nginx.pid`
+        fi
+    endscript
+}
+```
+
+* su root root : root 권한으로 실행을 하라는 의미 입니다.  
+첫번째 줄 `su root root` 를 빼는 경우 아래와 같은 에러가 발생합니다.   
+sudo 를 사용할 수 없거나 일반계정만 승인받은 경우는 `create 640 nginx adm` 를 대신해서 사용할 수 있습니다.   
+640 모드 파일생성, 소유자, 그룹은 nginx 라는 옵션입니다.   
+
+* daily
+    - daily : 일단위
+    - weekly : 주단위  
+    - monthly: 월단위  
+    - hourly : 시간단위   
+  
+* dateext: 날짜형태로 확장자를 생성합니다. 기본 포멧은 YYYY-mm-dd 입니다.  
+* dateformat : dateext 옵션과 함께 사용하며 로그파일 rotate 시 확장자 포멧 설정합니다.  
+* missingok  : 로그 파일이 없어도 에러 발생 안함 (nomissingok 가 default. 로그 없을 시 error 발생)
+* rotate 10 : 로그 파일 10개를 지정하고 10개 이상인경우 가장 먼저 생성한 파일을 삭제합니다.  
+* notifempty : 빈 로그파일은 로테이트 하지 않습니다. 
+* sharedscripts : 로그 파일이 여러개 있어도 스크립트를 공유하여 postrotate~endscript 한 번만 실행합니다. 
+* postrotate : 
+rotate 작업을 마친후에 실행할 스크립트를 적어줍니다.   
+nginx 의 경우 SIGUSR1 을 받으면 로그 파일을 새로 읽으므로 새로 만들어진 로그 파일에 로그를 기록합니다.  
+이 부분이 제대로 설정되어 있지 않으면 nginx 는 이미 오픈한 로그 파일에 계속 기록합니다.   
+이로 인해 예전 로그 파일에 내용이 쌓이므로  주의해야 합니다.  
+
+스크립트 파일을 logrotate 데몬의 디렉토리에 복사합니다.   
+```bash 
+$ sudo cp ~/script/nginx_rotate.conf /etc/logrotate.d/nginx
+``` 
+
+이 파일이 실제로 동작하는 스크립트입니다. 
+```bash 
+$ ll /etc/logrotate.d/
+total 20
+-rw-r--r--. 1 root root  76 Aug  2  2017 bootlog
+-rw-r--r--  1 root root 548 Aug 29 18:25 nginx           // 추가 
+-rw-r--r--. 1 root root 408 Aug  3  2017 psacct
+-rw-r--r--. 1 root root 224 May 10  2017 syslog
+-rw-r--r--. 1 root root 100 Aug  6  2017 yum
+``` 
+
+
+logrotate 에 등록한 파일을 디버그 모드로 실행해보겠습니다.   
+파일 오류를 잡아내고 정상 실행 여부를 확인할 때 사용합니다. 
+* -d, --debug : 디버그 모드, 실제 로그 파일을 변경하지는 않고 처리 과정만 표시합니다.
+
+에러가 발생하였을때 아래와 같이 보여줍니다.  
+주석때문에 에러가 발생하여 주석을 제거하였습니다.  
+```bash 
+$ sudo /usr/sbin/logrotate -d -f /etc/logrotate.d/nginx
+reading config file /etc/logrotate.d/nginx
+error: /etc/logrotate.d/nginx:6 bad rotation count '10       # 로그 파일 10개 보관'
+error: found error in /logs/nginx/*.log , skipping
+removing last 1 log configs
+Allocating hash table for state file, size 15360 B
+
+Handling 0 logs
+``` 
+
+
+다시 실행해보았습니다.  
+정상적으로 실행되었습니다.  
+
+```bash 
+$ sudo /usr/sbin/logrotate -d -f /etc/logrotate.d/nginx
+reading config file /etc/logrotate.d/nginx
+Allocating hash table for state file, size 15360 B
+
+Handling 1 logs
+
+rotating pattern: logs/nginx/*.log  forced from command line (20 rotations)
+empty log files are not rotated, old logs are removed
+considering log /logs/nginx/access.log
+  log needs rotating
+considering log /logs/nginx/error.log
+  log needs rotating
+rotating log /logs/nginx/access.log, log->rotateCount is 20
+dateext suffix '-20230905'
+glob pattern '-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'
+glob finding old rotated logs failed
+~ 생략
+```
+
+다음날 정상적으로 실행되었는지 확인합니다.   
+파일 로테이트가 잘되어 있네요. 
+```bash 
+$ ll /logs/nginx
+
+-rw-r--r-- 1 tree tree 2259265 Sep  5 11:20 access.log
+-rw-r--r-- 1 tree tree 7179724 Sep  5 03:46 access.log-20230905
+-rw-r--r-- 1 tree tree    2290 Sep  5 10:40 error.log
+-rw-r--r-- 1 tree tree   13535 Sep  5 03:36 error.log-20230905
+-rw-r--r-- 1 root tree      6 Aug 29 17:43 nginx.pid
+```
+
+logrotate 실행기록을 확인할 수 있습니다. 
+
+```bash 
+$ vi /var/lib/logrotate/logrotate.status
+logrotate state -- version 2
+"/logs/nginx/access.log" 2023-9-5-3:46:1
+"/logs/nginx/error.log" 2023-9-5-3:46:1
+"/logs/nginx/*.log" 2023-8-31-3:0:0
+"/var/log/maillog" 2023-9-3-3:50:1
+~ 생략
+```
+
+
+
+## 구동
+
+
+Nginx 설정을 수정한 후 문법 에러가 없는지 확인하는 옵션입니다. 
+```bash 
+$ /nginx/sbin/nginx -t
+
+nginx: the configuration file /nginx/conf/nginx.conf syntax is ok
+nginx: configuration file /nginx/conf/nginx.conf test is successful
+``` 
+
+Nginx 구동 명령입니다.
+```bash 
+$ /nginx/sbin/nginx
+``` 
+
+Nginx 구동 종료 명령입니다.
+
+```bash 
+$ /nginx/sbin/nginx -s stop
+``` 
+
+Nginx 설정 수정 후 구동종료 없이 설정을 적용하는 명령입니다.   
+Webserver 를 내리지 않아서 운영중에 설정 변경이 가능합니다.  
+```bash 
+$ /nginx/sbin/nginx -s reload
+``` 
+
+
+서버 내 규칙에 의해 conf 파일경로가 분리되어 있는 경우 `-c` 옵션을 사용하여 conf 파일 경로를 설정해 줄 수 있습니다.    
+이런경우 구동, 구동종료, 설정리로드 명령은 아래와 같습니다. 
+```bash 
+$ /nginx/sbin/nginx -c [conf 파일 경로]
+$ /nginx/sbin/nginx -c [conf 파일 경로] -s stop
+$ /nginx/sbin/nginx -c [conf 파일 경로] -s reload
+``` 
+
+## Nginx Conf 
+
+인증서 설정을 해보겠습니다. 
+기존에 하던 방식대로 설정 후 /nginx/sbin/nginx -t 로 확인하니 ssl 설정 수정 안내가 있습니다. 
+```bash 
+$ vi ~/apps/nginx-1.18.0/conf/nginx.conf
+
+server {
+    ssl on;
+    ssl_certificate /nginx/conf/ssl/willow.cert.pem;
+    ssl_certificate_key /nginx/conf/ssl/willow.NO_PASS_KEY.key;
+```
+
+`ssl on` 옵션은 1.15.0 부터 사용되지 않으며, 1.25.1 버전 이후로 제거되었습니다. 
+
+> This directive was made obsolete in version 1.15.0 and was removed in version 1.25.1. The ssl parameter of the listen directive should be used instead.
+
+[Module ngx_http_ssl_module](https://nginx.org/en/docs/http/ngx_http_ssl_module.html) 에서 ssl 옵션 설명에서 확인 할 수 있습니다. 
+
+설정을 변경합니다. 
+```bash 
+$ vi ~/apps/nginx-1.18.0/conf/nginx.conf
+
+server {
+    listen 443 ssl default_server;          // ssl 선언
+    listen [::]:443 ssl default_server;     // IPv6 형식 요청 처리 
+
+    ssl_certificate /nginx/conf/ssl/willow.cert.pem;
+    ssl_certificate_key /nginx/conf/ssl/willow.NO_PASS_KEY.key;
+```
+
+* default_server : 이 가상의 호스트가 다른 가상의 호스트들의 listen statement와 매치되지 않는 모든 요청에 응답
+
+SSL 인증서 교체 관련도 궁금하시면~ [Nginx SSL 인증서 교체]({% post_url 2023-07-24-Nginx-SSL %}) 이동~! 
+
+
+
+

@@ -16,6 +16,14 @@ NodeJS 서비스를 분석 업무가 생겨 NodeJS 스터디를 시작했습니�
 npm은 Front-end 에서도 자주 사용하는지라 겸사겸사 정리 하였습니다. 
 
 
+## Npm public registry 
+
+npm Search package
+
+https://www.npmjs.com/package/express
+
+
+## 정보 
 
 ➜  ~ npm -v
 9.8.1

@@ -104,10 +104,10 @@ $ cp apache.pem apache.pem_20230726
 $ cp apache.pass apache.pass_20230726
 ```
 
-L4에서 작업할 서버를 내려줍니다. 방법은 서버 구성에 따라 ~   
+작업할 서버를 L7 에서 내려줍니다. 방법은 서버 구성에 따라 ~   
 이서버는 static 파일을 조회해서 l4 heath check 를 하고 있습니다.     
 ```bash
-$ mv ~/html/web_site/common/monitor/ok.html ~/html/web_site/common/monitor/ok_del.html
+$ mv ~/html/common/monitor/ok.html ~/html/common/monitor/ok_del.html
 ```
 
 기존 인증서 파일을 신규 인증서 파일로 overwrite 합니다. 
@@ -149,8 +149,6 @@ $ ~/apache-2.4.39/bin/apachectl -k graceful
 브라우저에서 새로고침 후 인증서 보기로 만료일을 확인합니다. 
 
 
-
-
 ![]({{ site.url }}/assets/article_images/2023-07-24-Nginx-SSL/2023-07-24_001.png)
 
 {:.table.table-key-value-60}
@@ -159,7 +157,7 @@ $ ~/apache-2.4.39/bin/apachectl -k graceful
 |발급일:2022년 6월 30일 목요일 오전 9:00:00 <br> 만료일:2023년 8월 1일 화요일 오전 8:59:59|발급일:2023년 7월 10일 월요일 오전 9:00:00 <br> 만료일:2024년 8월 10일 토요일 오전 8:59:59| 
 
 
-L4에서 작업 완료한 서버를 올려줍니다. 
+작업 완료한 서버를 L7에도 올려줍니다. 
 ```bash
-mv ~/html/toast_market/common/monitor/ok_del.html ~/html/toast_market/common/monitor/ok.html
+mv ~/html/common/monitor/ok_del.html ~/html/common/monitor/ok.html
 ```

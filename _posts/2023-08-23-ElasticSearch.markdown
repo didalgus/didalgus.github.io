@@ -19,8 +19,6 @@ published: true
 
 ## 엘라스틱서치 특징   
 
-
-
 * 아파치 루씬 기반 
 * 분산 시스템 (Distributed)  
 * 전문검색 (Full Text Search)
