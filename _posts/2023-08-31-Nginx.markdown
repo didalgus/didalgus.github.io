@@ -26,7 +26,6 @@ https://nginx.org/
 $ ~/nginx/sbin/nginx -V
 nginx version: nginx/1.18.0
 
-
 $ cat /etc/redhat-release
 CentOS Linux release 7.4.1708 (Core)
 
@@ -39,7 +38,7 @@ x86_64
 Nginx 설치 방법은 OS,확장자별 다양합니다.   
 저는 회사에서 제공하는 설치 스크립트(모니터링서비스 연동)로 설치하였습니다.  
 
-
+<br/>  
 파일을 다운받아서 설치하는 기본적인 방법을 알아보겠습니다.  
 
 http://nginx.org/en/download.html  
@@ -100,12 +99,12 @@ Linux OS 서버 계정을 부여 받았을때 root 권한이 없는 경우가 �
 Linux에서는 1024 port 이하는 일반계정에 root 권한이 없습니다.   
 Nginx가 주로 사용하는 80, 443 port 역시 1024 port 이하 인지라 일반계정이 Nginx를 구동, 종료할 수가 없습니다.   
 
-
+<br/>  
   
 그래서~ 일반 권한이 root 권한을 잠시 빌려서(?!) 사용할 수 있도록 SetUID 설정을 적용하겠습니다.   
 
 
-
+<br/>  
 nginx 실행파일 소유자를 root 로 변경해줍니다.  
 ```bash 
 $ sudo chown root:tree nginx
@@ -214,17 +213,17 @@ $ sudo cp ~/script/nginx_rotate.conf /etc/logrotate.d/nginx
 ```bash 
 $ ll /etc/logrotate.d/
 total 20
--rw-r--r--. 1 root root  76 Aug  2  2017 bootlog
--rw-r--r--  1 root root 548 Aug 29 18:25 nginx           // 추가 
--rw-r--r--. 1 root root 408 Aug  3  2017 psacct
--rw-r--r--. 1 root root 224 May 10  2017 syslog
--rw-r--r--. 1 root root 100 Aug  6  2017 yum
+-rw-r--r-- 1 root root  76 Aug  2  2017 bootlog
+-rw-r--r-- 1 root root 548 Aug 29 18:25 nginx           // 추가 
+-rw-r--r-- 1 root root 408 Aug  3  2017 psacct
+-rw-r--r-- 1 root root 224 May 10  2017 syslog
+-rw-r--r-- 1 root root 100 Aug  6  2017 yum
 ``` 
 
 
 logrotate 에 등록한 파일을 디버그 모드로 실행해보겠습니다.   
 파일 오류를 잡아내고 정상 실행 여부를 확인할 때 사용합니다. 
-* -d, --debug : 디버그 모드, 실제 로그 파일을 변경하지는 않고 처리 과정만 표시합니다.
+
 
 에러가 발생하였을때 아래와 같이 보여줍니다.  
 주석때문에 에러가 발생하여 주석을 제거하였습니다.  
@@ -238,7 +237,9 @@ Allocating hash table for state file, size 15360 B
 
 Handling 0 logs
 ``` 
-
+* -d, --debug : 디버그 모드, 실제 로그 파일을 변경하지는 않고 처리 과정만 표시합니다.
+* -f : force 즉시 로그파일을 회전 합니다. 
+<br>    
 
 다시 실행해보았습니다.  
 정상적으로 실행되었습니다.  
@@ -326,7 +327,7 @@ $ /nginx/sbin/nginx -c [conf 파일 경로] -s stop
 $ /nginx/sbin/nginx -c [conf 파일 경로] -s reload
 ``` 
 
-## Nginx Conf 
+## Nginx Configuration 
 
 인증서 설정을 해보겠습니다. 
 기존에 하던 방식대로 설정 후 /nginx/sbin/nginx -t 로 확인하니 ssl 설정 수정 안내가 있습니다. 
@@ -338,11 +339,10 @@ server {
     ssl_certificate /nginx/conf/ssl/willow.cert.pem;
     ssl_certificate_key /nginx/conf/ssl/willow.NO_PASS_KEY.key;
 ```
-
+<br>  
 `ssl on` 옵션은 1.15.0 부터 사용되지 않으며, 1.25.1 버전 이후로 제거되었습니다. 
 
 > This directive was made obsolete in version 1.15.0 and was removed in version 1.25.1. The ssl parameter of the listen directive should be used instead.
-
 [Module ngx_http_ssl_module](https://nginx.org/en/docs/http/ngx_http_ssl_module.html) 에서 ssl 옵션 설명에서 확인 할 수 있습니다. 
 
 설정을 변경합니다. 

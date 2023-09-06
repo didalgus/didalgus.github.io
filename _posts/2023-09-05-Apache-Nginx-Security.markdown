@@ -13,7 +13,7 @@ published: true
 
 
 제공하는 웹서비스가 많으면, 그만큼의 웹서버가 존재합니다.  
-요즘, 내가 개발자인지 서버엔지니어인지 살짝 혼란스럽지만 그래도 주어진 일에 최선을 다하자! 라는 마음으로 일하고 있습니다.  
+요즘, 내가 개발자인지 서버엔지니어인지 살짝 혼란스럽지만 "주어진 일에 최선을 다하자!" 라는 마음으로 일하고 있습니다.  
   
 많은 웹서버의 보안 관련 헤더 설정을 하다보니 정리를 해야겠다는 생각이 들었습니다.  
 
@@ -50,6 +50,40 @@ Connection: close
 * -L : curl 에서 방향 전환을 추적할 때 -L 옵션을 지정합니다.  ex) curl -I -L 주소
 
 
+## WebServer version
+
+서버 버전이 노출되면 해당 버전의 취약점으로 공격가능성이 있기때문에 노출되지 않도록 설정합니다. 
+
+버전 옵션 설정 전 
+```bash 
+$ curl -I tree.com
+HTTP/1.1 200 OK
+Server: nginx/1.18.0
+Date: Tue, 05 Sep 2023 10:32:07 GMT
+``` 
+
+버전 옵션 설정 후
+```bash 
+$ curl -I tree.com
+HTTP/1.1 200 OK
+Server: nginx
+Date: Tue, 05 Sep 2023 10:32:07 GMT
+``` 
+
+### nginx 
+```bash 
+server_tokens off;
+``` 
+
+### apahce 
+
+```bash 
+ServerTokens Prod
+``` 
+
+
+
+
 ## X-Frame-Options
 
 X-Frame-Options 옵션설정에 관한 대표적인 예로 HTML 태그중 `<frame>`, `<iframe>`, `<object>` 에서 렌더링 할 수 있는지 여부를 나타내는데 사용됩니다. 
@@ -71,7 +105,7 @@ add_header X-Frame-Options sameorigin;
 Header always append X-Frame-Options "sameorigin"
 ``` 
 
-## 2 X-XSS-Protection
+## X-XSS-Protection
 
 브라우저에서 XSS 필터링 사용하는 X-XSS-Protection을 설정합니다.   
 옵션 값으로 1; mode=block 사용 권고하고 있습니다.  
@@ -89,7 +123,7 @@ Header set X-XSS-Protection "1; mode=block"
 [Mozilla X-XSS-Protection](https://developer.mozilla.org/ko/docs/Web/HTTP/Headers/X-XSS-Protection) 보안헤더 관련 설명 잘 나와있습니다. 
 
 
-## 3 Strict-Transport-Security
+## Strict-Transport-Security
 
 HTTPS를 사용하는 경우, HTTPS 통신을 강제하는 Strict-Transport-Security을 설정합니다. 
 
@@ -111,7 +145,7 @@ Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains
 관련 블로그 : https://rsec.kr/?p=315
 
 
-## 4 X-Content-Type-Options
+## X-Content-Type-Options
 
 리소스의 MIMETYPE이 일치하는 경우에만 리소스를 다운로드하는 X-Content-Type-Options을 설정합니다. 
 
@@ -135,23 +169,23 @@ Header always set X-Content-Type-Options "nosniff"
 $ vi /nginx-1.22.0/conf/tree.80.conf
 
 server {
-        listen          80 default;
+  listen          80 default;
 
-        ## 
-        error_page 400 401 403 404 405 408 410 411 412 413 414 415 /error_4xx.html;
-        error_page 500 501 502 503 504 505 506 /error_5xx.html;
+  ## 
+  error_page 400 401 403 404 405 408 410 411 412 413 414 415 /error_4xx.html;
+  error_page 500 501 502 503 504 505 506 /error_5xx.html;
 
-        ## 
-        server_tokens off;                # server_tokens가 off일 경우, 서버 정보가 노출되지 않음
+  ## 
+  server_tokens off;                # server_tokens가 off일 경우, 서버 정보가 노출되지 않음
 
-        ## 
-        add_header X-Content-Type-Options nosniff;                         # 4) 리소스의 MIMETYPE이 일치하는 경우에만 리소스를 다운로드
+  ## 
+  add_header X-Content-Type-Options nosniff;                         # 4) 리소스의 MIMETYPE이 일치하는 경우에만 리소스를 다운로드
 
-        # add_header X-Frame-Options SAMEORIGIN always;                    # 1) 단독 사용 사이트 경우 
-        add_header X-Frame-Options "allow-from *.tree.com";                # 1) ClickJacking 등의 공격을 방지 (sameorigin 사용 권고), <frame>, <iframe>, <object>에서 해당 페이지를 렌더링 할 수 있는지 결정
-        add_header Content-Security-Policy "frame-ancestors *.tree.com";   # 1) 상동 
+  # add_header X-Frame-Options SAMEORIGIN always;                    # 1) 단독 사용 사이트 경우 
+  add_header X-Frame-Options "allow-from *.tree.com";                # 1) ClickJacking 등의 공격을 방지 (sameorigin 사용 권고), <frame>, <iframe>, <object>에서 해당 페이지를 렌더링 할 수 있는지 결정
+  add_header Content-Security-Policy "frame-ancestors *.tree.com";   # 1) 상동 
 
-        add_header X-XSS-Protection "1; mode=block" always;                # 2) 브라우저에서 XSS 필터링 사용 
+  add_header X-XSS-Protection "1; mode=block" always;                # 2) 브라우저에서 XSS 필터링 사용 
 ```
 
 

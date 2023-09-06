@@ -145,8 +145,8 @@ tree   10302     1  0 Jun28 ?        02:54:39 /jdk/bin/java -Djava.util.logging.
 ```
 
 
-설정파일 server.xml 을 살펴볼까요? 
-protocol AJP/1.3 설정에 사용하는 Connector port="6001" 가 보이는 군요.  
+설정파일 server.xml 을 살펴볼까요?  
+protocol AJP/1.3 설정에 사용하는 Connector port="6001" 가 보이는 군요.   
 ```xml
 $ vi /conf/tomcat/tree_1/server.xml
 
@@ -189,8 +189,8 @@ Syntax OK
 설치된 모듈 리스트입니다.  
 ```bash
 $ /apache-2.4.39/bin/httpd -l
-	Compiled in modules:
-	core.c
-	mod_so.c
-	http_core.c
+Compiled in modules:
+core.c
+mod_so.c
+http_core.c
 ```
