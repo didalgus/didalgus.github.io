@@ -72,16 +72,46 @@ Date: Tue, 05 Sep 2023 10:32:07 GMT
 
 ### nginx 
 ```bash 
-server_tokens off;
+server {
+  server_tokens off;
+}
 ``` 
 
 ### apahce 
 
 ```bash 
 ServerTokens Prod
+ServerSignature Off 
 ``` 
 
+## default_server 
 
+여러개의 서비스(vhost)를 설정한 경우 VIP, PublicIP 로 접근했을때 제어가 필요합니다. 
+
+![](/assets/article_images/2023-09-05-Apache-Nginx-Security/securityheaders_03.png)
+
+nginx 기본 페이지가 나오면 안되는 경우에는 대표 서비스로 이동하도록 설정해주세요.  
+```bash 
+server {
+  listen       80 default_server;   # 
+  server_name  localhost;
+
+  server_tokens off;
+
+  location / {
+          rewrite ^ https://tree.com$request_uri? permanent;
+  }
+
+  # redirect server error pages to the static page /50x.html
+  #
+  error_page   500 502 503 504  /50x.html;
+  location = /50x.html {
+          root   html;
+  }
+}
+```
+
+* default_server : 이 가상의 호스트가 다른 가상의 호스트들의 listen statement와 매치되지 않는 모든 요청에 응답
 
 
 ## X-Frame-Options
@@ -159,6 +189,74 @@ add_header X-Content-Type-Options nosniff;
 Header always set X-Content-Type-Options "nosniff"
 ``` 
 
+
+## Method Allow
+
+불필요한 메서드를 허용하는 경우 허용된 메서드로 웹서버에 파일을 생성하거나 삭제할 수 있는 취약점이 발생합니다. 
+REST API 서비스인 경우 사용하는 메서드만 허용합니다. 
+
+```bash 
+$ curl -v -X OPTIONS https://tree.com
+
+< Allow: GET, HEAD, POST, PUT, DELETE, TRACE, OPTIONS, PATCH
+``` 
+
+
+## nginx
+
+Nginx 설정에 아래와 같이 추가 합니다.  
+톰캣도 함께 사용하는 경우 톰캣 설정도 추가해줍니다.  
+
+```bash 
+server {
+    생략..
+       location / {
+            index  index.html index.htm;
+            root html;
+
+            limit_except GET POST PUT DELETE HEAD {
+                deny all;
+            }
+       }
+}
+``` 
+
+## apache 
+
+httpd.conf 설정에 추가합니다.  
+``` bash 
+<Directory />
+   <LimitExcept GET POST>
+       Order allow,deny
+       Deny from all
+   </LimitExcept>
+</Directory>
+``` 
+
+TRACE 메소드는 아래 설정을 추가합니다. 
+``` bash 
+TraceEnable Off
+``` 
+
+## Tomcat 
+
+web.xml 파일 내 `<web-app>` 하위에 설정을 추가합니다. 
+
+```xml 
+<security-constraint>
+    <display-name>Forbidden</display-name>
+    <web-resource-collection>
+        <web-resource-name>Protected Context</web-resource-name>
+        <url-pattern>/*</url-pattern>
+        <http-method>TRACE</http-method>
+        <http-method>OPTIONS</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+        <role-name></role-name>
+    </auth-constraint>
+</security-constraint>
+``` 
+
 ## Summary
 
 ## nginx
@@ -216,6 +314,9 @@ Accept-Ranges: bytes
 
 ```bash 
 $ vi /apache-2.4.39/conf/httpd.conf
+
+ServerTokens Prod
+ServerSignature Off
 
 <VirtualHost *:443>
         DocumentRoot /html/tree
