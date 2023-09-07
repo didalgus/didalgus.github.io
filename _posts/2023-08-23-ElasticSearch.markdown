@@ -179,9 +179,9 @@ PID 를 kill 명령으로 프로세스 종료합니다.
 # Configuration
 
 
-엘라스틱 서치 환경 설정하는 방법은 크게 3가지입니다. 
+엘라스틱 서치 환경 설정 방법은 크게 3가지입니다. 
 
-## yml 
+### yml 
 
 bin/elasticsearch.in.sh 파일과 confing/elasticsearch.yml 를 옵션을 수정하는 방법이 있습니다.
 ```bash
@@ -202,7 +202,7 @@ fi
 (elasticsearch.in.sh 파일이 8.9.1 버전에는 없군요)
 ```bash
 $ ps -ef | grep elasticsearch
-tree 19949     1 17  2022 ?        75-22:33:22 /jdk8/bin/java -Xms256m -Xmx15g -Des.path.home=/elasticsearch-2.3.0 ..생략
+tree 19949  1 17  2023 ? 75-22:33:22 /jdk8/bin/java -Xms256m -Xmx15g -Des.path.home=/elasticsearch-2.3.0 ..생략
 ```
 
 자바 힙 덤프 파일은 별로도 경로를 지정하지 않으면 엘라스틱서치 홈 디렉토리에 생성됩니다.   
@@ -217,7 +217,7 @@ JAVA_OPTS="$JAVA_OPTS -XX:HeapDumpPath=$ES_HOME/logs/heapdump.hprof"
 
 confing/elasticsearch.yml 설정을 살펴보겠습니다. 
 
-```ini
+```bash
 $ vi /elasticsearch-2.3.0/config/elasticsearch.yml
 
 path.data: /elasticsearch/data
@@ -239,9 +239,9 @@ bootstrap.mlockall: true
 클러스터링해서 운영하는 경우 하나의 노드만 REST API 통신을 허용하고 나머지 노드는 false 로 설정해서 데이터를 저장하는 용도로만 사용할 수 도 있습니다.  
 
 
-## 실행시 -D 
+### 실행시 -D 
 
-## REST API 
+### REST API 
 
 
 ## Infomation  
@@ -275,7 +275,7 @@ bootstrap.mlockall: true
 
 실무에 사용중인 엘라스틱 서치도 조회해봅니다.  
 ```bash
-$ curl http://10.xxx.xx.xx:9200
+$ curl -XGET http://10.xxx.xx.xx:9200
 {
   "name" : "elasticsearch",
   "cluster_name" : "elasticsearch",
@@ -288,7 +288,30 @@ $ curl http://10.xxx.xx.xx:9200
   },
   "tagline" : "You Know, for Search"
 }
+
+$ curl -XGET http://10.xxx.xx.xx:9200/_cluster/stats?pretty=true
+{
+  "timestamp" : 1693995454267,
+  "cluster_name" : "elasticsearch",
+  "status" : "green",
+  "indices" : {
+    "count" : 457,
+
+...
+
+  "nodes" : {
+    "count" : {
+      "total" : 3,
+      "master_only" : 0,
+      "data_only" : 0,
+      "master_data" : 3,
+      "client" : 0
+    },
+    "versions" : [ "2.3.0" ],
+
 ```
+
+* pretty=true : 커맨드 명령으로 조회할때 보기 좋은 결과값을 표현해줍니다.  
 
 보고있는 책의 버전은 1.1.1   
 회사 운영중인 엘라스틱서치는  2.3.0   
