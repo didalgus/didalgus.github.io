@@ -12,26 +12,31 @@ published: true
 ---
 
 Git Client 중에서 가장 애착하는 Sourcetree.   
+![](/assets/article_images/2023-09-15-SourceTree/sourcetree_logo.png)
+
 Intellij 에서 대부분의 작업을 하긴 하지만   
 신규 프로젝트를 분석할때나 전체 히스토리를 파악할때 Sourcetree 로 살펴보면 한눈에 보여서 좋습니다요.  
-
-![](/assets/article_images/2023-09-15-SourceTree/sourcetree_version.png)
-
-애착툴이 어느날 부터 크러쉬나면서 꺼지는 현상이 종종 발생하더니    
+<br>  
+4.1.8 버전이 어느날 부터 크러쉬나면서 꺼지는 현상이 종종 발생하더니    
 오늘은 실행되자마자 꺼져버리는군요. 
-
 
 ## Development Environment
 * MacBook Pro 16  
 * MacOS Ventura 13.4.1  
 * 칩 Apple M1 Pro  
 
+## Sourcetree Download
+
+[https://www.sourcetreeapp.com/](https://www.sourcetreeapp.com/) 공식 사이트에서 다운로드를 받을 수 있습니다.  
+
+![](/assets/article_images/2023-09-15-SourceTree/sourcetree_site.png)
+
 ## Sourcetree Release Notes
 릴리즈 노트를 살펴봅니다.   
-
-<br>  
-
-실리콘 버전 지원 시작. 
+[https://product-downloads.atlassian.com/software/sourcetree/ReleaseNotes/Sourcetree_4.2.4.html](https://product-downloads.atlassian.com/software/sourcetree/ReleaseNotes/Sourcetree_4.2.4.html)  
+<br>    
+  
+실리콘 버전 지원 시작.   
 ```
 Sourcetree 4.1.6 - Minor Release [8 February 2022]
 CHANGES
@@ -53,6 +58,8 @@ BUG FIXES
 * [SRCTEE-7851][SRCTREE-8050] M1: embedded git don't work
 ```
 
+![](/assets/article_images/2023-09-15-SourceTree/sourcetree_version.png)  
+  
 가장 최신 버전 4.2.4 설치!  
 종일 사용하였는데 동작 잘되는군요. Good~!
 
