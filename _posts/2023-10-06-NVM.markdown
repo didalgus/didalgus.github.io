@@ -1,0 +1,184 @@
+---
+layout: post
+title:  "NVM (Node Version Manager)"
+date: 2023-10-06 19:15:00 +0900
+abstract: "nodeJS"
+tags: [nvm, nodeJS]
+image:
+toc: true
+categories: Tech
+last_modified_at: 
+published: true
+---
+
+프로젝트마다 환경이 달라 Node를 버전별로 사용할 일이 생겨      
+NVM (Node Version Manager)을 설치하였습니다. 
+
+<br>
+
+## nvm 설치 
+
+homebrew 에서 nvm 검색합니다.   
+설치 가능하군요. 
+
+```bash
+$ brew search nvm
+==> Formulae
+convmv                       mvnvm                        nvm   
+```
+이미 설치된 경우 초록색 체크 표시가 옆에 있습니다.  
+
+```bash
+brew search nvm
+==> Formulae
+convmv                       mvnvm                        nvm ✔ 
+```
+
+homebrew로 nvm 설치합니다.  
+```bash
+$ brew install nvm
+==> Downloading https://ghcr.io/v2/homebrew/core/nvm/manifests/0.39.5
+... 
+You should create NVM's working directory if it doesn't exist:
+  mkdir ~/.nvm
+
+Add the following to your shell profile e.g. ~/.profile or ~/.zshrc:
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+You can set $NVM_DIR to any location, but leaving it unchanged from
+/opt/homebrew/Cellar/nvm/0.39.5 will destroy any nvm-installed Node installations
+upon upgrade/reinstall.
+
+Type `nvm help` for further information.
+==> Summary
+🍺  /opt/homebrew/Cellar/nvm/0.39.5: 9 files, 192.8KB
+==> Running `brew cleanup nvm`...
+```
+<br> 
+설치 후 안내에 따라 .zshrc 파일에 설정을 추가합니다.  
+
+```bash
+$ vi ~/.zshrc
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+```
+
+## nvm ls-remote
+
+nvm 에서 설치가능한 목록을 확인합니다. 
+
+```bash
+$ nvm ls-remote
+        v0.1.14
+        v0.1.15
+```
+
+## node install 
+
+node 10 버전를 설치하겠습니다. 
+
+```bash
+$ nvm install 10.24.1 
+Downloading and installing node v10.24.1...
+Downloading https://nodejs.org/dist/v10.24.1/node-v10.24.1-darwin-x64.tar.xz...
+########### 100.0%
+Computing checksum with shasum -a 256
+Checksums matched!
+Now using node v10.24.1 (npm v6.14.12)
+Creating default alias: default -> 10.24.1 (-> v10.24.
+```
+
+설치 완료되었는지 확인해볼까요? 
+node 버전과 npm 버전도 확인합니다.  
+
+```bash
+$ node -v
+v10.24.1
+
+$ npm -v
+6.14.12
+```
+
+node 16 버전도 설치해보겠습니다. 
+
+```bash
+$ nvm install 16.20.2
+Downloading and installing node v16.20.2...
+Downloading https://nodejs.org/dist/v16.20.2/node-v16.20.2-darwin-arm64.tar.xz...
+###### 100.0%
+Computing checksum with shasum -a 256
+Checksums matched!
+Now using node v16.20.2 (npm v8.19.4)
+```
+
+node 버전과 npm 버전도 확인합니다.  
+node 10 버전 설치시의 npm 버전이 다른것을 확인할 수 있습니다. 
+
+```bash
+$ node -v
+v16.20.2
+
+$ npm -v
+8.19.4
+```
+
+node 최신 버전을 설치할때는 `--lts` 옵션을 넣어주면 됩니다. 
+
+```bash
+$ nvm install --lts
+Installing latest LTS version.
+Downloading and installing node v18.18.0...
+```
+
+## nvm ls 
+
+설치된 node 를 확인하겠습니다. 
+
+```bash
+$ nvm ls
+       v10.24.1
+->     v16.20.2
+```
+
+## nvm use 
+
+프로젝트별 node 버전 변경하겠습니다.   
+
+```bash
+$ nvm use 16.20.2
+Now using node v16.20.2 (npm v8.19.4)
+```
+
+
+## nvm uninstall
+
+최신버전을 삭제하려고 합니다. 
+
+```bash
+$ nvm uninstall --lts
+nvm: Cannot uninstall currently-active node version, v18.18.0 (inferred from --lts).
+```
+
+사용(use) 하고 있는 node 는 삭제되지 않는다는 안내가 나오는군요. 
+그렇다면 node 16 버전으로 변경해주겠습니다.  
+
+```bash
+$ nvm use 16.20.2
+Now using node v16.20.2 (npm v8.19.4)
+```
+
+최신 버전 삭제 되었습니다. 
+```bash
+$ nvm uninstall --lts
+Uninstalled node v18.18.0
+```
+
+특정 버전을 삭제하고 싶군요. 
+```bash
+$ nvm uninstall 8.9.0
+Uninstalled node v8.9.0
+```
