@@ -90,12 +90,12 @@ JSON (Javascript Object Notation) 웹에서 자료를 주고받을 때 사용하
 
 https://www.elastic.co/kr/downloads/elasticsearch 설치하고자 하는 환경에 맞는 OS를 선택합니다.  
 
-![Couchbase logo](/assets/article_images/2023-08-23-ElasticSearch/ElasticSearch-001.png)
+![Elasticsearch logo](/assets/article_images/2023-08-23-ElasticSearch/ElasticSearch-001.png)
 
 https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.9.1-darwin-x86_64.tar.gz
 
 
-압축된 파일을 풀어줍니다. 
+Mac M1 AArch64 아키텍처 파일을 다운받아 풀어주겠습니다.  
 
 ```bash
 apps $ tar -xzvf elasticsearch-8.9.1-darwin-aarch64.tar.gz
