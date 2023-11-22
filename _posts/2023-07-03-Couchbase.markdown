@@ -43,6 +43,7 @@ last_modified_at:
 - Learn > Blog [https://www.couchbase.com/blog/](https://www.couchbase.com/blog/)     
 - 레퍼런스 ex)집계 함수 [https://docs.couchbase.com/server/current/n1ql/](https://docs.couchbase.com/server/current/n1ql/n1ql-language-reference/aggregatefun.html)  
 - couchbase java client 2.7.23 [https://docs.couchbase.com/sdk-api/](https://docs.couchbase.com/sdk-api/couchbase-java-client-2.7.23/com/couchbase/client/java/Bucket.html)  
+- Array Indexing [https://docs.couchbase.com](https://docs.couchbase.com/cloud/n1ql/n1ql-language-reference/indexing-arrays.html)  
 - java SDK 2.2 [https://docs-archive.couchbase.com/java-sdk/2.2/](https://docs-archive.couchbase.com/java-sdk/2.2/java-intro.html)  
 - java SDK 3.4 [https://docs.couchbase.com/java-sdk/](https://docs.couchbase.com/java-sdk/current/hello-world/start-using-sdk.html)  
 - 국내 블로그 [https://couchbase.tistory.com/](https://couchbase.tistory.com/)     
