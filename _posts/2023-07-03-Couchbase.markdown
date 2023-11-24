@@ -344,3 +344,26 @@ UNNEST shops s
 WHERE "B" IN s.shopItem
 ```
 ![](/assets/article_images/2023-07-03-Couchbase/couchbase-18.png)  
+
+
+ArrayIndex 를 적용해보려고 합니다.   
+참고한 [블로그](https://www.couchbase.com/blog/making-the-most-of-your-arrays...-with-array-indexing/) 에서는 배열안에 Object 형태라서 
+위의 조건과 좀 다르지만 일단 적용해 보았습니다. 
+
+```sql
+CREATE INDEX index_shop_item ON `travel-sample`.`_default`.`_default` (DISTINCT ARRAY v FOR v IN shopItem END) 
+WHERE type = "hotplace"
+```
+
+기존 조회하는 쿼리에 인덱스 선언문만 추가해서 실행해 보았습니다.  
+소요시간 2.9 ms  
+```sql
+SELECT 
+  t.area, s.shopName, s.shopId 
+FROM `travel-sample` t 
+USE INDEX(index_shop_item)
+UNNEST shops s 
+WHERE t.type="hotplace" AND "A" IN s.shopItem
+```
+
+신기한점은 Query Plan에 `index_shop_item` 인덱스를 사용하지 않는데 빠르게 조회됩니다.  
