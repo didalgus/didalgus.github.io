@@ -11,10 +11,15 @@ last_modified_at:
 published: true
 ---
 
+
+* **ElasticSearch 1/2 ✓**  <span class="series">SERIES 1/2</span>  
+* [ElasticSearch 2/2]({% post_url 2023-12-07-ElasticSearch2 %}) <span class="series">SERIES 1/2</span>
+
+
 엘라스틱서치는 세이베논(Shay Banon)이 아파치 루씬을 이용하여 개발했으며 오픈소스로 프로젝트로 진행하고 있습니다.   
 분산환경에서의 병령 처리와 실시간 검색을 지원하고 확장성이 뛰어납니다.   
 
-![Couchbase logo](/assets/article_images/2023-08-23-ElasticSearch/ElasticSearch-logo.png)
+![ElasticSearch logo](/assets/article_images/2023-08-23-ElasticSearch/ElasticSearch-logo.png)
 
 
 ## 엘라스틱서치 특징   
@@ -239,8 +244,6 @@ bootstrap.mlockall: true
 클러스터링해서 운영하는 경우 하나의 노드만 REST API 통신을 허용하고 나머지 노드는 false 로 설정해서 데이터를 저장하는 용도로만 사용할 수 도 있습니다.  
 
 
-### 실행시 -D 
-
 ### REST API 
 
 
@@ -249,7 +252,7 @@ bootstrap.mlockall: true
 엘라스틱 서치는 port 를 지정하지 않으면 기본값 9200을 사용합니다.  
 
 
-정보를 가져오는 Rest API 를 호출해보겠습니다.  
+설정 정보를 가져오는 Rest API 를 호출해보겠습니다.  
 
 ```bash
 // https://localhost:9200/
@@ -272,6 +275,17 @@ bootstrap.mlockall: true
   "tagline": "You Know, for Search"
 }
 ```
+
+elasticsearch.yml 설정에 `xpack.security.enabled` 항목 값이 true 설정되어 있어서 https 통신 + 사용자 인증을 합니다.   
+로컬 테스트용인지라 해당 옵션을 비활성 하였습니다.  
+
+
+```
+# Enable security features
+xpack.security.enabled: false
+``` 
+재구동 후 API 조회시 http(80) 포트를 사용합니다.  
+
 
 실무에 사용중인 엘라스틱 서치도 조회해봅니다.  
 ```bash
@@ -314,7 +328,7 @@ $ curl -XGET http://10.xxx.xx.xx:9200/_cluster/stats?pretty=true
 * pretty=true : 커맨드 명령으로 조회할때 보기 좋은 결과값을 표현해줍니다.  
 
 보고있는 책의 버전은 1.1.1   
-회사 운영중인 엘라스틱서치는  2.3.0   
+회사 운영중인 엘라스틱서치는 2.3.0   
 테스트용 설치는 8.9.1   
 와.. 버전 갭 차이..어쩔..  
 
