@@ -184,7 +184,7 @@ PID 를 kill 명령으로 프로세스 종료합니다.
 # Configuration
 
 
-엘라스틱 서치 환경 설정 방법은 크게 3가지입니다. 
+엘라스틱 서치 환경 설정 방법은 크게 2가지입니다. 
 
 ### yml 
 
@@ -245,9 +245,6 @@ bootstrap.mlockall: true
 
 
 ### REST API 
-
-
-## Infomation  
 
 엘라스틱 서치는 port 를 지정하지 않으면 기본값 9200을 사용합니다.  
 
