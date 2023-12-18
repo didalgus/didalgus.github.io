@@ -59,14 +59,17 @@ curl -XPUT http://localhost:9200/author/_doc/1 -H 'Content-Type: application/jso
 }'
 ```
 
+REST API Tool 을 사용해보겠습니다.  
+Postman 등 본인에게 익숙할 툴로 이용하세요.   
+저는 Visual Code 의 플러그인 Thunder Client 를 사용하고 있습니다. 
+
+![](/assets/article_images/2023-12-07-ElasticSearch2/ElasticSearch2_2.png)
+
+CLI 명령에서는 `Content-Type: application/json` 선언한 부분이 Tool 에서는 자동설정되어 있는것을 확인 할 수 있습니다. 
+훨씬 편하지요.  
+![](/assets/article_images/2023-12-07-ElasticSearch2/ElasticSearch2_1.png)
+
 여성, 남성 각각 2건 생성하였습니다.  
-```
-curl -XPUT http://localhost:9200/author/_doc/2 -H 'Content-Type: application/json' -d '
-{
-    "name" : "name-2",
-    "gender" : "female"
-}'
-```
 
 ## Select 
 
@@ -82,6 +85,7 @@ $ curl http://localhost:9200/author/_doc/2
     }
 }
 ```
+
 
 엘라스틱서치 2.3 인경우 <인덱스>/<타입> 형태로 구성되어 있습니다.  
 이런경우 document 정보를 가져올때 <타입> 도 명시해줘야 검색됩니다.  
