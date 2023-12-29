@@ -12,8 +12,9 @@ published: true
 ---
 
 
-* **ElasticSearch 1/2 ✓**  <span class="series">SERIES 1/2</span>  
-* [ElasticSearch 2/2]({% post_url 2023-12-07-ElasticSearch2 %}) <span class="series">SERIES 1/2</span>
+* **ElasticSearch 1/3 ✓**  <span class="series">SERIES 1/3</span>  
+* [ElasticSearch 2/3]({% post_url 2023-12-07-ElasticSearch2 %}) <span class="series">SERIES 2/3</span>
+* [ElasticSearch 3/3]({% post_url 2023-12-11-ElasticSearch3 %}) <span class="series">SERIES 3/3</span>
 
 
 엘라스틱서치는 세이베논(Shay Banon)이 아파치 루씬을 이용하여 개발했으며 오픈소스로 프로젝트로 진행하고 있습니다.   

@@ -13,20 +13,23 @@ published: true
 
 * [ElasticSearch 1/2]({% post_url 2023-08-23-ElasticSearch %}) <span class="series">SERIES 1/2</span>
 * [ElasticSearch 2/3]({% post_url 2023-12-07-ElasticSearch2 %}) <span class="series">SERIES 2/3</span>
-* **ElasticSearch 3/2 ✓**  <span class="series">SERIES 3/2</span>
+* **ElasticSearch 3/3 ✓**  <span class="series">SERIES 3/2</span>
 
 
 ## 개요 
 
 매핑 정보를 선언해서 사용중인 Index(type) 에 신규 매핑정보를 추가 후 인덱싱을 해보겠습니다.   
-바로 운영환경에 반영했다가 발생하는 리스크를 감당할 수 없기에 로컬 엘라스틱 서치에서 시나리오 검증을 해보겠습니다.   
+바로 운영환경에 반영했다가 발생하는 리스크를 감당할 수 없기에 로컬 엘라스틱 서치에서 시나리오 검증을 하겠습니다.   
+
+<br/>
 결론 스포. 운영환경 설정에 script 실행이 비활성되어 있어, 벌크인덱스 스크립트를 개발해서 실행했습니다. (ㅠㅠ)  
 
-동적 매핑을 확인하는 아래 설정을 확인하시면 됩니다. 
-index.auto_create_index
+동적 매핑 설정은 `confing/elasticsearch.yml` 에서 아래 항목으로 확인 가능합니다.   
+따로 설정이 없다면 기본값입니다. 기본값은 비활성 상태입니다.  
+index.auto_create_index  
 
-
-운영환경과 테스트용로컬 버전의 간극이 큽니다. (허허)
+<br >
+운영환경과 로컬환경의 버전 및 설정 간극이 크군요. (허허)
 
 {:.table.table-key-value-60}
 | 운영환경 | 로컬|
