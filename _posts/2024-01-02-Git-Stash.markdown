@@ -1,0 +1,147 @@
+---
+layout: post
+title:  "Git Stash"
+date: 2024-01-02 18:00:00 +0900
+abstract: "git"
+tags: [git]
+image:
+toc: true
+categories: Tech
+last_modified_at: 
+published: true
+---
+
+* [About Git 1/2]({% post_url 2019-06-20-About-Git %}) <span class="series">SERIES 1/2</span>
+* **Git Stash 2/2 ✓**  <span class="series">SERIES 2/2</span>
+
+
+개발세상에는 다양한 경우가 존재합니다.  
+저장소 1개에 4개 서비스가 있기도 합니다. (스프링 부트 멀티모듈도 아니랍니다. 허허)  
+각 서비스마다 프로젝트가 진행되다 보니 브랜치를 이리저리 오가는 일이 잦아졌습니다.  
+
+우리에겐 `Git Stash`가 있습니다.  
+
+## Git Stash 
+
+개발 하다보니 브랜치 생성을 깜박했습니다.  
+이럴 경우 저는 작업중인 소스를 `git stash` 후, 신규 브랜치를 생성하고 `git stash apply` 명령으로 소스를 가져옵니다. 
+
+
+### list 
+
+stash 저장한 리스트를 확인합니다.  
+저장소 단위로 stash 목록을 생성합니다. (브랜치 단위가 아닙니다.)  
+```
+project1 git:(feature/service1-need1) git stash list
+stash@{0}: WIP on feature/service1-need1: 19f70721e #Commit-Message
+stash@{1}: WIP on feature/service2-need1: 19f70721e #Commit-Message
+stash@{2}: WIP on service3-need1: f36c1c592 #Commit-Message
+```
+
+### create 
+
+stash 를 생성합니다. 
+
+따로 stash 이름을 지정하지 않으면 마지막 커밋 메세지를 가져와서 저장합니다. 
+
+```
+$ git stash 
+```
+
+커밋 메세지를 입력해보겠습니다. 
+```
+$ git stash push -m"로컬용 설정변경"
+```
+
+복수개의 파일을 stash 할 수 있습니다. 
+파일명을 빈칸으로 구분하여 나열하면 됩니다.  
+```
+$ git stash push -m"로컬용 설정변경" src/main/resources-env/local/application.yml src/main/config/redis/RedisConfig.kt  
+```
+  
+파일갯수가 나열하기에 너무 많은경우도 있지요.   
+그런 경우 경로뒤에 `*` 를 붙여서 사용 가능합니다. 이 경우도 공란으로 여러경로 나열 할 수 있습니다.  
+```
+$ git stash push -m"로컬용 설정변경2" src/main/resources-env/local/*
+```
+
+git stash list 목록을 볼까요? 
+```
+$git stash list
+stash@{0}: On feature/branch1: 로컬용 설정변경2
+stash@{1}: On feature/branch1: 로컬용 설정변경
+stash@{2}: WIP on feature/branch2: f36c1c592 Commit-Message
+```
+
+
+
+### apply 
+
+
+마지막 stash 를 현재 브랜치에 가져오는 명령입니다.  
+
+```
+git stash apply
+```
+
+특정 stash 를 가져올때는 `stash list` 목록에서 `stash@{번호}` 를 지정해주면 적용됩니다.  
+
+```
+git stash apply stash@{1}
+```
+
+
+
+### drop 
+
+저장한 stash 를 가져와서 반영 후 헷갈리지 않도록 반영한 stash 만 삭제합니다. 
+```
+$ git stash drop stash@{0}
+Dropped stash@{0} (c71e95a8f7fea875a5e4f9371ed410dfbcaeae51)
+```
+
+
+### clear 
+
+stash 목록를 비우는 명령입니다.  
+
+```
+$ git stash clear
+```
+
+## Git Logs 
+
+터미널 로그 확인을 위해 `~/.gitconfig` 파일에 `log` 명령를 alias 선언해서 사용하고 있습니다.   
+logs 명령을 터미널로 확인할때  
+git 은 기본적으로 pager 를 이용해서 화면에 표시하는데 편집기에서 보여주고 사용자가 닫아야 하는 불편이 있습니다. 
+  
+cat으로 설정을 변경하면 현재 프롬프트가 있는 창에서 내용을 표시해줍니다.  
+```
+$ git config --global core.pager cat
+```
+
+
+logs 명령를 사용할때 `-갯수` 지정하면 갯수만큼 보여줍니다.  
+```
+plugins git:(master) $ git logs -2
+667fdbf - ohmyzsh[bot], 5 days ago : feat(z): update to version afaf2965 (#12136)
+f43ee85 - ohmyzsh[bot], 5 days ago : feat(gitfast): update to version v2.0 (#12135)
+```
+
+`~/.gitconfig` 설정파일 `[core]`에 `pager = cat` 항목을 추가하는 방법도 있습니다.  
+```
+[user]
+        name = willow
+        email = email@willow
+[core]
+        excludesfile = ~/.gitignore_global
+        pager = cat
+[alias]
+tree = log --graph --full-history --date=format:'%Y-%m-%d %H:%M:%S' --all --color --pretty=format:\"%Cred%x09%h %Creset%ad%Cblue%d %Creset %s %C(bold)(%an)%Creset\"
+logs = log --pretty=format:\"%h - %an, %ar : %s\"
+co = checkout
+br = branch
+ci = commit
+st = status
+```
+
