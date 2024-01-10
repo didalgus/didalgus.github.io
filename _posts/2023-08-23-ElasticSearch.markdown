@@ -17,8 +17,8 @@ published: true
 * [ElasticSearch 3/3]({% post_url 2023-12-11-ElasticSearch3 %}) <span class="series">SERIES 3/3</span>
 
 
-엘라스틱서치는 세이베논(Shay Banon)이 아파치 루씬을 이용하여 개발했으며 오픈소스로 프로젝트로 진행하고 있습니다.   
-분산환경에서의 병령 처리와 실시간 검색을 지원하고 확장성이 뛰어납니다.   
+엘라스틱서치는 세이베논(Shay Banon)이 아파치 루씬을 이용하여 개발했으며 오픈소스 프로젝트로 운영하고 있습니다.   
+분산환경 병렬 처리와 실시간 검색을 지원하고 확장성이 뛰어납니다.   
 
 ![ElasticSearch logo](/assets/article_images/2023-08-23-ElasticSearch/ElasticSearch-logo.png)
 
@@ -33,10 +33,12 @@ published: true
 * 다양한 플러그인 
 * 빅데이터 플랫폼(AWS, AZURE, Hadoop)과의 연동  
 * RESTFul/HTTP API  
+* 스키마 프리 (Schema Free)
+* 자바 가상머신이 설치된 모든 OS에서 사용 (JAVA)
 
 ### 버전 
 
-1.1.x 이하 JAVA 6 이상 
+1.1.x 이하 JAVA 6 이상   
 1.2.x 부터 JAVA 7 이상 
 
 
@@ -80,6 +82,83 @@ JSON (Javascript Object Notation) 웹에서 자료를 주고받을 때 사용하
   }
 }
 ```
+
+## 구성
+
+엘라스틱 서치는 젠 디스커버리(Zen Discovery)를 비롯한 다양한 디스커버리를 내장하고 있기 때문에 별도의 분산 시스템 관리자(ex. 솔라의 주키퍼)가 필요하지 않아 분산 환경을 쉽게 구축할 수 있습니다.  
+
+젠 디스커버리(Zen Discovery) 기능은 멀티캐스트와 유니캐스트 방식이 있습니다. 
+
+멀티캐스트 방식은 접근할 수 있는 모든 네트워크의 노드를 자동으로 검색하고 같은 클러스터명을 가진 노드끼리 바로 바인딩 하는 기능입니다. 
+기본적으로 멀티캐스트 방식이 활성화 되어 있습니다.   
+하지만 멀티캐스트는 의도하지 않는 노드와의 바인딩이 일어날 가능성도 있고 네트워킹의 불안정감 때문에 공식 엘라스틱 서치 운영그룹에서도 멀티캐스트보다는 유니캐스의 사용을 권장하고 있습니다. 
+
+유니캐스트 방식은 접근할 네트워크 주소를 지정해서 지정한 노드 사이에서만 바인딩을 실행하는 방식입니다.  
+
+confing/elasticsearch.yml 파일에 유니캐스트 방식 설정하는 예시입니다. 
+
+```ini
+discovery.zen.ping.multicast.enabled: false 
+discovery.zen.ping.unicast.hosts: ["10.000.000.1", "10..000.000.2"]
+discovery.zen.minimum_master_nodes: 2
+```
+
+엘라스틱 서치는 하나 이상의 노드로 구성됩니다.  
+`노드(node)`란 실행된 하나의 엘라스틱 서치 프로세스를 입니다.   
+`클러스터(cluster)`란 각 노드가 연결된 전체 시스템 입니다.   
+
+여러대의 서버가 하나의 클러스터를 구성 할 수 있으며, 반대로 하나의 물리 서버에 여러개의 클러스터가 존재 할 수 있습니다.   
+confing/elasticsearch.yml 파일에 cluster.name 을 서로 다른 이름으로 설정한 노드 두개를 실행하면 바인딩 되지 않고 각각 다른 클러스터를 구성하게 됩니다. 
+여러대의 서버인 경우 엘라스틱 서치의 버전은 반드시 같아야 합니다.  
+
+
+`마스터 노드(Maste node)` 는 전체 클러스터의 상태에 대한 메타 정보를 관리하는 노드입니다. 기존 마스터 노드가 종료되는 경우 새로운 마스터 노드가 선출됩니다. 
+confing/elasticsearch.yml 설정 파일에서 node.master 속성이 true 노드는 마스터 노드로 선출 될 수 있습니다.   
+node.master 속성이 false 인경우 마스터 노드의 후보로 선정되지 않습니다.  
+
+`데이터 노드(Data node)` 는 색인된 데이터를 실제로 저장하는 노드입니다. node.data 속성이 false 인경우 해당 노드는 데이터를 저장하지 않습니다.  
+
+엘라스틱 서치 시스템을 구성할 때 보통 마스터 노드는 명령수행을 전담하는 창구 기능을 하고, 데이터 노드는 http 통신 기능을 막아 놓아 REST API 접근을 차단하고 데이터를 저장하는 역할만을 전담하도록 설정하는 것이 일반적입니다.  
+
+색인된 데이터를 구성하는 샤드(Shard)와 복제본(Replica)이 있습니다. 
+
+`샤드(Shard)` 는 아파치 루씬에서 사용되는 메커니즘으로 데이터 검색을 위해 구분되는 최소의 단위 인스턴스입니다.  
+색인된 데이터는 여러개의 샤드에 분할되어 저장되는데, 기본적으로 인덱스당 5개의 샤드와 5개의 복사본으로 분리됩니다.  
+사용자는 인덱스 단위로 데이터를 처리하고 샤드는 엘라스틱 서치가 직접 노드로 분산시키는 작업을 합니다.  
+
+처음에 데이터가 색인되는 저장 공간을 최초 샤드(Primary Shard) 라고 합니다.  
+최초 샤드에 데이이터가 색인되면 동일한 최초 샤드 수 만큼 복사본(Replica)을 생성합니다. 
+복사본을 사용하는 이유는 데이터 손실(Fail Over)을 방지하는 목적과, 최초 샤드가 유실되는 경우 복사본을 최초 샤드로 승격 시켜 시스템의 무결성을 유지하기 위해서 입니다. 
+또 성능향상을 목적으로 최최 샤드와 복사본을 동시에 검색해서 더 빠르게 데이터를 찾을 수 있습니다.  
+
+기본적으로 같은 데이터의 블록의 최초 샤드와 복사본은 서로 다른 노드에 저장합니다.  
+이렇게 함으로써 한 노드가 실패해도 둘 중 하나가 생존 상태에 있도록 합니다. 
+실행중인 노드가 하나인 경우 복사본은 생성되지 않고 최초 샤드만 존재하게 되는데 장애가 발생하면 데이터 무결성을 보장 할 수 없으므로 노드는 2개 이상 유지 하는 것이 좋습니다.  
+
+
+이미 생성된 인덱스의 샤드 설정은 변경 할 수 없습니다. 
+데이터를 색인하기 전에 샤드와 복사본 개수를 설정해줘야 합니다.  
+
+기본설정은 confing/elasticsearch.yml 설정 파일에서 설정할 수 있습니다. 
+
+```ini
+index.number_of_shards: 5
+index.number_of_replicas: 1 
+```
+
+색인된 데이터의 크기가 5GB 이고 해당 인덱스가 5개의 샤드와 1쌍의 복사본으로 구성된 경우, 1개의 샤드의 용량은 1GB 이며 전체 합은 최초 샤드와 복사본을 합한 10개의 샤드, 총 10GB 가 됩니다. 
+
+
+
+
+
+## 용어 
+
+* 색인(indexing) : 검색할 데이터를 검색 할 수 있는 구조로 변경하기 위해 원본 문서를 변환하여 저장하는 일련의 과정
+* 색인(index) : 색인 과정을 거친 결과물 또는 저장된 데이터 공간
+* 검색(searching) : 색인에 들어 있는 토큰을 기준으로 해당하는 토큰이 포함된 문서를 찾는 과정 
+* 질의(query) : 사용자가 원하는 결과를 출력하기 위해서 검색 시 입력하는 검색어 또는 검색 조건 
+
 
 ## 환경 
 
@@ -125,6 +204,7 @@ drwxr-xr-x@  2 tree  willow    64B  8 10 14:03 plugins
 ```
 
 엘라스틱서치를 구동합니다.  
+
 ```bash
 $ ~/apps/elasticsearch-8.9.1/bin/elasticsearch -d -p es.pid
 ```
@@ -170,11 +250,24 @@ $ vi elasticsearch.log
 
 구동중인 elasticsearch PID 를 찾습니다.
 ```bash
-➜  logs ps -ef | grep elasticsearch
-  501 94506 93815   0  6:12PM ttys004    0:07.53 /elasticsearch-8.9.1/jdk.app/Contents/Home/bin/java -Xms4m -Xmx64m -XX:+UseSerialGC -Dcli.name=server -Dcli.script=./elasticsearch -Dcli.libs=lib/tools/server-cli -Des.path.home=/elasticsearch-8.9.1 -Des.path.conf=/elasticsearch-8.9.1/config -Des.distribution.type=tar -cp /elasticsearch-8.9.1/lib/*:/elasticsearch-8.9.1/lib/cli-launcher/* org.elasticsearch.launcher.CliToolLauncher
-  501 94542 94506   0  6:12PM ttys004    0:25.96 /elasticsearch-8.9.1/jdk.app/Contents/Home/bin/java -Des.networkaddress.cache.ttl=60 -Des.networkaddress.cache.negative.ttl=10 -Djava.security.manager=allow -XX:+AlwaysPreTouch -Xss1m -Djava.awt.headless=true -Dfile.encoding=UTF-8 -Djna.nosys=true -XX:-OmitStackTraceInFastThrow -Dio.netty.noUnsafe=true -Dio.netty.noKeySetOptimization=true -Dio.netty.recycler.maxCapacityPerThread=0 -Dlog4j.shutdownHookEnabled=false -Dlog4j2.disable.jmx=true -Dlog4j2.formatMsgNoLookups=true -Djava.locale.providers=SPI,COMPAT --add-opens=java.base/java.io=org.elasticsearch.preallocate -XX:+UseG1GC -Djava.io.tmpdir=/var/folders/68/5xrtygkx6p14dr2rh4t1jc5h0000gn/T/elasticsearch-13955085521058029448 --add-modules=jdk.incubator.vector -XX:+HeapDumpOnOutOfMemoryError -XX:+ExitOnOutOfMemoryError -XX:HeapDumpPath=data -XX:ErrorFile=logs/hs_err_pid%p.log -Xlog:gc*,gc+age=trace,safepoint:file=logs/gc.log:utctime,level,pid,tags:filecount=32,filesize=64m -Xms8192m -Xmx8192m -XX:MaxDirectMemorySize=4294967296 -XX:InitiatingHeapOccupancyPercent=30 -XX:G1ReservePercent=25 -Des.distribution.type=tar --module-path /elasticsearch-8.9.1/lib --add-modules=jdk.net --add-modules=org.elasticsearch.preallocate -m org.elasticsearch.server/org.elasticsearch.bootstrap.Elasticsearch
-  501 94544 94542   0  6:12PM ttys004    0:00.01 /elasticsearch-8.9.1/modules/x-pack-ml/platform/darwin-aarch64/controller.app/Contents/MacOS/controller
+$ ps -ef | grep elasticsearch
+user 30017     1 17  2022 ?        96-19:32:08 /home/user/apps/jdk8/bin/java -Xms256m -Xmx15g -Djava.awt.headless=true 
+-XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=75 -XX:+UseCMSInitiatingOccupancyOnly -XX:+HeapDumpOnOutOfMemoryError 
+-XX:+DisableExplicitGC -Dfile.encoding=UTF-8 -Djna.nosys=true 
+-Des.path.home=/home/user/apps/elasticsearch-2.3.0 
+-cp /home/user/apps/elasticsearch-2.3.0/lib/elasticsearch-2.3.0.jar:/home/user/apps/elasticsearch-2.3.0/lib/* org.elasticsearch.bootstrap.Elasticsearch start 
+-p /home/user/elasticsearch/pid/elasticsearch.pid 
+-Djava.library.path=/usr/local/lib -d -Des.security.manager.enabled=false 
+-Des.default.path.home=/home/user/apps/elasticsearch-2.3.0 
+-Des.default.path.logs=/home/user/elasticsearch/log 
+-Des.default.path.data=/home/user/elasticsearch/data 
+-Des.default.path.conf=/home/user/apps/elasticsearch-2.3.0/config
 ```
+
+* `-X*` : 자바가 실행되는 메모리를 설정
+* `-Xms256m` : 최소 메모리 256M
+* `-Xmx1g` : 최대 메모리 1 GB 
+
 
 PID 를 kill 명령으로 프로세스 종료합니다.  
 ```bash
@@ -184,12 +277,12 @@ PID 를 kill 명령으로 프로세스 종료합니다.
 
 # Configuration
 
-
 엘라스틱 서치 환경 설정 방법은 크게 2가지입니다. 
 
 ### yml 
 
 bin/elasticsearch.in.sh 파일과 confing/elasticsearch.yml 를 옵션을 수정하는 방법이 있습니다.
+
 ```bash
 $ vi ~/elasticsearch-2.3.0/bin/elasticsearch.in.sh
 
@@ -213,7 +306,7 @@ tree 19949  1 17  2023 ? 75-22:33:22 /jdk8/bin/java -Xms256m -Xmx15g -Des.path.h
 
 자바 힙 덤프 파일은 별로도 경로를 지정하지 않으면 엘라스틱서치 홈 디렉토리에 생성됩니다.   
 자바 힙 메모리 오류가 발생하면 오류 내용으로 인해 수GB 사이즈의 파일이 생성될 수 있습니다.  
-시스템 구성에 맞춰 용량이 여유로운 다른 파티션에 경로를 지정해주는 것이 좋습니다.  
+시스템 구성에 맞춰 용량이 여유있는 다른 파티션에 경로를 지정해주는 것이 좋습니다.  
 
 ```ini
 # The path to the heap dump location, note directory must exists and have enough
@@ -231,10 +324,13 @@ path.data: /elasticsearch/data
 # Lock the memory on startup:
 bootstrap.mlockall: true
 
-# http.port: 9200
+# http.port: 9200       # REST API 통신 포트 
+# http.enabled: false   # REST API 통신을 하지 않음 
 
-# http.enabled: false
+# transport.tcp.compress: true     # 통신하는 데이터를 압축해서 전송 
+# http.max_content_length: 100mb   # 설정된 용량을 초과하면 데이터를 전송하지 않음 
 ```
+
 * path.data : 데이터 경로는 쉼표를 이용해서 여러 경로를 지정할 수 있습니다. 
 * bootstrap.mlockall : true 로 설정하면 자바가상머신 에서 실행중인 엘라스틱서치가 점유하는 메모리를 고정(Lock) 합니다. 
 이렇게 하면 가상머신이 엘라스틱서치가 사용하지 않는 메모리를 다른 자바 프로그램으로 돌리는(swap)것을 방지할 수 있습니다. 
@@ -245,16 +341,58 @@ bootstrap.mlockall: true
 클러스터링해서 운영하는 경우 하나의 노드만 REST API 통신을 허용하고 나머지 노드는 false 로 설정해서 데이터를 저장하는 용도로만 사용할 수 도 있습니다.  
 
 
+## HTTP 네트워크
+
+같은 서버에서는 별도의 네트워크 설정 없이도 엘라스틱 서치 노드를 여러개 실행하면 바로 바인딩(binding) 됩니다.
+같은 서버가 아닌 다른 네트워크에 있는 노드를 연결하려면 네트워크 설정을 해야 합니다. 
+
+confing/elasticsearch.yml 
+
+```ini
+network.bind_host: 192.168.0.1
+network.publish_host: 192.168.0.1
+network.host: 192.169.0.1
+```
+* network.bind_host : 엘라스틱서치 서버의 내부 IP 주소
+* network.publish_host : 외부(공개) IP 주소 
+* network.host : 한번에 위의 2개 항목에 동일하게 반영 
+
+
+REST API 를 서비스하기 위해 엘라스틱 서치는 9200 ~ 9299 범위의 HTTP 통신 포트를 사용합니다.  
+서버에서 엘라스틱서치 노드를 처음 실행하면 9200 포트로 실행되고, 동일 서버에서 엘라스틱서치 노드를 또 실행하면 9201 포트로 실행됩니다. 
+이런식으로 노드는 포트번호를 늘려가며 실행됩니다. 
+
+<br>
+엘라스틱서치 노드가 다른 노드와 바인딩(binding) 되어 데이터 교환을 위해 통신하는 포트는 9300~9399 범위의 HTTP 통신 포트를 사용합니다.  
+바인딩 포트도 마찬가지로 같은 서버에서 두개 이상의 노드가 실행된 경우 9300, 9301 과 같이 포트 번호를 늘려가며 실행됩니다. 
+
+<br>
+아래 설정 항목에서 수정 할 수 있습니다.  
+```ini
+transpirt.tcp.port:9300
+http.port:9200
+```
+
+
 ### REST API 
 
-엘라스틱 서치는 port 를 지정하지 않으면 기본값 9200을 사용합니다.  
+Restful API 를 지원해서 URI 를 사용한 동작이 가능합니다. 
+엘라스틱 서치는 HTTP 프로토콜 port 를 지정하지 않으면 기본값 9200을 사용합니다.  
 
+
+{:.table.table-key-value-60}
+
+| HTTP Method | CRUD | SQL | 
+|---|---|---|
+| POST | Create | Insert | 
+| GET | Read | Select| 
+| PUT | Update | Update | 
+| DELETE | Delete | Delete | 
 
 설정 정보를 가져오는 Rest API 를 호출해보겠습니다.  
 
 ```bash
-// https://localhost:9200/
-
+$ curl -X GET https://localhost:9200/
 {
   "name": "didalgus",
   "cluster_name": "elasticsearch",
@@ -334,4 +472,4 @@ $ curl -XGET http://10.xxx.xx.xx:9200/_cluster/stats?pretty=true
 
 ## URLs.
 
-Elastic 가이드 북 https://esbook.kimjmin.net/
+- Elastic 가이드 북 [https://esbook.kimjmin.net/](https://esbook.kimjmin.net/)

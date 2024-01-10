@@ -44,7 +44,7 @@ index.auto_create_index
 
 elasticsearch-8.9.1 버전에서 매핑 선언없이 바로 추가해보겠습니다. 
 
-```
+```json
 $ curl -X POST "localhost:9200/books/_update_by_query" -H 'Content-Type: application/json' -d '
 {
   "script": {
@@ -61,7 +61,7 @@ $ curl -X POST "localhost:9200/books/_update_by_query" -H 'Content-Type: applica
 ```
 
 응답 내용입니다.  
-```
+```json
 {
   "took": 133,
   "timed_out": false,
@@ -83,13 +83,13 @@ $ curl -X POST "localhost:9200/books/_update_by_query" -H 'Content-Type: applica
 ```
 
 전체 2건중 2건 Update 성공하였습니다. 
-```
+```json
   "total": 2,
   "updated": 2, 
 ```
 
 매핑 정보를 볼까요? 
-```
+```json
 $ curl http://localhost:9200/books\?pretty\=true
 {
   "books" : {
@@ -112,6 +112,7 @@ $ curl http://localhost:9200/books\?pretty\=true
     },
 ... 생략 
 ```
+
 위처럼 실행하면 type필드는 text로 매핑 적용됩니다. 
 keyword 타입으로 사용할 예정입니다. 
 

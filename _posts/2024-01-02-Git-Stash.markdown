@@ -24,7 +24,7 @@ published: true
 ## Git Stash 
 
 개발 하다보니 브랜치 생성을 깜박했습니다.  
-이럴 경우 저는 작업중인 소스를 `git stash` 후, 신규 브랜치를 생성하고 `git stash apply` 명령으로 소스를 가져옵니다. 
+이런 경우 저는 작업중인 소스를 `git stash`, 신규 브랜치를 생성 후 `git stash apply` 명령으로 개발중이던 소스를 가져옵니다. 
 
 
 ### list 
@@ -53,21 +53,22 @@ $ git stash
 $ git stash push -m"로컬용 설정변경"
 ```
 
-복수개의 파일을 stash 할 수 있습니다. 
+복수개의 파일을 stash 할 수 있습니다.    <br>
 파일명을 빈칸으로 구분하여 나열하면 됩니다.  
 ```bash
 $ git stash push -m"로컬용 설정변경" src/main/resources-env/local/application.yml src/main/config/redis/RedisConfig.kt  
 ```
   
 파일갯수가 나열하기에 너무 많은경우도 있지요.   
-그런 경우 경로뒤에 `*` 를 붙여서 사용 가능합니다. 이 경우도 공란으로 여러경로 나열 할 수 있습니다.  
+그런 경우 경로뒤에 `*` 를 붙여서 사용 가능합니다. <br>
+이 경우도 공란으로 여러경로 나열 할 수 있습니다.  
 ```bash
 $ git stash push -m"로컬용 설정변경2" src/main/resources-env/local/*
 ```
 
 git stash list 목록을 볼까요? 
 ```bash
-$git stash list
+$ git stash list
 stash@{0}: On feature/branch1: 로컬용 설정변경2
 stash@{1}: On feature/branch1: 로컬용 설정변경
 stash@{2}: WIP on feature/branch2: f36c1c592 Commit-Message
@@ -84,7 +85,7 @@ stash@{2}: WIP on feature/branch2: f36c1c592 Commit-Message
 $ git stash apply
 ```
 
-특정 stash 를 가져올때는 `stash list` 목록에서 `stash@{번호}` 를 지정해주면 적용됩니다.  
+특정 stash 를 가져올때는 `stash list`에서 확인한 `stash@{번호}` 를 지정해주면 적용됩니다.  
 
 ```bash
 $ git stash apply stash@{1}
@@ -113,7 +114,7 @@ $ git stash clear
 
 터미널 로그 확인을 위해 `~/.gitconfig` 파일에 `log` 명령를 alias 선언해서 사용하고 있습니다.   
 logs 명령을 터미널로 확인할때  
-git 은 기본적으로 pager 를 이용해서 화면에 표시하는데 편집기에서 보여주고 사용자가 닫아야 하는 불편이 있습니다. 
+git 은 기본적으로 pager 를 이용해서 화면에 표시하는데 편집기에서 보여주고 사용자가 내용 확인 후 직접 닫아야 하는 불편이 있습니다. 
   
 cat으로 설정을 변경하면 현재 프롬프트가 있는 창에서 내용을 표시해줍니다.  
 ```bash
@@ -121,7 +122,7 @@ $ git config --global core.pager cat
 ```
 
 
-logs 명령를 사용할때 `-갯수` 지정하면 갯수만큼 보여줍니다.  
+logs 명령를 사용할때 `-수치` 지정하면 갯수만큼 보여줍니다.  
 ```bash
 plugins git:(master) $ git logs -2
 667fdbf - ohmyzsh[bot], 5 days ago : feat(z): update to version afaf2965 (#12136)

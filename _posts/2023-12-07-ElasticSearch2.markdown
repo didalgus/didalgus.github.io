@@ -20,13 +20,31 @@ published: true
 ElasticSearch에 Document 생성, 수정, 삭제하는 방법을 알아보겠습니다. 
 <br>  
 예시는 엘라스틱서치 8.9.1 를 기준으로 작성하였습니다.  
-회사 운영중인 엘라스틱 버전이 2.3.0 인지라 종종 2.3.0 버전과 차이가 있는 내용도 추가하였습니다.  
+회사 운영중인 엘라스틱 버전이 2.3.0 인지라 2.3.0 버전과 차이가 있는경우 내용 추가하였습니다.  
+
+## Index, Type 
+
+엘라스틱서치 2.3.0 와 8.9.1 버전을 살펴보면서 가장 큰 차이점은 바로 Type 개념이 없어졌다는 점입니다.   
+정확히는 엘라스틱서치 6.x 버전부터 타입(Type)이 사라지고 하나의 인덱스 내에 여러유형의 도큐먼트를 저장하는 기능이 제거되었습니다. 
+Elasticsearch 7.x 버전 이후부터는 하나의 인덱스 내에 단일 타입의 도큐먼트만을 가질 수 있습니다.
+<br>
+
+Type 사용하는 버전의 데이터 구조
+![](/assets/article_images/2023-12-07-ElasticSearch2/ElasticSearch2_3.png)
 
 
-## Mappgin 
+## Mapping
+
+매핑(Mapping)은 데이터의 저장 형태와 검색 엔진에서 해당 데이터에 어떻게 접근하고 처리하는 지에 대한 명세입니다.   
+도큐먼트에 입력 될 데이터의 매핑 형태를 정의 할 때는 Properties 필드에 필드명과 타입등의 옵션을 입력해서 설정합니다.  
+매핑 설정시 메소드는 `PUT`을 사용합니다.  
+
+엘라스틱 서치는 NoSQL 와 같이 스키마 프리(Schema Free) 를 지원합니다.  
+자동매핑이고, 매핑정보가 없는 경우 ElasticSearch가 입력되는 데이터의 특성에 따라 자동으로 지정해줍니다.  
+매핑 정보가 있어도 Json 문서 형식으로 입력하면 매핑정보가 있는경우 존재하는 필드에 맞춰서, 매핑정보가 없는 경우 엘라스틱 서치가 자동으로 지정해줍니다. 
+<br>   
 
 인덱싱을 위해서 매핑정보를 선언하겠습니다.  
-자동매핑인경우 ElasticSearch 가 입력되는 데이터의 특성에 따라 자동으로 지정해줍니다.  
 따로 선언해주는 경우는 keyword 타입등 명확하게 구별되는 특성을 가진 필드를 선언하기 위함입니다.  
 
 ```
@@ -45,8 +63,91 @@ curl -X PUT "localhost:9200/author" -H 'Content-Type: application/json' -d'
 }
 '
 ```
-이름 필드는 text, 셩별은 keyword 타입으로 지정하였습니다.   
+이름 필드는 text, 성별 필드는 keyword 타입으로 지정하였습니다.   
+<br>
 
+매핑 정보를 확인해보겠습니다. 
+
+명령 형식은 아래와 같습니다.   
+타입이 있는 경우에는 `index` 하위에 있는 타입 정보 전부 보여줍니다.  
+```
+<호스트>/<인덱스>/_mapping
+```
+
+또는 `type`이 있는 버전에서 `type` 상세 정보를 보고자 할때는 아래와 같이 사용합니다. 
+```
+<호스트>/<인덱스>/<타입>/_mapping
+```
+
+인덱스 하위에 3개의 type 정보가 있는 경우입니다. 
+
+```json
+http://locahost:9200/car
+{
+  "car_v4": {
+    "aliases": {
+      "car": {
+        
+      }
+    },
+    "mappings": {
+      "engine": {
+        "properties": {
+          "hybrid": {
+            "type": "keyword"
+          }
+        }
+      },
+      "wheel": {
+        "properties": {
+          "tireType": {
+            "type": "String",
+          },
+          "wheelDrive": {
+            "type": "integer"
+          }
+        }
+      },
+      "baseInfo": {
+        "properties": {
+          "productionDate": {
+            "type": "date",
+            "format": "strict_date_optional_time||epoch_millis"
+          }
+        }
+      }
+    },
+    "settings": {
+      "index": {
+        "number_of_shards": "5",
+        "max_result_window": "500000",
+        "creation_date": "1616980797015",
+        "analysis": {
+          "analyzer": {
+            "korean_index": {
+              "type": "custom",
+              "tokenizer": "seunjeon_default_tokenizer"
+            }
+          },
+          "tokenizer": {
+            "seunjeon_default_tokenizer": {
+              "type": "seunjeon_tokenizer"
+            }
+          }
+        },
+        "number_of_replicas": "1",
+        "uuid": "L0xQAAABBBEEDDWWGHHC877",
+        "version": {
+          "created": "2030099"
+        }
+      }
+    },
+    "warmers": {
+      
+    }
+  }
+}
+```
 
 ## Insert 
 
@@ -242,10 +343,6 @@ $ curl http://localhost:9200/author/_search\?q\=\*
   }
 }
 ```
-
-
-
-
 
 
 

@@ -1,0 +1,30 @@
+---
+layout: post
+title:  "Redis"
+date: 2024-01-08 18:00:00 +0900
+abstract: "redis"
+tags: [redis]
+image:
+toc: true
+categories: Tech
+last_modified_at: 
+published: false
+---
+
+Redis 데이터를 확인해야 하는 업무가 주어졌습니다. 
+
+## Version
+
+로컬 설치용 버전은 6.2.6 입니다.   
+하지만, 운영 환경은 3.0.4 이지요. 
+<br> 
+
+`Redis 운영 관리` 한빛미디어 책은 2.5.14 이군요.   
+운영 환경의 버전과 근접하군요. 
+
+## Configuration 
+
+Redis 에는 Single, Sentinel, Cluster 방식으로 구성할 수 있습니다. 
+
+
+
