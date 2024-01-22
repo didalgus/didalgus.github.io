@@ -24,7 +24,12 @@ Redis 데이터를 확인해야 하는 업무가 주어졌습니다.
 
 ## Configuration 
 
-Redis 에는 Single, Sentinel, Cluster 방식으로 구성할 수 있습니다. 
+Redis 는 Single, Sentinel, Cluster 방식으로 구성할 수 있습니다. 
 
 
 
+## Redis is Single Threaded
+
+레디스는 싱글 스레드입니다.  
+
+한명령을 길게 처리하는 경우 나머지 명령들은 대기해야 합니다.  

@@ -34,8 +34,9 @@ Swap:           15G        111M         15G
 jenkins 프로세스가 RSS 2.7 G, VSZ 9.5G 를 사용하고 있군요.   
 9.5G 메모리는 VAS에 할당된 메모리 주소의 합, 2.7 G 메모리는 물리 주소의 총 합이라고 보시면 되겠습니다.   
 <br>
-- RSS : Resident Set Size, 현재 점유하고 있는 메모리의 크기  
 - VSZ : Virtual Memory Size, 가상메모리의 크기  
+- RSS : Resident Set Size, 현재 점유하고 있는 메모리의 크기  
+
 
 ```bash
 $ ps -eo user,pid,ppid,rss,vsize,pmem,pcpu,time,cmd --sort -rss | head -n 10
@@ -81,7 +82,7 @@ ffffffffff600000      4K r-x--   [ anon ]
 Xms : 초기 java heap size   
 Xmx : 최대 java heap size   
 
-xms 설정된값과 Xmx 가 다른경우 메모리 공간을 확장할때 jvm 에서 살짝의 딜레이가 발생한다고 합니다.  
+Xms 설정된값과 Xmx 가 다른경우 메모리 공간을 확장할때 jvm에서 살짝 딜레이가 발생한다고 합니다.  
 그래서 kafka 경우는 xms 값과 xms 값을 동일하게 설정합니다.  
 
 
@@ -103,7 +104,7 @@ xms 설정된값과 Xmx 가 다른경우 메모리 공간을 확장할때 jvm �
 물리적 메모리의 1/4에 해당하는 최대 힙 크기 
 ```
 
-Xms Xmx 옵션값을 적용하지 않았을 경우   
+!! Xms Xmx 옵션값을 적용하지 않았을 경우   
 64G 메모리 서버인 경우   
 Xms 1G, Xmx 16G 설정이 적용된다고 보면 됩니다.   
 하지만 항상 저렇게 적용되지는 않는다고 합니다.   
