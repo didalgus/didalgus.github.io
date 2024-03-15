@@ -18,13 +18,14 @@ published: true
 * **ElasticSearch 4/4 ✓**  <span class="series">SERIES 4/4</span>
 
 
-운영환경에서 Document를 업데이트 해야 하는 이슈가 종종 있어 `나를 위해` 정리합니다.  
-터미널이 익숙해서 터미널에서 진행하였습니다.  
+운영환경 Document를 업데이트 해야 하는 이슈가 종종 있어 `나를 위해` 정리합니다.  
+터미널에서 진행하였습니다.  
 
 ## goal 
 
-특정 id를 가진 Document 내 필드(Field)중에 1개 필드 값을 변경하려고 합니다.   
+특정 id를 가진 Document 내 1개 필드(Field) 값을 변경하려고 합니다.   
 
+{:.table.table-key-value-60}
 | AS-IS | TO-BE  |
 | --- | --- |
 | serviceOpenStatus = 0  |  serviceOpenStatus = 1   |
@@ -38,10 +39,10 @@ published: true
 
 ## mapping 
 
-serviceOpenStatus의 필드 데이터 타입을 확인하기 위해 매핑정보를 확인합니다.  
+`serviceOpenStatus`의 필드 데이터 타입을 확인하기 위해 매핑정보를 확인합니다.  
 
 실제 운영 데이터의 필드가 많아 예시용으로 간단하게 줄였습니다.     
-serviceOpenStatus의 데이터 타입은 `long` 이군요. 
+`serviceOpenStatus`의 데이터 타입은 `long` 이군요. 
 ```
 $ curl localhost:9200/willow/car/_mapping
 
@@ -73,8 +74,8 @@ $ curl localhost:9200/willow/car/_mapping
 ## Select 
 
 변경하고자 하는 Document를 조회합니다.  
-`_version` 은 49, 
-`serviceOpenStatus` 의 값은 0 입니다. 
+`_version` 은 `49`, 
+`serviceOpenStatus` 의 값은 `0` 입니다. 
 ```
 $ curl localhost:9200/willow/car/0023637E9830
 {
@@ -115,7 +116,12 @@ POST, PUT 메서드는 동일 Document 값을 변경하게되면 `_version` 값�
 serviceOpenStatus 의 값을 1로 변경한 후 POST 실행합니다.  
 ```
 $ curl -X POST "localhost:9200/willow/car/0023637E9830" -d'
-{"approveDate": 1636507544404,"approveStatus": 2,"asRequestId": "","serviceOpenStatus":1}'
+{
+  "approveDate": 1636507544404,
+  "approveStatus": 2,
+  "asRequestId": "",
+  "serviceOpenStatus":1
+}'
 ```
 
 
@@ -124,8 +130,8 @@ $ curl -X POST "localhost:9200/willow/car/0023637E9830" -d'
 
 변경한 내용이 적용되었는지 확인합니다. 
 
-`_version` 은 50, 
-`serviceOpenStatus` 의 값은 1로 바뀌었네요. 
+`_version` 은 `50`, 
+`serviceOpenStatus` 의 값은 `1`로 바뀌었네요. 
 ```
 $ curl localhost:9200/willow/car/0023637E9830
 {
