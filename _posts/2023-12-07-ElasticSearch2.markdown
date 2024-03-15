@@ -220,12 +220,14 @@ CLI 명령에서는 `Content-Type: application/json` 선언한 부분이 Tool �
 POST, PUT 메서드로 처음 생성했을때와 수정하는 경우의 응답값을 살펴보면    
 Response 결과값에 "created":true 로 나오고,   
 수정하는경우 "created":false 로 나오고 version 필드의 값은 2가 되는것을 확인 할 수 있습니다. 
-<br/>
+<br/>  
+
 POST 메서드 응답값    
 {:.table.table-key-value-60}
 | 최초 생성시 | 변경시 |
-|---|---|
+| --- | --- |
 | "_version":1, "created":true | "_version":2, "created":false |
+
 
 
 ## Select 
@@ -243,7 +245,7 @@ $ curl http://localhost:9200/author/_doc/2
 }
 ```
 
-:red_exclamation_mark: 엘라스틱서치 2.3 인경우 <인덱스>/<타입> 형태로 구성되어 있습니다.  
+:exclamation: 엘라스틱서치 2.3 인경우 <인덱스>/<타입> 형태로 구성되어 있습니다.  
 이런경우 document 정보를 가져올때 <타입> 도 명시해줘야 검색됩니다.  
 
 biz_user/user 로 구성된 경우입니다.  
@@ -269,14 +271,17 @@ $ curl localhost:9200/biz_user/user/user1
 문서 업데이트를 해보겠습니다. 
 
 {:.table.table-key-value-60}
-| 엘라스틱서치 2.3  | 엘라스틱서치 5.x 이후 버전   |
+| version  | command  |
 |---|---|
-| PUT <인덱스>/<도큐먼트 타입>/<도큐먼트 id>/_update  | PUT <인덱스>/<도큐먼트 id>/_update  |
+| 엘라스틱서치 2.3   | PUT <인덱스>/<도큐먼트 타입>/<도큐먼트 id>/_update |
+| 엘라스틱서치 5.x 이후 버전  | PUT <인덱스>/<도큐먼트 id>/_update  |
+
+
 
 
 기본 사용법은 아래와 같습니다. 
 ```
-curl -X PUT "localhost:9200/your_index/your_type/your_document_id/_update" -H 'Content-Type: application/json' -d '
+curl -X PUT "localhost:9200/index/type/document_id/_update" -H 'Content-Type: application/json' -d '
 {
   "doc": {
     "new_field": "new_value"
