@@ -184,7 +184,7 @@ $ curl -X GET locahost:9200/car
 
 * MacBook Pro 16 (칩 Apple M1 Pro, 메모리 16GB )
 * OS Version : Sonoma 14.3.1  
-* ElasticSearch Version : [elasticsearch-8.9.1]({% post_url 2023-12-11-ElasticSearch#설치 %})
+* ElasticSearch Version : [elasticsearch-8.9.1]({% post_url 2023-12-11-ElasticSearch %})
 
 
 엘라스틱 서치 8.9 기준으로 설명합니다.    
