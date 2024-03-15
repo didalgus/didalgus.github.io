@@ -11,10 +11,10 @@ last_modified_at:
 published: true
 ---
 
-* [ElasticSearch 1/2]({% post_url 2023-08-23-ElasticSearch %}) <span class="series">SERIES 1/2</span>
-* [ElasticSearch 2/3]({% post_url 2023-12-07-ElasticSearch2 %}) <span class="series">SERIES 2/3</span>
-* **ElasticSearch 3/3 ✓**  <span class="series">SERIES 3/2</span>
-
+* [ElasticSearch 1/4]({% post_url 2023-08-23-ElasticSearch %}) <span class="series">SERIES 1/4</span>
+* [ElasticSearch 2/4]({% post_url 2023-12-07-ElasticSearch2 %}) <span class="series">SERIES 2/4</span>
+* **ElasticSearch 3/4 ✓**  <span class="series">SERIES 3/4</span>
+* [ElasticSearch 4/4]({% post_url 2024-03-14-ElasticSearch4 %}) <span class="series">SERIES 4/4</span>
 
 ## 개요 
 
