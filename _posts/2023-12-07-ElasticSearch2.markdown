@@ -276,8 +276,8 @@ $ curl localhost:9200/biz_user/user/user1
 {:.table.table-key-value-60}
 | version  | command  |
 |---|---|
-| 엘라스틱서치 2.3   | PUT <인덱스>/<도큐먼트 타입>/<도큐먼트 id>/_update |
-| 엘라스틱서치 5.x 이후 버전  | PUT <인덱스>/<도큐먼트 id>/_update  |
+| 엘라스틱서치 2.3   | PUT {인덱스}/{도큐먼트 타입}/{도큐먼트 id}/_update |
+| 엘라스틱서치 5.x 이후 버전  | PUT {인덱스}/{도큐먼트 id}/_update  |
 
 
 
