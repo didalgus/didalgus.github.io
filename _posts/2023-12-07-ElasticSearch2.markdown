@@ -184,7 +184,7 @@ $ curl -X GET locahost:9200/car
 
 * MacBook Pro 16 (칩 Apple M1 Pro, 메모리 16GB )
 * OS Version : Sonoma 14.3.1  
-* ElasticSearch Version : [elasticsearch-8.9.1]({% post_url 2023-12-11-ElasticSearch %})
+* ElasticSearch Version : [elasticsearch-8.9.1]({% post_url 2023-12-11-ElasticSearch3 %})
 
 
 엘라스틱 서치 8.9 기준으로 설명합니다.    
@@ -337,7 +337,7 @@ PUT(update) 메서드는 기존 필드에 새로운 필드를 추가해주는게
 
 기존 필드에 신규 필드를 추가하려면 Elasticsearch 에서 제공하는 script 기능을 이용하거나 (설정 확인필요),   
 개발 스크립트를 작성하여 기존 필드 데이터를 가져와서 더한 후 update 하도록 작성하여 실행해줘야 합니다.   
-관련 내용은 [ElasticSearch 3/3]({% post_url 2023-12-11-ElasticSearch3 %}) 에서 이어서 작성하였습니다.  
+관련 내용은 [ElasticSearch 3/4]({% post_url 2023-12-11-ElasticSearch3 %}) 에서 이어서 작성하였습니다.  
 
 ## Delete Document
 
