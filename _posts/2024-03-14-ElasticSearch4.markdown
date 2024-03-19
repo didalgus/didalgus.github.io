@@ -94,7 +94,7 @@ $ curl localhost:9200/willow/car/0023637E9830
 ```
 <br/>
 
-Update 시 사용할 `_source`데이터를 가져옵니다.   
+Update 시 사용할 문서의 본문을 `_source` 명령을 추가하여 데이터를 가져옵니다.   
 ```
 $ curl localhost:9200/willow/car/0023637E9830/_source
 {
@@ -108,7 +108,7 @@ $ curl localhost:9200/willow/car/0023637E9830/_source
 
 ## Update 
 
-지난 포스팅에서 POST 와 PUT 이 동일하게 동작하는것을 알게되었습니다. 
+지난 포스팅에서 ElasticSearch 2.3.0 버전에서 POST 와 PUT 이 동일하게 동작하는것을 확인하였습니다. 
 
 POST, PUT 메서드는 동일 Document 값을 변경하게되면 `_version` 값은 1 올리고, `_source`의 Data는 삭제하고 신규 생성합니다.   
 그래서 특정필드 1개만 변경하고자 할때에도 기존 데이터도 함께 포함해야 합니다.  
